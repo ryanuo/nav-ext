@@ -3,7 +3,7 @@
   "displayName": "Vitesse WebExt",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@9.7.1",
+  "packageManager": "pnpm@10.11.0",
   "description": "[description]",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
@@ -35,6 +35,7 @@
     "@ffflorian/jszip-cli": "^3.7.1",
     "@iconify/json": "^2.2.239",
     "@playwright/test": "^1.46.1",
+    "@ryanuo/utils": "^1.3.3",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.5.0",
     "@types/webextension-polyfill": "^0.12.0",

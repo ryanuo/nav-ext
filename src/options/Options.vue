@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import logo from '~/assets/logo.svg'
-import { storageDemo } from '~/logic/storage'
 </script>
 
 <template>
-  <main class="px-4 py-10 text-center text-gray-700 dark:text-gray-200">
-    <img :src="logo" class="icon-btn mx-2 text-2xl" alt="extension icon">
-    <div>Options</div>
-    <SharedSubtitle />
-
-    <input v-model="storageDemo" class="border border-gray-400 rounded px-2 py-1 mt-2">
-
-    <div class="mt-4">
-      Powered by Vite <pixelarticons-zap class="align-middle inline-block" />
-    </div>
-  </main>
+  <Wrapper>
+    <Date />
+    <form
+      class="animation-duration-250 backdrop-blur-[10px] backdrop-saturate-[1.5] bg-white/25 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,.2)] text-white h-[43px] left-1/2 max-w-[80%] overflow-hidden fixed top-[200px] translate-x-[-50%] transition-colors duration-250 ease-in-out w-[540px]"
+    >
+      <input
+        autocomplete="off" placeholder="搜索" size="30" type="text"
+        class="bg-transparent border-0 text-inherit font-['var(--fonts)'] text-sm outline-none h-full px-5 text-center w-full"
+      >
+      <button type="button" class="rth-43dad943 rth-29e13152">
+        <i></i>
+      </button><button type="submit" class="rth-43dad943 rth-058e4bb4">
+        <i></i>
+      </button>
+    </form>
+  </Wrapper>
 </template>
