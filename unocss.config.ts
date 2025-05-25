@@ -6,6 +6,7 @@ export default defineConfig({
     presetUno(),
     presetAttributify(),
     presetIcons({
+      cdn: 'https://esm.sh/',
       extraProperties: {
         'display': 'inline-block',
         'height': '1.2em',
@@ -17,4 +18,15 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
+  content: {
+    pipeline: {
+      include: [
+        '**/*.html',
+        '**/*.ts',
+        '**/*.vue',
+        '**/*.js',
+        '**/*.jsx',
+      ],
+    },
+  },
 })
