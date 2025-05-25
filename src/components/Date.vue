@@ -25,9 +25,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="top-[5%] items-center animate-fade-meta-in duration-600 ease-[cubic-bezier(.21,.78,.36,1)] flex flex-col justify-center min-h-[140px] absolute transition-transform duration-300 z-10"
-  >
+  <div class="time">
     <p class="text-[4em] text-white">
       {{ currentDateTime }}
     </p>
@@ -35,4 +33,11 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.time {
+  @apply top-[12%] items-center animate-fade-meta-in duration-600 ease-[cubic-bezier(.21, .78, .36, 1)] flex flex-col justify-center min-h-[140px] absolute transition-transform duration-300 z-10;
+}
+
+.time p {
+  @apply cursor-pointer;
+}
 </style>
