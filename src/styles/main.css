@@ -41,3 +41,8 @@ body,
   width: 100%;
   font-family: 'Work Sans', sans-serif;
 }
+
+:root {
+  --white-alpha-10: rgba(255, 255, 255, 0.1);
+  --main-backdrop-filter: blur(30px) saturate(1.25);
+}

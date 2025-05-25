@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { dateFormat } from '@ryanuo/utils'
+import { useMarkStore } from '~/store/option/mark'
 
 // 定义日期时间响应式引用
 const currentDateTime = ref('')
@@ -22,11 +23,16 @@ onUnmounted(() => {
     clearInterval(timer)
   }
 })
+
+const markStore = useMarkStore()
+function handleDateFocus() {
+  markStore.setShowNavs(true)
+}
 </script>
 
 <template>
   <div class="time">
-    <p class="text-[4em] text-white">
+    <p class="text-[4em] text-white" @click.stop="handleDateFocus">
       {{ currentDateTime }}
     </p>
   </div>

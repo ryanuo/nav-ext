@@ -1,11 +1,23 @@
 <script setup lang="ts">
+import { useMarkStore } from '~/store/option/mark'
+
+const markStore = useMarkStore()
+function handleInputFocus() {
+  markStore.setClickInput(true)
+}
 </script>
 
 <template>
   <Wrapper>
     <Date />
-    <form class="form-control">
-      <input autocomplete="off" placeholder="搜索" size="30" type="text" class="input-control">
+    <form v-if="!markStore.isShowNavs" class="form-control">
+      <input
+        :class="{
+          'input-focus': markStore.isClickInput,
+        }"
+        autocomplete="off" placeholder="搜索" size="30" type="text" class="input-control"
+        @click.stop="handleInputFocus"
+      >
       <button type="button" class="rth-43dad943 rth-29e13152">
         <i></i>
       </button>
@@ -13,6 +25,7 @@
         <span class="i-eva-search-fill" />
       </button>
     </form>
+    <Docking />
   </Wrapper>
 </template>
 
@@ -23,6 +36,10 @@
 
 .input-control {
   @apply h-full w-full border-0 bg-transparent px-10 text-center text-sm text-inherit outline-none;
+}
+
+.input-focus {
+  @apply bg-white/86;
 }
 
 .btn {
