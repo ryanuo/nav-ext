@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
 
 const markStore = useMarkStore()
 const searchEngineRef = ref<{ isShowEngine: Ref<boolean>, setIsShowEngine: (isShow: boolean) => void }>()
-const { setSearchQuery, submit } = useSearchStore()
+const searchStore = useSearchStore()
+const { searchQuery } = storeToRefs(searchStore)
+const { setSearchQuery, submit } = searchStore
 
 function handleInputFocus() {
   markStore.setClickInput(true)
@@ -17,6 +20,12 @@ function handleInputFocus() {
 function handleInput(e: any) {
   setSearchQuery(e.target.value)
 }
+
+function handleKeydown(e: any) {
+  if (e.keyCode === '13') {
+    e.preventDefault()
+  }
+}
 </script>
 
 <template>
@@ -28,9 +37,11 @@ function handleInput(e: any) {
         :class="{
           'input-focus': markStore.isClickInput,
         }"
+        :value="searchQuery"
         autocomplete="off"
         placeholder="搜索" size="30" type="text" class="input-control" @input="handleInput"
         @click.stop="handleInputFocus"
+        @keydown="handleKeydown"
       >
       <SearchSuggestions />
       <template v-if="markStore.isClickInput">
@@ -40,7 +51,7 @@ function handleInput(e: any) {
         >
           <SearchEngine ref="searchEngineRef" />
         </button>
-        <button type="button" class="btn btn-search" @click.stop="submit">
+        <button type="button" class="btn btn-search" @click.stop="submit()">
           <span class="i-eva-search-fill" />
         </button>
       </template>

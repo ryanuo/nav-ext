@@ -5,7 +5,7 @@ import { useSearchStore } from '~/store/option/search'
 
 const store = useSearchStore()
 const { searchQuery } = storeToRefs(store) // 使用 storeToRefs 获取响应式引用
-const { submit, setSearchQuery } = store
+const { submit } = store
 
 const suggestions = ref<string[]>([])
 let controller: AbortController | null = null
@@ -71,11 +71,6 @@ async function fetchSuggestions() {
       controller = null
     }
   }
-}
-
-function handleSelectSuggestion(suggestion: string) {
-  setSearchQuery(suggestion)
-  submit()
 }
 
 // 当前选中的索引（键盘导航用）
@@ -145,7 +140,10 @@ onMounted(() => {
 
   hotkeys('enter', (event) => {
     if (hoveredIndex.value >= 0) {
-      handleSelectSuggestion(suggestions.value[hoveredIndex.value])
+      submit(suggestions.value[hoveredIndex.value])
+    }
+    else {
+      submit()
     }
     event.preventDefault()
   })
@@ -181,7 +179,7 @@ onUnmounted (() => {
           :class="computedItemClass(index)"
           class="cursor-pointer px-4 py-2 transition-colors"
           flex="~ justify-between items-center"
-          @click.stop="handleSelectSuggestion(suggestion)"
+          @click.stop="submit(suggestion)"
           @mouseenter="hoveredIndex = index"
         >
           <span v-html="highlightMatch(suggestion)" />

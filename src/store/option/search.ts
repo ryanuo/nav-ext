@@ -10,11 +10,11 @@ export const useSearchStore = defineStore('search', () => {
     searchEngine.value = engine
   }
 
-  function submit() {
-    if (!searchQuery)
-      return
+  function submit(value?: string) {
+    const query = value?.trim() || searchQuery?.value?.trim()
 
-    const query = searchQuery.value.trim()
+    if (!query)
+      return
 
     window.open(
       searchEngine.value.url + query,
