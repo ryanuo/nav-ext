@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import hotkeys from 'hotkeys-js'
+
 // 定义 props 和 emits
 const props = defineProps({
   searchQuery: {
@@ -106,11 +108,11 @@ function computedItemClass(index: number) {
   const isHovered = index === hoveredIndex.value
 
   if (isSelected)
-    return 'bg-blue-100 text-blue-800'
+    return 'bg-blue-100 text-blue-800 transition-all duration-200'
   if (isHovered)
-    return 'bg-gray-100/40 text-gray-800'
+    return 'bg-gray-100/40 text-gray-800 transition-all duration-200 hover:font-medium'
 
-  return ''
+  return 'transition-all duration-200'
 }
 
 // 高亮匹配的文本
@@ -131,30 +133,74 @@ function selectSuggestion(suggestion: string) {
   props?.submit()
 }
 
-// 监听搜索查询变化，重置选中状态
-watch(() => props.searchQuery, () => {
+function resetIndex() {
   selectedIndex.value = -1
   hoveredIndex.value = -1
+}
+
+// 监听搜索查询变化，重置选中状态
+watch(() => props.searchQuery, () => {
+  resetIndex()
+})
+
+onMounted(() => {
+  hotkeys.filter = (event) => {
+    return !!(event.target as HTMLElement).closest('#search')
+  }
+
+  const getLength = () => filteredSuggestions.value.length
+
+  const updateHoveredIndex = (delta: number) => {
+    const length = getLength()
+    if (length === 0)
+      return
+
+    hoveredIndex.value = ((hoveredIndex.value + delta) + length) % length
+  }
+
+  hotkeys('enter', (event) => {
+    if (hoveredIndex.value >= 0) {
+      selectSuggestion(suggestions.value[hoveredIndex.value])
+    }
+    event.preventDefault()
+  })
+
+  hotkeys('up', (event) => {
+    updateHoveredIndex(-1)
+    event.preventDefault()
+  })
+
+  hotkeys('down', (event) => {
+    updateHoveredIndex(1)
+    event.preventDefault()
+  })
+})
+
+onUnmounted (() => {
+  hotkeys.unbind()
 })
 </script>
 
 <template>
-  <div class="relative mx-auto w-full">
-    <!-- 搜索建议列表 -->
+  <div class="suggestion relative mt-1 w-full overflow-hidden rounded-lg">
     <div
       v-if="filteredSuggestions.length > 0 && searchQuery.trim().length > 0"
-      class="mt-1 max-h-80 w-full overflow-y-auto rounded-lg shadow-lg"
+      class="max-h-80 w-full overflow-y-auto rounded-sm shadow-lg"
     >
-      <ul>
+      <ul
+        @mouseleave="resetIndex()"
+      >
         <li
           v-for="(suggestion, index) in filteredSuggestions"
           :key="suggestion || index"
           :class="computedItemClass(index)"
           class="cursor-pointer px-4 py-2 transition-colors"
+          flex="~ justify-between items-center"
           @click.stop="selectSuggestion(suggestion)"
           @mouseenter="hoveredIndex = index"
         >
           <span v-html="highlightMatch(suggestion)" />
+          <span v-if="hoveredIndex === index" class="i-fluent-arrow-enter-left-20-regular" />
         </li>
       </ul>
     </div>
@@ -162,7 +208,7 @@ watch(() => props.searchQuery, () => {
     <!-- 搜索结果提示 -->
     <div
       v-else-if="searchQuery.trim().length > 0 && filteredSuggestions.length === 0"
-      class="mt-1 w-full rounded-lg p-4 text-dark shadow-lg"
+      class="mt-1 w-full rounded-sm p-4 text-dark shadow-lg"
     >
       没有找到与 "{{ searchQuery }}" 相关的结果
     </div>
@@ -170,4 +216,8 @@ watch(() => props.searchQuery, () => {
 </template>
 
 <style scoped>
+.suggestion {
+  backdrop-filter: blur(var(--main-card-blur));
+  background-color: var(--main-card-background);
+}
 </style>

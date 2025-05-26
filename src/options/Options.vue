@@ -34,17 +34,6 @@ function submit() {
     '_blank',
   )
 }
-
-// function handleKeydown(e: KeyboardEvent) {
-//   const isAltOrOption = e.altKey || e.metaKey
-//   // 使用 keyCode 判断是否是数字键（0~9）
-//   const isNumberKey = (e.keyCode >= 48 && e.keyCode <= 57) // 主键盘 0~9
-//     || (e.keyCode >= 96 && e.keyCode <= 105) // 小键盘 numpad 0~9
-
-//   if (isAltOrOption && isNumberKey) {
-//     e.preventDefault()
-//   }
-// }
 </script>
 
 <template>
