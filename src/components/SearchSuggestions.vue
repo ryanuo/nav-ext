@@ -1,27 +1,18 @@
 <script lang="ts" setup>
 import hotkeys from 'hotkeys-js'
+import { storeToRefs } from 'pinia'
+import { useSearchStore } from '~/store/option/search'
 
-// 定义 props 和 emits
-const props = defineProps({
-  searchQuery: {
-    type: String,
-    required: true,
-    default: '',
-  },
-  submit: {
-    type: Function,
-    required: true,
-  },
-})
-
-const emits = defineEmits(['select'])
+const store = useSearchStore()
+const { searchQuery } = storeToRefs(store) // 使用 storeToRefs 获取响应式引用
+const { submit, setSearchQuery } = store
 
 const suggestions = ref<string[]>([])
 let controller: AbortController | null = null
 
 // 获取搜索建议
 async function fetchSuggestions() {
-  const query = props.searchQuery.trim()
+  const query = searchQuery.value.trim()
   if (!query) {
     suggestions.value = []
     return
@@ -82,9 +73,10 @@ async function fetchSuggestions() {
   }
 }
 
-watch(() => props.searchQuery, () => {
-  fetchSuggestions()
-})
+function handleSelectSuggestion(suggestion: string) {
+  setSearchQuery(suggestion)
+  submit()
+}
 
 // 当前选中的索引（键盘导航用）
 const selectedIndex = ref(-1)
@@ -93,10 +85,10 @@ const hoveredIndex = ref(-1)
 
 // 过滤后的搜索建议
 const filteredSuggestions = computed(() => {
-  if (!props.searchQuery?.trim())
+  if (!searchQuery?.value.trim())
     return []
 
-  const query = props.searchQuery.toLowerCase().trim()
+  const query = searchQuery.value.toLowerCase().trim()
   return suggestions.value.filter(item =>
     item.toLowerCase().includes(query),
   )
@@ -117,20 +109,13 @@ function computedItemClass(index: number) {
 
 // 高亮匹配的文本
 function highlightMatch(text: string) {
-  if (!props.searchQuery.trim())
+  if (!searchQuery.value.trim())
     return text
 
-  const query = props.searchQuery.toLowerCase().trim()
+  const query = searchQuery.value.toLowerCase().trim()
   const regex = new RegExp(`(${query})`, 'gi')
 
   return text.replace(regex, '<span class="font-semibold text-blue-600">$1</span>')
-}
-
-// 选择建议项
-function selectSuggestion(suggestion: string) {
-  emits('select', suggestion)
-
-  props?.submit()
 }
 
 function resetIndex() {
@@ -138,8 +123,8 @@ function resetIndex() {
   hoveredIndex.value = -1
 }
 
-// 监听搜索查询变化，重置选中状态
-watch(() => props.searchQuery, () => {
+watch(() => searchQuery.value, () => {
+  fetchSuggestions()
   resetIndex()
 })
 
@@ -160,7 +145,7 @@ onMounted(() => {
 
   hotkeys('enter', (event) => {
     if (hoveredIndex.value >= 0) {
-      selectSuggestion(suggestions.value[hoveredIndex.value])
+      handleSelectSuggestion(suggestions.value[hoveredIndex.value])
     }
     event.preventDefault()
   })
@@ -196,7 +181,7 @@ onUnmounted (() => {
           :class="computedItemClass(index)"
           class="cursor-pointer px-4 py-2 transition-colors"
           flex="~ justify-between items-center"
-          @click.stop="selectSuggestion(suggestion)"
+          @click.stop="handleSelectSuggestion(suggestion)"
           @mouseenter="hoveredIndex = index"
         >
           <span v-html="highlightMatch(suggestion)" />

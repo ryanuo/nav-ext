@@ -1,38 +1,21 @@
 <script setup lang="ts">
-import { initEngineData } from '~/constants/engine'
 import { useMarkStore } from '~/store/option/mark'
+import { useSearchStore } from '~/store/option/search'
 
-const isShowEngine = ref(false)
 const markStore = useMarkStore()
-const searchQuery = ref()
-const searchEngine = ref<Engines>(initEngineData[0])
+const searchEngineRef = ref<{ isShowEngine: Ref<boolean>, setIsShowEngine: (isShow: boolean) => void }>()
+const { setSearchQuery, submit } = useSearchStore()
 
 function handleInputFocus() {
   markStore.setClickInput(true)
-  if (isShowEngine.value) {
-    isShowEngine.value = false
+
+  if (searchEngineRef.value?.isShowEngine) {
+    searchEngineRef.value.setIsShowEngine(false)
   }
 }
 
-function setIsShowEngine(val: boolean) {
-  isShowEngine.value = val
-}
-
-function handleSearchSelect(val: string) {
-  searchQuery.value = val
-  isShowEngine.value = false
-}
-
-function submit() {
-  if (!searchQuery.value)
-    return
-
-  const query = searchQuery.value.trim()
-
-  window.open(
-    searchEngine.value.url + query,
-    '_blank',
-  )
+function handleInput(e: any) {
+  setSearchQuery(e.target.value)
 }
 </script>
 
@@ -42,28 +25,20 @@ function submit() {
     <form v-if="!markStore.isShowNavs" class="form-control">
       <input
         id="search"
-        v-model="searchQuery"
         :class="{
           'input-focus': markStore.isClickInput,
         }"
-        autocomplete="off" placeholder="搜索" size="30" type="text" class="input-control"
+        autocomplete="off"
+        placeholder="搜索" size="30" type="text" class="input-control" @input="handleInput"
         @click.stop="handleInputFocus"
       >
-      <SearchSuggestions
-        :search-query="searchQuery"
-        :submit="submit"
-        @select="handleSearchSelect"
-      />
+      <SearchSuggestions />
       <template v-if="markStore.isClickInput">
         <button
           type="button" class="btn btn-toggle"
           @click.stop
         >
-          <SearchEngine
-            v-model="searchEngine"
-            :is-show-engine="isShowEngine"
-            :set-is-show-engine="setIsShowEngine"
-          />
+          <SearchEngine ref="searchEngineRef" />
         </button>
         <button type="button" class="btn btn-search" @click.stop="submit">
           <span class="i-eva-search-fill" />

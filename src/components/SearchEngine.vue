@@ -1,27 +1,29 @@
 <script lang="ts" setup>
 import hotkeys from 'hotkeys-js'
+import { storeToRefs } from 'pinia'
 import { initEngineData } from '~/constants/engine'
 import { useMarkStore } from '~/store/option/mark'
+import { useSearchStore } from '~/store/option/search'
 
-interface EngineProps {
-  modelValue: Engines
-  isShowEngine: boolean
-  setIsShowEngine: (isShowEngine: boolean) => void
-}
-
-const props = defineProps<EngineProps>()
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: Engines): void
-}>()
+const isShowEngine = ref(false)
 
 const markStore = useMarkStore()
-
+const searchStore = useSearchStore()
+const { searchEngine } = storeToRefs(searchStore)
+const { setSearchEngine } = searchStore
 const engines = reactive<Engines[]>(initEngineData)
-function emitValue(value: Engines) {
-  emit('update:modelValue', value)
-  props.setIsShowEngine(false)
+
+function handleSelectEngine(engine: Engines) {
+  setSearchEngine(engine)
+  isShowEngine.value = false
 }
+
+defineExpose({
+  isShowEngine,
+  setIsShowEngine(val: boolean) {
+    isShowEngine.value = val
+  },
+})
 
 onMounted(() => {
   hotkeys.filter = (event) => {
@@ -39,8 +41,7 @@ onMounted(() => {
       event.preventDefault()
 
       const selectedEngine = engines[key - 1]
-      emit('update:modelValue', selectedEngine)
-      props.setIsShowEngine(false)
+      handleSelectEngine(selectedEngine)
     })
   })
 })
@@ -52,15 +53,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="h-full w-full flex items-center justify-center" @click.stop="setIsShowEngine(!isShowEngine)">
-    <span :class="modelValue?.icon || modelValue?.iconUrl" />
+  <div class="h-full w-full flex items-center justify-center" @click.stop="isShowEngine = !isShowEngine">
+    <span :class="searchEngine?.icon || searchEngine?.iconUrl" />
   </div>
   <div v-if="isShowEngine" class="engine">
     <div class="engine-list">
       <div
         v-for="(engine, index) in engines" :key="index"
         class="relative h-8 flex flex-row cursor-pointer items-center justify-between rounded-xl bg-[var(--main-card-background)] p-1 transition-colors duration-300 hover:bg-gray-100/50"
-        @click="emitValue(engine)"
+        @click="handleSelectEngine(engine)"
       >
         <div class="mr-2 max-w-30 flex flex-row items-center overflow-auto">
           <img v-if="engine.iconUrl" class="h-5 w-5" :src="engine.iconUrl" alt="">
