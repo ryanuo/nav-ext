@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { initEngineData } from '~/constants/engine'
 import { useMarkStore } from '~/store/option/mark'
 
 const isShowEngine = ref(false)
 const markStore = useMarkStore()
 const searchQuery = ref()
+const searchEngine = ref<Engines>(initEngineData[0])
 
 function handleInputFocus() {
   markStore.setClickInput(true)
@@ -20,6 +22,29 @@ function handleSearchSelect(val: string) {
   searchQuery.value = val
   isShowEngine.value = false
 }
+
+function submit() {
+  if (!searchQuery.value)
+    return
+
+  const query = searchQuery.value.trim()
+
+  window.open(
+    searchEngine.value.url + query,
+    '_blank',
+  )
+}
+
+// function handleKeydown(e: KeyboardEvent) {
+//   const isAltOrOption = e.altKey || e.metaKey
+//   // 使用 keyCode 判断是否是数字键（0~9）
+//   const isNumberKey = (e.keyCode >= 48 && e.keyCode <= 57) // 主键盘 0~9
+//     || (e.keyCode >= 96 && e.keyCode <= 105) // 小键盘 numpad 0~9
+
+//   if (isAltOrOption && isNumberKey) {
+//     e.preventDefault()
+//   }
+// }
 </script>
 
 <template>
@@ -27,6 +52,7 @@ function handleSearchSelect(val: string) {
     <Date />
     <form v-if="!markStore.isShowNavs" class="form-control">
       <input
+        id="search"
         v-model="searchQuery"
         :class="{
           'input-focus': markStore.isClickInput,
@@ -36,6 +62,7 @@ function handleSearchSelect(val: string) {
       >
       <SearchSuggestions
         :search-query="searchQuery"
+        :submit="submit"
         @select="handleSearchSelect"
       />
       <template v-if="markStore.isClickInput">
@@ -44,11 +71,12 @@ function handleSearchSelect(val: string) {
           @click.stop
         >
           <SearchEngine
+            v-model="searchEngine"
             :is-show-engine="isShowEngine"
             :set-is-show-engine="setIsShowEngine"
           />
         </button>
-        <button type="submit" class="btn btn-search">
+        <button type="button" class="btn btn-search" @click.stop="submit">
           <span class="i-eva-search-fill" />
         </button>
       </template>

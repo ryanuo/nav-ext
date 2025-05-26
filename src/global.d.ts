@@ -6,3 +6,10 @@ declare module '*.vue' {
   const component: any
   export default component
 }
+
+declare interface Engines {
+  name: string
+  url: string
+  icon: string
+  iconUrl?: string
+}

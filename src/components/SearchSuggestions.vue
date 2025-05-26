@@ -6,6 +6,10 @@ const props = defineProps({
     required: true,
     default: '',
   },
+  submit: {
+    type: Function,
+    required: true,
+  },
 })
 
 const emits = defineEmits(['select'])
@@ -123,6 +127,8 @@ function highlightMatch(text: string) {
 // 选择建议项
 function selectSuggestion(suggestion: string) {
   emits('select', suggestion)
+
+  props?.submit()
 }
 
 // 监听搜索查询变化，重置选中状态

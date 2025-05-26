@@ -43,6 +43,7 @@ body,
 }
 
 :root {
+  --white-alpha-80: rgba(255, 255, 255, 0.8);
   --white-alpha-10: rgba(255, 255, 255, 0.1);
   --main-backdrop-filter: blur(30px) saturate(1.25);
   --main-card-blur: blur(10px);
