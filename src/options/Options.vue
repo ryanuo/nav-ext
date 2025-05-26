@@ -30,6 +30,7 @@ function handleInput(e: any) {
         id="search"
         :class="{
           'input-focus': markStore.isClickInput,
+          'hover:bg-gray-100/50': !markStore.isClickInput,
         }"
         :value="searchQuery"
         autocomplete="off"

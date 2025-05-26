@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
+import { useSearchStore } from '~/store/option/search'
 
 export const useMarkStore = defineStore('showElement', () => {
   const isMark = ref<boolean>(false)
   const isClickInput = ref<boolean>(false)
   const isShowNavs = ref<boolean>(false)
+  const { setSearchQuery } = useSearchStore()
 
   const setMark = (value: boolean) => {
     isMark.value = value
@@ -25,6 +27,7 @@ export const useMarkStore = defineStore('showElement', () => {
     isMark.value = false
     isClickInput.value = false
     isShowNavs.value = false
+    setSearchQuery('')
   }
 
   return {

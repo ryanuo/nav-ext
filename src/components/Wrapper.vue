@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useMarkStore } from '~/store/option/mark'
+import { useSettingsStore } from '~/store/option/settings'
 
+const { cover } = useSettingsStore()
 const markStore = useMarkStore()
 </script>
 
@@ -18,10 +20,11 @@ const markStore = useMarkStore()
         'img-mark': markStore.isMark,
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
-      src="https://cn.bing.com/th?id=OHR.SunbeamsForest_ZH-CN5358008117_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
+      :src="cover"
       alt="" srcset=""
     >
     <slot />
+    <Settings v-if="markStore.isShowNavs" />
   </div>
 </template>
 
