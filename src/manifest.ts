@@ -10,12 +10,16 @@ export async function getManifest() {
   // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
     manifest_version: 3,
+    chrome_url_overrides: {
+      newtab: './dist/options/index.html',
+    },
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description,
     action: {
       default_icon: './assets/icon-512.png',
       default_popup: './dist/popup/index.html',
+      // default_popup: '', // 若要禁用 popup 并使用点击事件，需将 default_popup 设为空字符串
     },
     options_ui: {
       page: './dist/options/index.html',
