@@ -20,18 +20,12 @@ function handleInputFocus() {
 function handleInput(e: any) {
   setSearchQuery(e.target.value)
 }
-
-function handleKeydown(e: any) {
-  if (e.keyCode === '13') {
-    e.preventDefault()
-  }
-}
 </script>
 
 <template>
   <Wrapper>
     <Date />
-    <form v-if="!markStore.isShowNavs" class="form-control">
+    <div v-if="!markStore.isShowNavs" class="form-control">
       <input
         id="search"
         :class="{
@@ -41,7 +35,6 @@ function handleKeydown(e: any) {
         autocomplete="off"
         placeholder="搜索" size="30" type="text" class="input-control" @input="handleInput"
         @click.stop="handleInputFocus"
-        @keydown="handleKeydown"
       >
       <SearchSuggestions />
       <template v-if="markStore.isClickInput">
@@ -55,7 +48,7 @@ function handleKeydown(e: any) {
           <span class="i-eva-search-fill" />
         </button>
       </template>
-    </form>
+    </div>
     <!-- <Docking /> -->
   </Wrapper>
 </template>

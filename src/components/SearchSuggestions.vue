@@ -7,7 +7,13 @@ const store = useSearchStore()
 const { searchQuery } = storeToRefs(store) // 使用 storeToRefs 获取响应式引用
 const { submit } = store
 
+// 当前选中的索引（键盘导航用）
+const selectedIndex = ref(-1)
+// 鼠标悬停的索引
+const hoveredIndex = ref(-1)
+
 const suggestions = ref<string[]>([])
+
 let controller: AbortController | null = null
 
 // 获取搜索建议
@@ -72,11 +78,6 @@ async function fetchSuggestions() {
     }
   }
 }
-
-// 当前选中的索引（键盘导航用）
-const selectedIndex = ref(-1)
-// 鼠标悬停的索引
-const hoveredIndex = ref(-1)
 
 // 过滤后的搜索建议
 const filteredSuggestions = computed(() => {
@@ -160,7 +161,9 @@ onMounted(() => {
 })
 
 onUnmounted (() => {
-  hotkeys.unbind()
+  hotkeys.unbind('enter')
+  hotkeys.unbind('up')
+  hotkeys.unbind('down')
 })
 </script>
 
@@ -170,15 +173,15 @@ onUnmounted (() => {
       v-if="filteredSuggestions.length > 0 && searchQuery.trim().length > 0"
       class="max-h-80 w-full overflow-y-auto rounded-sm shadow-lg"
     >
-      <ul
-        @mouseleave="resetIndex()"
-      >
+      <ul>
+        <Translate />
         <li
           v-for="(suggestion, index) in filteredSuggestions"
           :key="suggestion || index"
           :class="computedItemClass(index)"
           class="cursor-pointer px-4 py-2 transition-colors"
           flex="~ justify-between items-center"
+          @mouseleave="resetIndex()"
           @click.stop="submit(suggestion)"
           @mouseenter="hoveredIndex = index"
         >
@@ -191,9 +194,13 @@ onUnmounted (() => {
     <!-- 搜索结果提示 -->
     <div
       v-else-if="searchQuery.trim().length > 0 && filteredSuggestions.length === 0"
-      class="mt-1 w-full rounded-sm p-4 text-dark shadow-lg"
+      class="mt-1 w-full rounded-sm text-white shadow-lg"
     >
-      没有找到与 "{{ searchQuery }}" 相关的结果
+      <Translate />
+      <div px-4 py-2>
+        <span class="i-hugeicons-file-not-found" />
+        没有找到与 "{{ searchQuery }}" 相关的结果
+      </div>
     </div>
   </div>
 </template>

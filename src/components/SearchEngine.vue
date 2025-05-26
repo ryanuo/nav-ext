@@ -34,10 +34,10 @@ onMounted(() => {
   engines.forEach((_, index) => {
     const key = index + 1
     const shortcut = `alt+${key}, option+${key}` // 同时支持 Alt 和 Option 键
-
     hotkeys(shortcut, (event) => {
       if (!markStore.isClickInput)
         return
+
       event.preventDefault()
 
       const selectedEngine = engines[key - 1]

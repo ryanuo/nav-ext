@@ -3,21 +3,25 @@ export const initEngineData: Engines[] = [
     name: 'Bing',
     url: 'https://www.bing.com/search?q=',
     icon: 'i-jam-bing',
+    translateUrl: 'https://www.bing.com/translator?fromLang=zh-Hans&toLang=en&text=',
   },
   {
     name: 'Baidu',
     url: 'https://www.baidu.com/s?wd=',
     icon: 'i-ri-baidu-fill',
+    translateUrl: 'https://fanyi.baidu.com/mtpe-individual/multimodal?query=',
   },
   {
     name: 'Yandex',
     url: 'https://yandex.com/search/?text=',
     icon: 'i-tabler-brand-yandex',
+    translateUrl: 'https://translate.yandex.com/?lang=auto-en&text=',
   },
   {
     name: 'Google',
     url: 'https://www.google.com.hk/search?q=',
     icon: 'i-mingcute-google-fill',
+    translateUrl: 'https://translate.google.com?op=translate&tl=en&text=',
   },
   {
     name: 'Github',

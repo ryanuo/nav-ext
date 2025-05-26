@@ -12,4 +12,5 @@ declare interface Engines {
   url: string
   icon: string
   iconUrl?: string
+  translateUrl?: string
 }
