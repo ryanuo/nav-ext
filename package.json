@@ -1,7 +1,7 @@
 {
   "name": "vitesse-webext",
   "displayName": "N-Tab",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "packageManager": "pnpm@10.11.0",
   "description": "本项目是一个轻量级浏览器扩展的前端界面部分，采用 Vue 3 + TypeScript + Pinia 架构开发，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。",
