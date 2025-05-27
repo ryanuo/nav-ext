@@ -37,17 +37,12 @@ const timezone = computed({
 
 const weatherCity = computed({
   get: () => settingsStore.weatherCity,
-  set: (value: string) => settingsStore.setWeatherCity(value),
+  set: (value: WeatherCity) => settingsStore.setWeatherCity(value),
 })
 
 const showWeather = computed({
   get: () => settingsStore.showWeather,
   set: (value: boolean) => settingsStore.setShowWeather(value),
-})
-
-const showTemperature = computed({
-  get: () => settingsStore.showTemperature,
-  set: (value: boolean) => settingsStore.setShowTemperature(value),
 })
 
 const errors = reactive({
@@ -243,11 +238,7 @@ function handleLocalCoverUpload(event: Event) {
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">动画效果</label>
                   <div class="mt-2 flex items-center">
-                    <input
-                      id="animation" v-model="animation" type="checkbox"
-                      class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
-                    >
-                    <label for="animation" class="ml-2 block text-sm text-gray-700">启用动画效果</label>
+                    <Toggle v-model="animation" label="启用动画效果" />
                   </div>
                 </div>
               </div>
@@ -276,28 +267,15 @@ function handleLocalCoverUpload(event: Event) {
                 </div>
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">天气城市</label>
-                  <input
-                    v-model="weatherCity" type="text"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="请输入城市名称"
-                  >
+                  <CityCascader
+                    v-model="weatherCity"
+                  />
                 </div>
                 <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">显示选项</label>
+                  <label class="block text-sm text-gray-700 font-medium">天气显示</label>
                   <div class="mt-2 space-y-2">
                     <div class="flex items-center">
-                      <input
-                        id="showWeather" v-model="showWeather" type="checkbox"
-                        class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
-                      >
-                      <label for="showWeather" class="ml-2 block text-sm text-gray-700">显示天气信息</label>
-                    </div>
-                    <div class="flex items-center">
-                      <input
-                        id="showTemperature" v-model="showTemperature" type="checkbox"
-                        class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
-                      >
-                      <label for="showTemperature" class="ml-2 block text-sm text-gray-700">显示温度</label>
+                      <Toggle v-model="showWeather" label="" />
                     </div>
                   </div>
                 </div>

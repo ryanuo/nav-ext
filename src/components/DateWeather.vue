@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { dateFormat } from '@ryanuo/utils'
+import { useI18n } from 'vue-i18n'
 import { useMarkStore } from '~/store/option/mark'
+import { useSettingsStore } from '~/store/option/settings'
+
+const settingsStore = useSettingsStore()
 
 // 定义日期时间响应式引用
 const currentDateTime = ref('')
 let timer: number | null = null
+
+const isZh = useI18n().locale.value === 'zh-CN'
 
 // 组件挂载时启动计时器
 onMounted(() => {
@@ -28,6 +34,12 @@ const markStore = useMarkStore()
 function handleDateFocus() {
   markStore.setShowNavs(true)
 }
+
+const weatherIframeSrc = computed(() => {
+  const lang = isZh ? 'cn' : 'en'
+  const city = settingsStore?.weatherCity?.city?.pinyin || 'beijing'
+  return `https://i.tianqi.com/?c=code&a=getcode&id=26&py=${city}&icon=1&lang=${lang}&color=%23fff7ff`
+})
 </script>
 
 <template>
@@ -35,6 +47,12 @@ function handleDateFocus() {
     <p class="text-[4em] text-white" @click.stop="handleDateFocus">
       {{ currentDateTime }}
     </p>
+    <iframe
+      v-if="settingsStore.showWeather"
+      height="30"
+      width="174"
+      :src="weatherIframeSrc" frameborder="0"
+    />
   </div>
 </template>
 

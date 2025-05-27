@@ -59,7 +59,7 @@ onUnmounted(() => {
 
 <template>
   <Wrapper>
-    <Date />
+    <DateWeather />
     <div v-if="!markStore.isShowNavs" class="form-control">
       <input
         id="search"

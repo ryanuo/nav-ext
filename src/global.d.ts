@@ -17,3 +17,21 @@ declare interface Engines {
   iconUrl?: string
   translateUrl?: string
 }
+
+declare interface WeatherCity {
+  province: {
+    id: number
+    name: string
+    pinyin: string
+  }
+  city: {
+    id: number
+    name: string
+    pinyin: string
+  }
+  area: {
+    id: number
+    name: string
+    pinyin: string
+  }
+}
