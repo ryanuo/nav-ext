@@ -6,18 +6,18 @@ import { useSettingsStore } from '~/store/option/settings'
 
 const settings = useSettingsStore()
 const markStore = useMarkStore()
-const isInitialLoadingVisible = ref(true)
+const hasImageFinishedLoading = ref(true)
 const settingRef = ref<{
   setIsSettingsButtonVisible: (visible: boolean) => void
 }>()
 
 function handleImageLoad() {
-  isInitialLoadingVisible.value = false
+  hasImageFinishedLoading.value = false
 }
 
 const isPageVisible = computed(() => {
   if (settings.animation) {
-    return !isInitialLoadingVisible.value
+    return !hasImageFinishedLoading.value
   }
 
   return true
@@ -35,7 +35,7 @@ function onCommandHPress(event: KeyboardEvent) {
 onMounted(() => {
   // 如果没有设置封面图，则直接结束加载状态
   if (!settings.cover) {
-    isInitialLoadingVisible.value = false
+    hasImageFinishedLoading.value = false
   }
 
   hotkeys('command+h', onCommandHPress)
