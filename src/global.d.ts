@@ -1,6 +1,9 @@
 declare const __DEV__: boolean
 /** Extension name, defined in packageJson.name */
 declare const __NAME__: string
+// package version
+declare const __APP_VERSION__: string
+declare const __BUILD_TIME__: string
 
 declare module '*.vue' {
   const component: any
@@ -10,7 +13,7 @@ declare module '*.vue' {
 declare interface Engines {
   name: string
   url: string
-  icon: string
+  icon?: string
   iconUrl?: string
   translateUrl?: string
 }

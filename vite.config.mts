@@ -9,9 +9,11 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
+import { dateFormat } from '@ryanuo/utils'
 import { isDev, port, r } from './scripts/utils'
 import packageJson from './package.json'
 
+const buildTime = dateFormat(new Date(), 'yyyy-MM-dd')
 export const sharedConfig: UserConfig = {
   root: r('src'),
   resolve: {
@@ -22,6 +24,8 @@ export const sharedConfig: UserConfig = {
   define: {
     __DEV__: isDev,
     __NAME__: JSON.stringify(packageJson.name),
+    __APP_VERSION__: JSON.stringify(packageJson.version),
+    __BUILD_TIME__: JSON.stringify(buildTime),
   },
   plugins: [
     Vue(),

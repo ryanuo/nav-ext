@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
-import { initEngineData } from '~/constants/engine'
+import IconRenderer from './IconRenderer.vue'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
 
@@ -9,9 +9,8 @@ const isShowEngine = ref(false)
 
 const markStore = useMarkStore()
 const searchStore = useSearchStore()
-const { searchEngine } = storeToRefs(searchStore)
+const { searchEngine, engines } = storeToRefs(searchStore)
 const { setSearchEngine } = searchStore
-const engines = reactive<Engines[]>(initEngineData)
 
 function handleSelectEngine(engine: Engines) {
   setSearchEngine(engine)
@@ -31,7 +30,7 @@ onMounted(() => {
   }
 
   // 动态生成 Alt+1 到 Alt+n 的快捷键
-  engines.forEach((_, index) => {
+  engines.value.forEach((_, index) => {
     const key = index + 1
     const shortcut = `alt+${key}, option+${key}` // 同时支持 Alt 和 Option 键
     hotkeys(shortcut, (event) => {
@@ -40,7 +39,7 @@ onMounted(() => {
 
       event.preventDefault()
 
-      const selectedEngine = engines[key - 1]
+      const selectedEngine = engines.value[key - 1]
       handleSelectEngine(selectedEngine)
     })
   })
@@ -54,7 +53,7 @@ onUnmounted(() => {
 
 <template>
   <div class="h-full w-full flex items-center justify-center" @click.stop="isShowEngine = !isShowEngine">
-    <span :class="searchEngine?.icon || searchEngine?.iconUrl" />
+    <IconRenderer :icon="searchEngine.icon" :icon-url="searchEngine.iconUrl" />
   </div>
   <div v-if="isShowEngine" class="engine">
     <div class="engine-list">
@@ -64,8 +63,7 @@ onUnmounted(() => {
         @click="handleSelectEngine(engine)"
       >
         <div class="mr-2 max-w-30 flex flex-row items-center overflow-auto">
-          <img v-if="engine.iconUrl" class="h-5 w-5" :src="engine.iconUrl" alt="">
-          <span v-if="engine.icon" :class="engine.icon" class="mr-2" />
+          <IconRenderer :icon="engine.icon" :icon-url="engine.iconUrl" />
           {{ engine.name }}
         </div>
         <div class="flex items-center text-xs text-gray-500">

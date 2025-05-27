@@ -2,7 +2,7 @@
 import { useMarkStore } from '~/store/option/mark'
 import { useSettingsStore } from '~/store/option/settings'
 
-const { cover } = useSettingsStore()
+const settings = useSettingsStore()
 const markStore = useMarkStore()
 </script>
 
@@ -20,7 +20,7 @@ const markStore = useMarkStore()
         'img-mark': markStore.isMark,
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
-      :src="cover"
+      :src="settings.cover"
       alt="" srcset=""
     >
     <slot />

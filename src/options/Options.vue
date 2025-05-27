@@ -46,7 +46,7 @@ function handleInput(e: any) {
           <SearchEngine ref="searchEngineRef" />
         </button>
         <button type="button" class="btn btn-search" @click.stop="submit()">
-          <span class="i-eva-search-fill" />
+          <span class="i-eva-search-fill h-5 w-5" />
         </button>
       </template>
     </div>
@@ -72,7 +72,7 @@ function handleInput(e: any) {
 }
 
 .btn-search {
-  @apply right-1 text-blue;
+  @apply right-1 text-black;
 }
 
 .btn-toggle {

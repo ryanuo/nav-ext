@@ -14,7 +14,11 @@
 
 ## 🤝 贡献指南
 
-## 📚 相关文档
+## 📚 参考
+
+- [snav](https://github.com/imsyy/SNav)
+- [青柠](https://www.limestart.cn/)
+- [CSDN助手](https://plugin.csdn.net/)
 
 ## 📄 许可证
 

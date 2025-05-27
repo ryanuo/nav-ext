@@ -1,3 +1,5 @@
+import metasoIcon from '~/assets/icon/metaso.svg?url'
+
 export const initEngineData: Engines[] = [
   {
     name: 'Bing',
@@ -42,5 +44,10 @@ export const initEngineData: Engines[] = [
     name: 'v2ex',
     url: 'https://www.sov2ex.com/?q=',
     icon: 'i-simple-icons-v2ex',
+  },
+  {
+    name: 'Metaso',
+    url: 'https://metaso.cn/?q=',
+    iconUrl: metasoIcon,
   },
 ]
