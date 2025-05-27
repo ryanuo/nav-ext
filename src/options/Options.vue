@@ -5,12 +5,15 @@ import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
 import { useSettingsStore } from '~/store/option/settings'
 
-const markStore = useMarkStore()
 const searchEngineRef = ref<{ isShowEngine: Ref<boolean>, setIsShowEngine: (isShow: boolean) => void }>()
+const searchInputRef = ref<HTMLInputElement | null>(null)
+
+const markStore = useMarkStore()
 const searchStore = useSearchStore()
+const settingsStore = useSettingsStore()
 const { searchQuery } = storeToRefs(searchStore)
 const { setSearchQuery, submit } = searchStore
-const settingsStore = useSettingsStore()
+
 function handleInputFocus() {
   markStore.setInputActive(true)
 
@@ -25,14 +28,12 @@ function handleInput(e: any) {
 
 function onEnterPress() {
   const activeElement = document.activeElement
-  const searchInput = document.getElementById('search')
-
-  if (activeElement && activeElement.id !== 'search') {
+  if (activeElement && activeElement?.id !== 'search') {
     handleInputFocus()
 
-    if (searchInput) {
+    if (searchInputRef.value) {
       setTimeout(() => {
-        searchInput.focus()
+        searchInputRef.value?.focus()
       }, 0)
     }
   }
@@ -40,9 +41,8 @@ function onEnterPress() {
 
 function onEscapePress() {
   markStore.initStatus()
-  const searchInput = document.getElementById('search')
-  if (searchInput) {
-    searchInput.blur()
+  if (searchInputRef.value) {
+    searchInputRef.value?.blur()
   }
 }
 
@@ -50,12 +50,13 @@ onMounted(() => {
   hotkeys.filter = () => true
   hotkeys('enter', onEnterPress)
   hotkeys('esc', onEscapePress)
+})
 
-  setTimeout(() => {
-    if (settingsStore.isAutoFocusSearchBoxOnPageLoad) {
-      handleInputFocus()
-    }
-  })
+watchEffect(() => {
+  // 如果是自动聚焦搜索框，则自动聚焦 并且仅仅在初始化时执行一次
+  if (searchInputRef.value && settingsStore.isAutoFocusSearchBoxOnPageLoad && !markStore.isShowConsoleEnabled) {
+    onEnterPress()
+  }
 })
 
 onUnmounted(() => {
@@ -67,9 +68,10 @@ onUnmounted(() => {
 <template>
   <Wrapper>
     <DateWeather />
-    <div v-if="!markStore.isShowConsoleEnabled" class="form-control">
+    <div v-show="!markStore.isShowConsoleEnabled" class="form-control">
       <input
         id="search"
+        ref="searchInputRef"
         :class="{
           'input-focus': markStore.isInputActive,
           'hover:bg-gray-100/50': !markStore.isInputActive,
