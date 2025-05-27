@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
@@ -20,6 +21,26 @@ function handleInputFocus() {
 function handleInput(e: any) {
   setSearchQuery(e.target.value)
 }
+
+onMounted(() => {
+  hotkeys('enter', () => {
+  // 检查当前是否有元素获得焦点，并且该元素是否是 #search
+    const activeElement = document.activeElement
+    if (activeElement && activeElement.id !== 'search') {
+      handleInputFocus()
+
+      const searchInput = document.getElementById('search')
+      if (searchInput) {
+        searchInput.focus()
+      }
+    }
+  })
+})
+
+onUnmounted(() => {
+  // 清理 hotkeys
+  hotkeys.unbind('enter')
+})
 </script>
 
 <template>

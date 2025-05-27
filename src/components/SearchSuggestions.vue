@@ -125,10 +125,6 @@ watch(() => searchQuery.value, () => {
 })
 
 onMounted(() => {
-  hotkeys.filter = (event) => {
-    return !!(event.target as HTMLElement).closest('#search')
-  }
-
   const getLength = () => filteredSuggestions.value.length
 
   const updateHoveredIndex = (delta: number) => {
