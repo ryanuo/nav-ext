@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watchOnce } from '@vueuse/core'
 import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
 import { useMarkStore } from '~/store/option/mark'
@@ -52,10 +53,14 @@ onMounted(() => {
   hotkeys('esc', onEscapePress)
 })
 
-watchEffect(() => {
-  // 如果是自动聚焦搜索框，则自动聚焦 并且仅仅在初始化时执行一次
-  if (searchInputRef.value && settingsStore.isAutoFocusSearchBoxOnPageLoad && !markStore.isShowConsoleEnabled) {
+watchOnce(searchInputRef, () => {
+  // 如果是自动聚焦搜索框，则自动聚焦
+  if (searchInputRef.value && settingsStore.isAutoFocusSearchBoxOnPageLoad) {
     onEnterPress()
+  }
+  else {
+    // 否则聚焦到 body 上
+    document.body.focus()
   }
 })
 
