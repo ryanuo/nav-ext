@@ -4,7 +4,7 @@
   "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@10.11.0",
-  "description": "本项目是一个轻量级浏览器扩展的前端界面部分，采用 Vue 3 + TypeScript + Pinia 架构开发，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。",
+  "description": "N-Tab 是一个轻量级浏览器标签页插件，采用 Vue 3 + TypeScript + Pinia 架构开发，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
@@ -41,7 +41,7 @@
     "@ffflorian/jszip-cli": "^3.7.1",
     "@iconify/json": "^2.2.239",
     "@playwright/test": "^1.46.1",
-    "@ryanuo/utils": "^1.3.3",
+    "@ryanuo/utils": "^1.3.4",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.5.0",
     "@types/webextension-polyfill": "^0.12.0",

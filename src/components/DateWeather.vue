@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { dateFormat } from '@ryanuo/utils'
+import { dayjs } from '@ryanuo/utils'
 import { useI18n } from 'vue-i18n'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc' // 新增
 import { useMarkStore } from '~/store/option/mark'
 import { useSettingsStore } from '~/store/option/settings'
+
+dayjs.extend(timezone)
+dayjs.extend(utc)
 
 const settingsStore = useSettingsStore()
 
@@ -14,13 +19,20 @@ const isZh = useI18n().locale.value === 'zh-CN'
 
 // 组件挂载时启动计时器
 onMounted(() => {
-  // 立即更新一次时间
-  currentDateTime.value = dateFormat(new Date(), 'HH:mm')
+  // 立即更新一次时间（用 dayjs.tz）
+  currentDateTime.value = dayjs.tz(new Date()).format('HH:mm')
 
   // 每秒更新一次时间
   timer = setInterval(() => {
-    currentDateTime.value = dateFormat(new Date(), 'HH:mm')
+    currentDateTime.value = dayjs.tz(new Date()).format('HH:mm')
   }, 1000) as unknown as number
+})
+
+watchEffect(() => {
+  // 如果时区设置发生变化，更新 dayjs 的默认时区
+  if (settingsStore.timezone) {
+    dayjs.tz.setDefault(settingsStore.timezone)
+  }
 })
 
 // 组件卸载时清除计时器

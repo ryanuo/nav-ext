@@ -31,8 +31,8 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       '@ryanuo/utils':
-        specifier: ^1.3.3
-        version: 1.3.3
+        specifier: ^1.3.4
+        version: 1.3.4
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -918,8 +918,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ryanuo/utils@1.3.3':
-    resolution: {integrity: sha512-ZrWCPkv/UAOXz+xcW40jV1qVqyEEZGXO/z9sshYnpC0IRfRBajfE1DsjYy9k49owK50mtBPzJD4VXgQfDRvzGQ==}
+  '@ryanuo/utils@1.3.4':
+    resolution: {integrity: sha512-FJr3bmrfnneE4ynyrDfd0Sfitq+q7d6ok+FvsDdK3HqDW/WvLt/nnhTLnogb6kexh8SE5MedfW/zfQGBwAvVIQ==}
 
   '@sindresorhus/is@5.6.0':
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
@@ -1860,6 +1860,9 @@ packages:
   data-view-byte-offset@1.0.0:
     resolution: {integrity: sha512-t/Ygsytq+R995EJ5PZlD4Cu56sWa8InXySaViRzw9apusqsOO2bQP+SbYzAhR0pFKoB+43lYy8rWban9JSuXnA==}
     engines: {node: '>= 0.4'}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -5582,8 +5585,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.21.0':
     optional: true
 
-  '@ryanuo/utils@1.3.3':
+  '@ryanuo/utils@1.3.4':
     dependencies:
+      dayjs: 1.11.13
       decimal.js: 10.5.0
       query-string: 9.2.0
 
@@ -6801,6 +6805,8 @@ snapshots:
       call-bind: 1.0.7
       es-errors: 1.3.0
       is-data-view: 1.0.1
+
+  dayjs@1.11.13: {}
 
   debounce@1.2.1: {}
 
