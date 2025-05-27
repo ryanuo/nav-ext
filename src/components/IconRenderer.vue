@@ -1,11 +1,14 @@
 <!-- components/IconRenderer.vue -->
 <script setup lang="ts">
-const props = defineProps<{
-  // 图标URL
+const props = withDefaults(defineProps<{
   iconUrl?: string
-  // Font Awesome类名
   icon?: string
-}>()
+  styleClass?: string
+}>(), {
+  iconUrl: '',
+  icon: '',
+  styleClass: 'mr-2',
+})
 
 // 计算图标类型（img或i）
 const iconType = computed(() => {
@@ -24,12 +27,11 @@ const iconClass = computed(() => {
     v-if="iconType === 'img'"
     :src="iconUrl"
     alt=""
-    class="mr-2 h-4 w-4"
+    class="h-4 w-4"
   />
   <component
     :is="iconType"
     v-else
-    :class="iconClass"
-    class="mr-2"
+    :class="[iconClass, styleClass]"
   />
 </template>

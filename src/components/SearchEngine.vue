@@ -53,7 +53,7 @@ onUnmounted(() => {
 
 <template>
   <div class="h-full w-full flex items-center justify-center" @click.stop="isShowEngine = !isShowEngine">
-    <IconRenderer :icon="searchEngine.icon" :icon-url="searchEngine.iconUrl" />
+    <IconRenderer style-class="mr-0!" :icon="searchEngine.icon" :icon-url="searchEngine.iconUrl" />
   </div>
   <div v-if="isShowEngine" class="engine">
     <div class="engine-list">
