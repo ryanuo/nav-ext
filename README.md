@@ -6,19 +6,106 @@
 
 ## 🧩 项目说明
 
-- N-Tab是一个轻量级浏览器扩展的前端界面部分，采用 Vue 3 + TypeScript + Pinia 架构开发，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。
+- N-Tab 是一个轻量级浏览器扩展的前端界面部分，采用 Vue 3 + TypeScript + Pinia 架构开发，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。
+
+## ✨ 功能特性
+
+- 多主题模式（浅色/深色/自动）
+- 自定义壁纸（支持 URL、本地图片、Base64）
+- 搜索引擎切换与自定义
+- 快捷翻译
+- 个性化偏好设置（语言、动画等）
+- 时间与天气显示（支持多时区、城市选择）
+- 响应式布局，适配多终端
 
 ## 🚀 快速开始
 
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/ryanuo/nav-ext.git
+cd nav-ext
+```
+
+### 2. 安装依赖
+
+```bash
+pnpm install
+# 或
+npm install
+# 或
+yarn install
+```
+
+### 3. 本地开发
+
+```bash
+pnpm dev
+# 或
+npm run dev
+# 或
+yarn dev
+```
+
+### 4. 构建生产包
+
+```bash
+pnpm build
+# 或
+npm run build
+# 或
+yarn build
+```
+
+### 5. 加载扩展
+
+1. 构建后，进入 `extension/dist` 目录。
+2. 打开浏览器扩展管理页面，选择“加载已解压的扩展”，选择 `dist` 文件夹即可。
+
 ## 📝 使用说明
 
+- 点击右上角设置按钮可进入设置面板，进行主题、壁纸、搜索引擎等个性化配置。
+- 支持壁纸 URL、本地图片上传、Base64 图片等多种方式。
+- 搜索栏支持多引擎切换，支持自定义添加。
+- 时间与天气可根据需求开启/关闭，并选择时区和城市。
+
+## 🛠️ 技术栈
+
+- [Vue 3](https://vuejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [UnoCSS](https://uno.antfu.me/)
+- [Iconify](https://iconify.design/)
+
 ## 🤝 贡献指南
+
+欢迎 PR 和 Issue！
+如有建议或问题请提交 [Issue](https://github.com/ryanuo/nav-ext/issues)。
+
+1. Fork 本仓库
+2. 新建分支 `feature/xxx`
+3. 提交代码并发起 PR
 
 ## 📚 参考
 
 - [snav](https://github.com/imsyy/SNav)
 - [青柠](https://www.limestart.cn/)
 - [CSDN助手](https://plugin.csdn.net/)
+
+## ❓ 常见问题
+
+- **Q: 如何自定义壁纸？**
+  A: 在设置面板“壁纸设置”中输入图片 URL 或上传本地图片即可。
+
+- **Q: 如何切换主题？**
+  A: 在设置面板选择浅色、深色或自动模式。
+
+- **Q: 如何恢复默认设置？**
+  A: 设置面板底部点击“重置”按钮。
+
+- **Q: 支持哪些浏览器？**
+  A: 支持 Chrome、Edge、Firefox 等主流浏览器。
 
 ## 📄 许可证
 

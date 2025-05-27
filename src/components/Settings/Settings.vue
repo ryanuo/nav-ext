@@ -266,18 +266,18 @@ function handleLocalCoverUpload(event: Event) {
                   </select>
                 </div>
                 <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">天气城市</label>
-                  <CityCascader
-                    v-model="weatherCity"
-                  />
-                </div>
-                <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">天气显示</label>
                   <div class="mt-2 space-y-2">
                     <div class="flex items-center">
                       <Toggle v-model="showWeather" label="" />
                     </div>
                   </div>
+                </div>
+                <div v-if="showWeather" class="mb-4">
+                  <label class="block text-sm text-gray-700 font-medium">天气城市</label>
+                  <CityCascader
+                    v-model="weatherCity"
+                  />
                 </div>
               </div>
 
@@ -290,7 +290,7 @@ function handleLocalCoverUpload(event: Event) {
                   <p>当前版本：{{ appVersion }}</p>
                   <p>更新日期：{{ buildTime }}</p>
                   <p class="mt-4">
-                    版权所有 © 2025 ryanuo
+                    版权所有 ©2025 <a href="https://ryanuo.cc" target="_blank" class="text-blue-600 hover:underline">ryanuo</a>
                   </p>
                   <p class="mt-2">
                     技术支持：<a href="mailto:hi@ryanuo.cc" class="text-blue-600 hover:underline">hi@ryanuo.cc</a>
