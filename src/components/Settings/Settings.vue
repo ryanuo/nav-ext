@@ -60,8 +60,10 @@ function validateField(field: string, value: string) {
     if (!value) {
       errors[field] = '请填写封面URL'
     }
-    else if (!/^https?:\/\//.test(value)) {
-      errors[field] = '请输入有效的URL地址'
+    else if (
+      !/^https?:\/\/|^data:image\/[a-z]+;base64,|^blob:chrome-extension:/.test(value)
+    ) {
+      errors[field] = '请输入有效的URL地址、base64格式图片或chrome扩展本地图片'
     }
     else {
       errors[field] = ''
@@ -82,11 +84,25 @@ function resetSettings() {
 
 // 选项卡样式计算函数
 function tabClass(tabName: string) {
-  return `w-full border-b border-gray-200 px-6 py-4 text-left transition-all duration-200 ${
-    activeTab.value === tabName
-      ? 'border-l-4 border-blue-500 bg-blue-50 text-blue-600 font-medium'
-      : 'text-gray-600 font-medium hover:bg-gray-50'
+  return `w-full border-b border-gray-200 px-6 py-4 text-left transition-all duration-200 ${activeTab.value === tabName
+    ? 'border-l-4 border-blue-500 bg-blue-50 text-blue-600 font-medium'
+    : 'text-gray-600 font-medium hover:bg-gray-50'
   }`
+}
+
+const fileInputRef = ref<HTMLInputElement | null>(null)
+
+function handleLocalCoverUpload(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    // 创建本地预览URL（可选，仅用于预览，不上传到服务器）
+    const previewUrl = URL.createObjectURL(file)
+    cover.value = previewUrl
+
+    // 清空input的文件缓存
+    if (fileInputRef.value)
+      fileInputRef.value.value = ''
+  }
 }
 </script>
 
@@ -115,42 +131,27 @@ function tabClass(tabName: string) {
             <!-- 左侧选项卡导航 -->
             <div class="flex-1 border-r border-gray-200 md:flex-col">
               <!-- 基础配置 -->
-              <button
-                :class="tabClass('base')"
-                @click="activeTab = 'base'"
-              >
+              <button :class="tabClass('base')" @click="activeTab = 'base'">
                 基础配置
               </button>
 
               <!-- 搜索引擎 -->
-              <button
-                :class="tabClass('search')"
-                @click="activeTab = 'search'"
-              >
+              <button :class="tabClass('search')" @click="activeTab = 'search'">
                 搜索引擎
               </button>
 
               <!-- 个性化偏好 -->
-              <button
-                :class="tabClass('preference')"
-                @click="activeTab = 'preference'"
-              >
+              <button :class="tabClass('preference')" @click="activeTab = 'preference'">
                 个性化偏好
               </button>
 
               <!-- 时间与天气 -->
-              <button
-                :class="tabClass('timeWeather')"
-                @click="activeTab = 'timeWeather'"
-              >
+              <button :class="tabClass('timeWeather')" @click="activeTab = 'timeWeather'">
                 时间与天气
               </button>
 
               <!-- 关于 -->
-              <button
-                :class="tabClass('about')"
-                @click="activeTab = 'about'"
-              >
+              <button :class="tabClass('about')" @click="activeTab = 'about'">
                 关于
               </button>
             </div>
@@ -162,7 +163,10 @@ function tabClass(tabName: string) {
                 <!-- 主题模式 -->
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">主题模式</label>
-                  <select v-model="theme" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                  <select
+                    v-model="theme"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  >
                     <option value="light">
                       浅色模式
                     </option>
@@ -180,12 +184,9 @@ function tabClass(tabName: string) {
                   <label class="block text-sm text-gray-700 font-medium">壁纸设置</label>
                   <div class="relative">
                     <input
-                      id="cover"
-                      v-model="cover"
-                      type="url"
+                      id="cover" v-model="cover" type="url"
                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 pr-15! focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                      :class="{ 'border-red-500': errors.cover }"
-                      placeholder="请输入封面URL"
+                      :class="{ 'border-red-500': errors.cover }" placeholder="请输入封面URL"
                     >
                     <button
                       v-if="cover"
@@ -198,6 +199,20 @@ function tabClass(tabName: string) {
                   <p v-if="errors.cover" class="mt-1 text-sm text-red-500">
                     {{ errors.cover }}
                   </p>
+                  <img v-if="cover" class="mt-2 w-20 cursor-pointer hover:scale-105" :src="cover" alt="" srcset="">
+                  <div class="mt-2 flex items-center">
+                    <input
+                      id="localCoverInput"
+                      ref="fileInputRef"
+                      type="file"
+                      accept="image/*"
+                      class="hidden"
+                      @change="handleLocalCoverUpload"
+                    >
+                    <label for="localCoverInput" class="cursor-pointer rounded bg-gray-200 px-2 py-1 text-xs hover:bg-gray-300">
+                      上传本地图片
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -213,7 +228,10 @@ function tabClass(tabName: string) {
               <div v-show="activeTab === 'preference'">
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">界面语言</label>
-                  <select v-model="language" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                  <select
+                    v-model="language"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  >
                     <option value="zh-CN">
                       中文（简体）
                     </option>
@@ -225,7 +243,10 @@ function tabClass(tabName: string) {
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">动画效果</label>
                   <div class="mt-2 flex items-center">
-                    <input id="animation" v-model="animation" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500">
+                    <input
+                      id="animation" v-model="animation" type="checkbox"
+                      class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                    >
                     <label for="animation" class="ml-2 block text-sm text-gray-700">启用动画效果</label>
                   </div>
                 </div>
@@ -235,7 +256,10 @@ function tabClass(tabName: string) {
               <div v-show="activeTab === 'timeWeather'">
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">时区</label>
-                  <select v-model="timezone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                  <select
+                    v-model="timezone"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  >
                     <option value="Asia/Shanghai">
                       北京时间（UTC+8）
                     </option>
@@ -252,17 +276,27 @@ function tabClass(tabName: string) {
                 </div>
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">天气城市</label>
-                  <input v-model="weatherCity" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="请输入城市名称">
+                  <input
+                    v-model="weatherCity" type="text"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    placeholder="请输入城市名称"
+                  >
                 </div>
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">显示选项</label>
                   <div class="mt-2 space-y-2">
                     <div class="flex items-center">
-                      <input id="showWeather" v-model="showWeather" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500">
+                      <input
+                        id="showWeather" v-model="showWeather" type="checkbox"
+                        class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                      >
                       <label for="showWeather" class="ml-2 block text-sm text-gray-700">显示天气信息</label>
                     </div>
                     <div class="flex items-center">
-                      <input id="showTemperature" v-model="showTemperature" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500">
+                      <input
+                        id="showTemperature" v-model="showTemperature" type="checkbox"
+                        class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                      >
                       <label for="showTemperature" class="ml-2 block text-sm text-gray-700">显示温度</label>
                     </div>
                   </div>
@@ -335,10 +369,7 @@ function tabClass(tabName: string) {
           >
             取消
           </button>
-          <button
-            class="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-            @click="settingsStore.resetAll"
-          >
+          <button class="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700" @click="settingsStore.resetAll">
             确定
           </button>
         </div>
