@@ -33,7 +33,8 @@
   },
   "dependencies": {
     "hotkeys-js": "^3.13.10",
-    "pinia": "^3.0.2"
+    "pinia": "^3.0.2",
+    "vue-i18n": "^11.1.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.0",

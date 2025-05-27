@@ -1,13 +1,15 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import type { LOCALESTRING } from '~/locales/i18n'
+import i18n from '~/locales/i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
   // 使用 useWebExtensionStorage 持久化存储
   const theme = useWebExtensionStorage<string>('theme', 'auto')
   const cover = useWebExtensionStorage<string>('cover', 'https://wp.upx8.com/api.php')
   const fontSize = useWebExtensionStorage<string>('fontSize', '16')
-  const language = useWebExtensionStorage<string>('language', 'zh-CN')
+  const language = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
   const animation = useWebExtensionStorage<boolean>('animation', true)
   const timezone = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
   const weatherCity = useWebExtensionStorage<string>('weatherCity', '北京')
@@ -28,14 +30,13 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  // 应用壁纸变更
-  const applyCover = (coverUrl: string) => {
-    document.body.style.backgroundImage = coverUrl ? `url(${coverUrl})` : ''
-  }
-
   // 应用字体大小变更
   const applyFontSize = (size: string) => {
     document.documentElement.style.fontSize = `${size}px`
+  }
+
+  const applyLanguage = (lang: LOCALESTRING) => {
+    i18n.global.locale.value = lang
   }
 
   // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
@@ -46,7 +47,6 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const setCover = (url?: string) => {
     cover.value = url || 'https://cn.bing.com/th?id=OHR.SunbeamsForest_ZH-CN5358008117_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp'
-    applyCover(cover.value)
   }
 
   const setFontSize = (size: string) => {
@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore('settings', () => {
     applyFontSize(size)
   }
 
-  const setLanguage = (lang: string) => {
+  const setLanguage = (lang: LOCALESTRING) => {
     language.value = lang
   }
 
@@ -92,19 +92,20 @@ export const useSettingsStore = defineStore('settings', () => {
 
     // 应用默认设置
     applyTheme(theme.value)
-    applyCover(cover.value)
+    applyLanguage(language.value)
     applyFontSize(fontSize.value)
   }
 
   // 初始化设置
   const initSettings = () => {
     applyTheme(theme.value)
-    applyCover(cover.value)
     applyFontSize(fontSize.value)
+    applyLanguage(language.value)
   }
 
-  // 页面加载时初始化
-  initSettings()
+  watchEffect(() => {
+    initSettings()
+  })
 
   return {
     // 状态

@@ -34,7 +34,7 @@ function handleInput(e: any) {
         }"
         :value="searchQuery"
         autocomplete="off"
-        placeholder="搜索" size="30" type="text" class="input-control" @input="handleInput"
+        :placeholder="$t('search.placeholder')" size="30" type="text" class="input-control" @input="handleInput"
         @click.stop="handleInputFocus"
       >
       <SearchSuggestions />

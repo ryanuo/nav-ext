@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { LOCALESTRING } from '~/locales/i18n'
 import { useSettingsStore } from '~/store/option/settings'
 
 const appVersion = __APP_VERSION__
@@ -26,7 +27,7 @@ const fontSize = computed({
 
 const language = computed({
   get: () => settingsStore.language,
-  set: (value: string) => settingsStore.setLanguage(value),
+  set: (value: LOCALESTRING) => settingsStore.setLanguage(value),
 })
 
 const animation = computed({
