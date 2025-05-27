@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+
 import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
 import type { LOCALESTRING } from '~/locales/i18n'
 import i18n from '~/locales/i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
   // 使用 useWebExtensionStorage 持久化存储
-  const theme = useWebExtensionStorage<string>('theme', 'auto')
-  const cover = useWebExtensionStorage<string>('cover', 'https://wp.upx8.com/api.php')
-  const fontSize = useWebExtensionStorage<string>('fontSize', '16')
-  const language = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
-  const animation = useWebExtensionStorage<boolean>('animation', true)
-  const timezone = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
-  const weatherCity = useWebExtensionStorage<string>('weatherCity', '北京')
-  const showWeather = useWebExtensionStorage<boolean>('showWeather', true)
-  const showTemperature = useWebExtensionStorage<boolean>('showTemperature', true)
+  const { data: theme } = useWebExtensionStorage<string>('theme', 'auto')
+  const { data: cover } = useWebExtensionStorage<string>('cover', 'https://wp.upx8.com/api.php')
+  const { data: fontSize } = useWebExtensionStorage<string>('fontSize', '16')
+  const { data: language } = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
+  const { data: animation } = useWebExtensionStorage<boolean>('animation', true)
+  const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
+  const { data: weatherCity } = useWebExtensionStorage<string>('weatherCity', '北京')
+  const { data: showWeather } = useWebExtensionStorage<boolean>('showWeather', true)
+  const { data: showTemperature } = useWebExtensionStorage<boolean>('showTemperature', true)
 
   // 获取系统默认主题
   const systemTheme = computed(() =>
@@ -37,6 +37,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const applyLanguage = (lang: LOCALESTRING) => {
     i18n.global.locale.value = lang
+    console.warn(`Language set to: ${lang}`)
   }
 
   // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
@@ -96,15 +97,14 @@ export const useSettingsStore = defineStore('settings', () => {
     applyFontSize(fontSize.value)
   }
 
-  // 初始化设置
-  const initSettings = () => {
-    applyTheme(theme.value)
-    applyFontSize(fontSize.value)
-    applyLanguage(language.value)
-  }
-
   watchEffect(() => {
-    initSettings()
+    applyTheme(theme.value)
+  })
+  watchEffect(() => {
+    applyFontSize(fontSize.value)
+  })
+  watchEffect(() => {
+    applyLanguage(language.value)
   })
 
   return {

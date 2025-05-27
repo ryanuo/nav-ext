@@ -4,8 +4,8 @@ import { initEngineData } from '~/constants/engine'
 
 export const useSearchStore = defineStore('search', () => {
   const searchQuery = ref<string>('')
-  const engines = useWebExtensionStorage<Engines[]>('engines', initEngineData)
-  const searchEngine = useWebExtensionStorage<Engines>('searchEngine', engines.value[0])
+  const { data: engines } = useWebExtensionStorage<Engines[]>('engines', initEngineData)
+  const { data: searchEngine } = useWebExtensionStorage<Engines>('searchEngine', engines.value[0])
 
   const setSearchEngine = (engine: Engines) => {
     searchEngine.value = engine

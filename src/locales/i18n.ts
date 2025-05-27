@@ -14,7 +14,7 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false, // 让vue-i18n使用Composition API模式
-  locale: locale.value,
+  locale: locale.data.value,
   fallbackLocale: 'zh-CN',
   messages,
 })
