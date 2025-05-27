@@ -45,8 +45,8 @@ function handleDrop() {
 </script>
 
 <template>
-  <div class="mx-auto p-1 container">
-    <div class="rounded-xl bg-white p-2 shadow-lg">
+  <div class="mx-auto py-1 container">
+    <div class="shadow-xs shadow-xs rounded-xl bg-white py-2">
       <div class="space-y-2">
         <div
           v-for="(engine, index) in engines"

@@ -161,7 +161,7 @@ function tabClass(tabName: string) {
             </div>
 
             <!-- 右侧选项卡内容 -->
-            <div class="max-h-xs flex-[3] overflow-auto p-6">
+            <div class="h-xs max-h-xs flex-[3] overflow-auto p-4">
               <!-- 基础配置 -->
               <div v-show="activeTab === 'base'">
                 <!-- 主题模式 -->
