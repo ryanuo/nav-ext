@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { LOCALESTRING } from '~/locales/i18n'
 import { useSettingsStore } from '~/store/option/settings'
+import { useDateTime } from '~/composables/useDateTime'
 
+type ActiveTab = 'base' | 'city' | 'weather' | 'notification' | 'about' | 'search' | 'preference' | 'timeWeather'
 const appVersion = __APP_VERSION__
 const buildTime = __BUILD_TIME__
 const settingsStore = useSettingsStore()
-const isVisible = ref(false)
-const activeTab = ref('base') // 默认激活基础配置
+const isSettingsButtonVisible = ref(false)
+const activeTab = ref<ActiveTab>('about') // 默认激活基础配置
 const isConfirmVisible = ref(false)
 
 const theme = computed({
@@ -44,6 +46,19 @@ const showWeather = computed({
   get: () => settingsStore.showWeather,
   set: (value: boolean) => settingsStore.setShowWeather(value),
 })
+
+const is24Hour = computed({
+  get: () => settingsStore.is24Hour,
+  set: (value: boolean) => settingsStore.setIs24Hour(value),
+})
+
+// 是否显示秒钟
+const showSeconds = computed({
+  get: () => settingsStore.showSeconds,
+  set: (value: boolean) => settingsStore.setShowSeconds(value),
+})
+
+const { currentDateTime } = useDateTime()
 
 const errors = reactive({
   cover: '',
@@ -99,24 +114,29 @@ function handleLocalCoverUpload(event: Event) {
       fileInputRef.value.value = ''
   }
 }
+
+defineExpose({
+  setIsSettingsButtonVisible: (visible: boolean) => {
+    isSettingsButtonVisible.value = visible
+  },
+})
 </script>
 
 <template>
   <div>
     <!-- 配置按钮 -->
-    <div class="fixed right-4 top-6 cursor-pointer" @click.stop="isVisible = true">
-      <span class="i-tabler-settings h-6 w-6 text-white" />
+    <div class="fixed right-4 top-6 cursor-pointer" @click.stop="isSettingsButtonVisible = true">
+      <span class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180" />
     </div>
-
     <!-- 弹窗内容 -->
     <transition name="modal-content">
-      <div v-show="isVisible" class="fixed inset-0 z-50 flex items-center justify-center">
+      <div v-show="isSettingsButtonVisible" class="fixed inset-0 z-50 flex items-center justify-center">
         <div class="relative max-w-3xl w-full rounded-lg bg-white shadow-2xl" @click.stop>
           <div class="flex items-center justify-between border-b p-6">
             <h2 class="text-xl font-bold">
               设置
             </h2>
-            <button @click="isVisible = false">
+            <button @click="isSettingsButtonVisible = false">
               <span class="i-ion-close h-5 w-5 text-gray-500 hover:text-gray-700" />
             </button>
           </div>
@@ -237,48 +257,67 @@ function handleLocalCoverUpload(event: Event) {
                 </div>
                 <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">动画效果</label>
-                  <div class="mt-2 flex items-center">
-                    <Toggle v-model="animation" label="启用动画效果" />
+                  <div class="mt-2 flex items-center justify-between">
+                    <span class="text-gray-700">启用动画效果（首次打开时白屏）</span>
+                    <Toggle v-model="animation" label="" />
                   </div>
                 </div>
               </div>
 
               <!-- 时间与天气 -->
               <div v-show="activeTab === 'timeWeather'">
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">时区</label>
-                  <select
-                    v-model="timezone"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  >
-                    <option value="Asia/Shanghai">
-                      北京时间（UTC+8）
-                    </option>
-                    <option value="America/New_York">
-                      纽约时间（UTC-5）
-                    </option>
-                    <option value="Europe/London">
-                      伦敦时间（UTC±0）
-                    </option>
-                    <option value="Asia/Tokyo">
-                      东京时间（UTC+9）
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">天气显示</label>
-                  <div class="mt-2 space-y-2">
-                    <div class="flex items-center">
-                      <Toggle v-model="showWeather" label="" />
-                    </div>
-                  </div>
-                </div>
-                <div v-if="showWeather" class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">天气城市</label>
-                  <CityCascader
-                    v-model="weatherCity"
-                  />
-                </div>
+                <GroupContainer>
+                  <template #label>
+                    时间
+                  </template>
+                  <ItemContainer>
+                    <span class="text-gray-700">当前时间：{{ currentDateTime }}</span>
+                    <span class="text-gray-700">时区-{{ timezone }}</span>
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">时区设置</span>
+                    <select
+                      v-model="timezone"
+                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    >
+                      <option value="Asia/Shanghai">
+                        北京时间（UTC+8）
+                      </option>
+                      <option value="America/New_York">
+                        纽约时间（UTC-5）
+                      </option>
+                      <option value="Europe/London">
+                        伦敦时间（UTC±0）
+                      </option>
+                      <option value="Asia/Tokyo">
+                        东京时间（UTC+9）
+                      </option>
+                    </select>
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">是否24小时制</span>
+                    <Toggle v-model="is24Hour" label="" />
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">是否显示秒钟</span>
+                    <Toggle v-model="showSeconds" label="" />
+                  </ItemContainer>
+                </GroupContainer>
+                <GroupContainer>
+                  <template #label>
+                    天气
+                  </template>
+                  <ItemContainer>
+                    <span class="text-gray-700">显示天气</span>
+                    <Toggle v-model="showWeather" label="" />
+                  </ItemContainer>
+                  <ItemContainer v-if="showWeather">
+                    <span class="text-gray-700">所在城市</span>
+                    <CityCascader
+                      v-model="weatherCity"
+                    />
+                  </ItemContainer>
+                </GroupContainer>
               </div>
 
               <!-- 关于页面 -->
@@ -321,7 +360,7 @@ function handleLocalCoverUpload(event: Event) {
             <button
               type="button"
               class="border border-transparent rounded-md bg-blue-600 px-4 py-2 text-sm text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              @click="isVisible = false"
+              @click="isSettingsButtonVisible = false"
             >
               关闭
             </button>

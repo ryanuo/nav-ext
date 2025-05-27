@@ -11,7 +11,7 @@ const { searchQuery } = storeToRefs(searchStore)
 const { setSearchQuery, submit } = searchStore
 
 function handleInputFocus() {
-  markStore.setClickInput(true)
+  markStore.setInputActive(true)
 
   if (searchEngineRef.value?.isShowEngine) {
     searchEngineRef.value.setIsShowEngine(false)
@@ -60,12 +60,12 @@ onUnmounted(() => {
 <template>
   <Wrapper>
     <DateWeather />
-    <div v-if="!markStore.isShowNavs" class="form-control">
+    <div v-if="!markStore.isShowConsoleEnabled" class="form-control">
       <input
         id="search"
         :class="{
-          'input-focus': markStore.isClickInput,
-          'hover:bg-gray-100/50': !markStore.isClickInput,
+          'input-focus': markStore.isInputActive,
+          'hover:bg-gray-100/50': !markStore.isInputActive,
         }"
         :value="searchQuery"
         autocomplete="off"
@@ -73,7 +73,7 @@ onUnmounted(() => {
         @click.stop="handleInputFocus"
       >
       <SearchSuggestions />
-      <template v-if="markStore.isClickInput">
+      <template v-if="markStore.isInputActive">
         <button
           type="button" class="btn btn-toggle"
           @click.stop

@@ -1,21 +1,21 @@
 import { defineStore } from 'pinia'
 
 import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { coverRandomUrl, coverUrl, initCity } from '~/constants/settings'
 import type { LOCALESTRING } from '~/locales/i18n'
 import i18n from '~/locales/i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
   // 使用 useWebExtensionStorage 持久化存储
   const { data: theme } = useWebExtensionStorage<string>('theme', 'auto')
-  const { data: cover } = useWebExtensionStorage<string>('cover', 'https://wp.upx8.com/api.php')
+  const { data: cover } = useWebExtensionStorage<string>('cover', coverRandomUrl)
   const { data: language } = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
   const { data: animation } = useWebExtensionStorage<boolean>('animation', true)
   const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
-  const { data: weatherCity } = useWebExtensionStorage<WeatherCity>('weatherCity', {
-    province: { id: 1, name: '北京', pinyin: 'beijing' },
-    city: { id: 2, name: '北京', pinyin: 'beijing' },
-    area: { id: 3, name: '东城区', pinyin: 'dongcheng' },
-  })
+  // 是否24小时制
+  const { data: is24Hour } = useWebExtensionStorage<boolean>('is24Hour', true)
+  const { data: showSeconds } = useWebExtensionStorage<boolean>('showSeconds', false)
+  const { data: weatherCity } = useWebExtensionStorage<WeatherCity>('weatherCity', initCity)
   const { data: showWeather } = useWebExtensionStorage<boolean>('showWeather', false)
 
   // 获取系统默认主题
@@ -37,6 +37,13 @@ export const useSettingsStore = defineStore('settings', () => {
     console.warn(`Language set to: ${lang}`)
   }
 
+  const setIs24Hour = (is24: boolean) => {
+    is24Hour.value = is24
+  }
+  // 设置是否显示秒钟
+  const setShowSeconds = (sec: boolean) => {
+    showSeconds.value = sec
+  }
   // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
   const setTheme = (newTheme: string) => {
     theme.value = newTheme
@@ -44,7 +51,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   const setCover = (url?: string) => {
-    cover.value = url || 'https://cdn-hsyq-static.shanhutech.cn/bizhi/staticwp/202411/b4af5612081edcb4355db06d1cee02b8--2155877157.jpg'
+    cover.value = url || coverUrl
   }
 
   const setLanguage = (lang: LOCALESTRING) => {
@@ -70,16 +77,14 @@ export const useSettingsStore = defineStore('settings', () => {
   const resetAll = () => {
   // 重置所有设置为默认值
     theme.value = 'auto'
-    cover.value = 'https://wp.upx8.com/api.php'
+    cover.value = coverRandomUrl
     language.value = 'zh-CN'
     animation.value = true
     timezone.value = 'Asia/Shanghai'
-    weatherCity.value = {
-      province: { id: 1, name: '北京', pinyin: 'beijing' },
-      city: { id: 2, name: '北京', pinyin: 'beijing' },
-      area: { id: 3, name: '东城区', pinyin: 'dongcheng' },
-    }
+    weatherCity.value = initCity
     showWeather.value = true
+    is24Hour.value = true
+    showSeconds.value = false
 
     // 应用默认设置
     applyTheme(theme.value)
@@ -97,6 +102,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return {
   // 状态
+    is24Hour,
     theme,
     cover,
     language,
@@ -104,8 +110,10 @@ export const useSettingsStore = defineStore('settings', () => {
     timezone,
     weatherCity,
     showWeather,
+    showSeconds,
 
     // 动作
+    setIs24Hour,
     setTheme,
     setCover,
     setLanguage,
@@ -114,5 +122,6 @@ export const useSettingsStore = defineStore('settings', () => {
     setWeatherCity,
     setShowWeather,
     resetAll,
+    setShowSeconds,
   }
 })

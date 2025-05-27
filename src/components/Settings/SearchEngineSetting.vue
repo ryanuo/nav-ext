@@ -65,7 +65,7 @@ function handleDrop() {
               <div class="cursor-grab text-gray-500">
                 <IconRenderer :icon="engine.icon" :icon-url="engine.iconUrl" />
               </div>
-              <div class="text-lg font-medium">
+              <div class="text-base font-medium">
                 {{ engine.name }}
               </div>
             </div>

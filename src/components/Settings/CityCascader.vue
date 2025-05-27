@@ -153,7 +153,7 @@ watch(() => props.modelValue, (newVal) => {
 </script>
 
 <template>
-  <div class="city-cascader relative mt-2">
+  <div class="city-cascader relative mt-2 w-70">
     <div
       class="flex cursor-pointer items-center justify-between border border-gray-300 rounded-lg bg-white px-4 py-2"
       :class="{ 'border-blue-500 ring-2 ring-blue-100': panelVisible }"

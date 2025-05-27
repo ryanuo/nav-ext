@@ -2,41 +2,41 @@ import { defineStore } from 'pinia'
 import { useSearchStore } from '~/store/option/search'
 
 export const useMarkStore = defineStore('showElement', () => {
-  const isMark = ref<boolean>(false)
-  const isClickInput = ref<boolean>(false)
-  const isShowNavs = ref<boolean>(false)
+  const maskLayerEnabled = ref<boolean>(false)
+  const isInputActive = ref<boolean>(false)
+  const isShowConsoleEnabled = ref<boolean>(false)
   const { setSearchQuery } = useSearchStore()
 
-  const setMark = (value: boolean) => {
-    isMark.value = value
+  const setMaskLayerEnabled = (value: boolean) => {
+    maskLayerEnabled.value = value
   }
 
-  const setClickInput = (value: boolean) => {
-    isMark.value = value
-    isClickInput.value = value
-    isShowNavs.value = !value
+  const setInputActive = (value: boolean) => {
+    maskLayerEnabled.value = value
+    isInputActive.value = value
+    isShowConsoleEnabled.value = !value
   }
 
-  const setShowNavs = (value: boolean) => {
-    isShowNavs.value = value
-    isClickInput.value = !value
-    isMark.value = value
+  const setShowConsoleEnabled = (value: boolean) => {
+    isShowConsoleEnabled.value = value
+    isInputActive.value = !value
+    maskLayerEnabled.value = value
   }
 
   const initStatus = () => {
-    isMark.value = false
-    isClickInput.value = false
-    isShowNavs.value = false
+    maskLayerEnabled.value = false
+    isInputActive.value = false
+    isShowConsoleEnabled.value = false
     setSearchQuery('')
   }
 
   return {
-    isMark,
-    isClickInput,
-    isShowNavs,
-    setMark,
-    setShowNavs,
-    setClickInput,
+    maskLayerEnabled,
+    isInputActive,
+    isShowConsoleEnabled,
+    setMaskLayerEnabled,
+    setShowConsoleEnabled,
+    setInputActive,
     initStatus,
   }
 })

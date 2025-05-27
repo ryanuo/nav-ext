@@ -25,7 +25,7 @@ defineExpose({
 })
 
 function onAltPress(event: KeyboardEvent, key: number) {
-  if (!markStore.isClickInput)
+  if (!markStore.isInputActive)
     return
 
   event.preventDefault()
