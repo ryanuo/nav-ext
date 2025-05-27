@@ -142,7 +142,7 @@ defineExpose({
     <transition name="modal-content">
       <div v-show="isSettingsButtonVisible" class="fixed inset-0 z-50 flex items-center justify-center">
         <div class="relative max-w-3xl w-full rounded-lg bg-white shadow-2xl" @click.stop>
-          <div class="flex items-center justify-between border-b p-6">
+          <div class="flex items-center justify-between border-b p-4">
             <h2 class="text-xl font-bold">
               设置
             </h2>
@@ -374,17 +374,17 @@ defineExpose({
           </div>
 
           <!-- 底部按钮 -->
-          <div class="flex justify-end border-t p-6">
+          <div class="flex justify-end border-t p-4">
             <button
               type="button"
-              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-2 py-1 text-sm text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               @click="resetSettings"
             >
               重置
             </button>
             <button
               type="button"
-              class="border border-transparent rounded-md bg-blue-600 px-4 py-2 text-sm text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="border border-transparent rounded-md bg-blue-600 px-2 py-1 text-sm text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               @click="isSettingsButtonVisible = false"
             >
               关闭
