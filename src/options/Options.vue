@@ -3,13 +3,14 @@ import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
+import { useSettingsStore } from '~/store/option/settings'
 
 const markStore = useMarkStore()
 const searchEngineRef = ref<{ isShowEngine: Ref<boolean>, setIsShowEngine: (isShow: boolean) => void }>()
 const searchStore = useSearchStore()
 const { searchQuery } = storeToRefs(searchStore)
 const { setSearchQuery, submit } = searchStore
-
+const settingsStore = useSettingsStore()
 function handleInputFocus() {
   markStore.setInputActive(true)
 
@@ -49,6 +50,12 @@ onMounted(() => {
   hotkeys.filter = () => true
   hotkeys('enter', onEnterPress)
   hotkeys('esc', onEscapePress)
+
+  setTimeout(() => {
+    if (settingsStore.isAutoFocusSearchBoxOnPageLoad) {
+      handleInputFocus()
+    }
+  })
 })
 
 onUnmounted(() => {
@@ -69,10 +76,11 @@ onUnmounted(() => {
         }"
         :value="searchQuery"
         autocomplete="off"
-        :placeholder="$t('search.placeholder')" size="30" type="text" class="input-control" @input="handleInput"
+        :placeholder="$t('search.placeholder')" size="30" type="text" class="input-control"
+        @input="handleInput"
         @click.stop="handleInputFocus"
       >
-      <SearchSuggestions />
+      <SearchSuggestions v-if="settingsStore.searchSuggestionEnabled" />
       <template v-if="markStore.isInputActive">
         <button
           type="button" class="btn btn-toggle"

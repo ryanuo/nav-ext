@@ -11,12 +11,16 @@ export const useSettingsStore = defineStore('settings', () => {
   const { data: cover } = useWebExtensionStorage<string>('cover', coverRandomUrl)
   const { data: language } = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
   const { data: animation } = useWebExtensionStorage<boolean>('animation', true)
+  // 时间配置
   const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
-  // 是否24小时制
   const { data: is24Hour } = useWebExtensionStorage<boolean>('is24Hour', true)
   const { data: showSeconds } = useWebExtensionStorage<boolean>('showSeconds', false)
+  // 天气配置
   const { data: weatherCity } = useWebExtensionStorage<WeatherCity>('weatherCity', initCity)
   const { data: showWeather } = useWebExtensionStorage<boolean>('showWeather', false)
+  // 偏好设置
+  const { data: searchSuggestionEnabled } = useWebExtensionStorage<boolean>('searchSuggestionEnabled', true)
+  const { data: isAutoFocusSearchBoxOnPageLoad } = useWebExtensionStorage<boolean>('isAutoFocusSearchBoxOnPageLoad', false)
 
   // 获取系统默认主题
   const systemTheme = computed(() =>
@@ -44,6 +48,11 @@ export const useSettingsStore = defineStore('settings', () => {
   const setShowSeconds = (sec: boolean) => {
     showSeconds.value = sec
   }
+
+  const setTimezone = (tz: string) => {
+    timezone.value = tz
+  }
+
   // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
   const setTheme = (newTheme: string) => {
     theme.value = newTheme
@@ -62,16 +71,20 @@ export const useSettingsStore = defineStore('settings', () => {
     animation.value = enabled
   }
 
-  const setTimezone = (tz: string) => {
-    timezone.value = tz
-  }
-
   const setWeatherCity = (city: WeatherCity) => {
     weatherCity.value = city
   }
 
   const setShowWeather = (show: boolean) => {
     showWeather.value = show
+  }
+
+  // 偏好设置
+  const setSearchSuggestionEnabled = (enabled: boolean) => {
+    searchSuggestionEnabled.value = enabled
+  }
+  const setIsAutoFocusSearchBoxOnPageLoad = (enabled: boolean) => {
+    isAutoFocusSearchBoxOnPageLoad.value = enabled
   }
 
   const resetAll = () => {
@@ -85,6 +98,9 @@ export const useSettingsStore = defineStore('settings', () => {
     showWeather.value = true
     is24Hour.value = true
     showSeconds.value = false
+    // 偏好设置
+    searchSuggestionEnabled.value = true
+    isAutoFocusSearchBoxOnPageLoad.value = false
 
     // 应用默认设置
     applyTheme(theme.value)
@@ -93,8 +109,6 @@ export const useSettingsStore = defineStore('settings', () => {
 
   watchEffect(() => {
     applyTheme(theme.value)
-  })
-  watchEffect(() => {
   })
   watchEffect(() => {
     applyLanguage(language.value)
@@ -111,6 +125,8 @@ export const useSettingsStore = defineStore('settings', () => {
     weatherCity,
     showWeather,
     showSeconds,
+    searchSuggestionEnabled,
+    isAutoFocusSearchBoxOnPageLoad,
 
     // 动作
     setIs24Hour,
@@ -123,5 +139,7 @@ export const useSettingsStore = defineStore('settings', () => {
     setShowWeather,
     resetAll,
     setShowSeconds,
+    setSearchSuggestionEnabled,
+    setIsAutoFocusSearchBoxOnPageLoad,
   }
 })

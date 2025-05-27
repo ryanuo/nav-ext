@@ -58,6 +58,16 @@ const showSeconds = computed({
   set: (value: boolean) => settingsStore.setShowSeconds(value),
 })
 
+const searchSuggestionEnabled = computed({
+  get: () => settingsStore.searchSuggestionEnabled,
+  set: (value: boolean) => settingsStore.setSearchSuggestionEnabled(value),
+})
+
+const isAutoFocusSearchBoxOnPageLoad = computed({
+  get: () => settingsStore.isAutoFocusSearchBoxOnPageLoad,
+  set: (value: boolean) => settingsStore.setIsAutoFocusSearchBoxOnPageLoad(value),
+})
+
 const { currentDateTime } = useDateTime()
 
 const errors = reactive({
@@ -241,27 +251,42 @@ defineExpose({
 
               <!-- 个性化偏好 -->
               <div v-show="activeTab === 'preference'">
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">界面语言</label>
-                  <select
-                    v-model="language"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  >
-                    <option value="zh-CN">
-                      中文（简体）
-                    </option>
-                    <option value="en-US">
-                      English
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">动画效果</label>
-                  <div class="mt-2 flex items-center justify-between">
+                <GroupContainer>
+                  <template #label>
+                    偏好设置
+                  </template>
+                  <ItemContainer>
+                    <span class="text-gray-700">界面语言</span>
+                    <select
+                      v-model="language"
+                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    >
+                      <option value="zh-CN">
+                        中文（简体）
+                      </option>
+                      <option value="en-US">
+                        English
+                      </option>
+                    </select>
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">启用搜索建议</span>
+                    <Toggle v-model="searchSuggestionEnabled" label="" />
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">进入页面是否自动聚焦搜索框</span>
+                    <Toggle v-model="isAutoFocusSearchBoxOnPageLoad" label="" />
+                  </ItemContainer>
+                </GroupContainer>
+                <GroupContainer>
+                  <template #label>
+                    <span class="text-gray-700">动画效果</span>
+                  </template>
+                  <ItemContainer>
                     <span class="text-gray-700">启用动画效果（首次打开时白屏）</span>
                     <Toggle v-model="animation" label="" />
-                  </div>
-                </div>
+                  </ItemContainer>
+                </GroupContainer>
               </div>
 
               <!-- 时间与天气 -->
