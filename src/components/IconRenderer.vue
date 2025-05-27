@@ -28,6 +28,7 @@ const iconClass = computed(() => {
     :src="iconUrl"
     alt=""
     class="h-4 w-4"
+    :class="[styleClass]"
   />
   <component
     :is="iconType"

@@ -22,24 +22,38 @@ function handleInput(e: any) {
   setSearchQuery(e.target.value)
 }
 
-onMounted(() => {
-  hotkeys('enter', () => {
-  // 检查当前是否有元素获得焦点，并且该元素是否是 #search
-    const activeElement = document.activeElement
-    if (activeElement && activeElement.id !== 'search') {
-      handleInputFocus()
+function onEnterPress() {
+  const activeElement = document.activeElement
+  const searchInput = document.getElementById('search')
 
-      const searchInput = document.getElementById('search')
-      if (searchInput) {
+  if (activeElement && activeElement.id !== 'search') {
+    handleInputFocus()
+
+    if (searchInput) {
+      setTimeout(() => {
         searchInput.focus()
-      }
+      }, 0)
     }
-  })
+  }
+}
+
+function onEscapePress() {
+  markStore.initStatus()
+  const searchInput = document.getElementById('search')
+  if (searchInput) {
+    searchInput.blur()
+  }
+}
+
+onMounted(() => {
+  hotkeys.filter = () => true
+  hotkeys('enter', onEnterPress)
+  hotkeys('esc', onEscapePress)
 })
 
 onUnmounted(() => {
-  // 清理 hotkeys
-  hotkeys.unbind('enter')
+  hotkeys.unbind('enter', onEnterPress)
+  hotkeys.unbind('esc', onEscapePress)
 })
 </script>
 

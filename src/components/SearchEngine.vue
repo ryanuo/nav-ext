@@ -24,30 +24,35 @@ defineExpose({
   },
 })
 
-onMounted(() => {
-  hotkeys.filter = (event) => {
-    return !!(event.target as HTMLElement).closest('#search')
-  }
+function onAltPress(event: KeyboardEvent, key: number) {
+  if (!markStore.isClickInput)
+    return
 
+  event.preventDefault()
+
+  const selectedEngine = engines.value[key - 1]
+  handleSelectEngine(selectedEngine)
+}
+
+onMounted(() => {
   // 动态生成 Alt+1 到 Alt+n 的快捷键
   engines.value.forEach((_, index) => {
     const key = index + 1
     const shortcut = `alt+${key}, option+${key}` // 同时支持 Alt 和 Option 键
     hotkeys(shortcut, (event) => {
-      if (!markStore.isClickInput)
-        return
-
-      event.preventDefault()
-
-      const selectedEngine = engines.value[key - 1]
-      handleSelectEngine(selectedEngine)
+      onAltPress(event, key)
     })
   })
 })
 
 // 卸载时移除快捷键
 onUnmounted(() => {
-  hotkeys.unbind()
+  // 仅移除当前组件绑定的快捷键
+  engines.value.forEach((_, index) => {
+    hotkeys.unbind(`alt+${index + 1}, option+${index + 1}`, (event) => {
+      onAltPress(event, index + 1)
+    })
+  })
 })
 </script>
 

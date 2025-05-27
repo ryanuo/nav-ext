@@ -8,7 +8,6 @@ export const useSettingsStore = defineStore('settings', () => {
   // 使用 useWebExtensionStorage 持久化存储
   const { data: theme } = useWebExtensionStorage<string>('theme', 'auto')
   const { data: cover } = useWebExtensionStorage<string>('cover', 'https://wp.upx8.com/api.php')
-  const { data: fontSize } = useWebExtensionStorage<string>('fontSize', '16')
   const { data: language } = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
   const { data: animation } = useWebExtensionStorage<boolean>('animation', true)
   const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
@@ -30,11 +29,6 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
-  // 应用字体大小变更
-  const applyFontSize = (size: string) => {
-    document.documentElement.style.fontSize = `${size}px`
-  }
-
   const applyLanguage = (lang: LOCALESTRING) => {
     i18n.global.locale.value = lang
     console.warn(`Language set to: ${lang}`)
@@ -47,12 +41,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   const setCover = (url?: string) => {
-    cover.value = url || 'https://cn.bing.com/th?id=OHR.SunbeamsForest_ZH-CN5358008117_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp'
-  }
-
-  const setFontSize = (size: string) => {
-    fontSize.value = size
-    applyFontSize(size)
+    cover.value = url || 'https://cdn-hsyq-static.shanhutech.cn/bizhi/staticwp/202405/e7aa9e7dc0a1a3f9877967c316eaf909--1163747198.jpg'
   }
 
   const setLanguage = (lang: LOCALESTRING) => {
@@ -83,7 +72,6 @@ export const useSettingsStore = defineStore('settings', () => {
     // 重置所有设置为默认值
     theme.value = 'auto'
     cover.value = 'https://wp.upx8.com/api.php'
-    fontSize.value = '16'
     language.value = 'zh-CN'
     animation.value = true
     timezone.value = 'Asia/Shanghai'
@@ -94,14 +82,12 @@ export const useSettingsStore = defineStore('settings', () => {
     // 应用默认设置
     applyTheme(theme.value)
     applyLanguage(language.value)
-    applyFontSize(fontSize.value)
   }
 
   watchEffect(() => {
     applyTheme(theme.value)
   })
   watchEffect(() => {
-    applyFontSize(fontSize.value)
   })
   watchEffect(() => {
     applyLanguage(language.value)
@@ -111,7 +97,6 @@ export const useSettingsStore = defineStore('settings', () => {
     // 状态
     theme,
     cover,
-    fontSize,
     language,
     animation,
     timezone,
@@ -122,7 +107,6 @@ export const useSettingsStore = defineStore('settings', () => {
     // 动作
     setTheme,
     setCover,
-    setFontSize,
     setLanguage,
     setAnimation,
     setTimezone,

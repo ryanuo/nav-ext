@@ -124,40 +124,39 @@ watch(() => searchQuery.value, () => {
   resetIndex()
 })
 
-onMounted(() => {
+function updateHoveredIndex(delta: number) {
   const getLength = () => filteredSuggestions.value.length
+  const length = getLength()
+  if (length === 0)
+    return
 
-  const updateHoveredIndex = (delta: number) => {
-    const length = getLength()
-    if (length === 0)
-      return
+  hoveredIndex.value = ((hoveredIndex.value + delta) + length) % length
+}
 
-    hoveredIndex.value = ((hoveredIndex.value + delta) + length) % length
+function onEnterPress(event: KeyboardEvent) {
+  if (hoveredIndex.value >= 0) {
+    submit(suggestions.value[hoveredIndex.value])
   }
+  else {
+    submit()
+  }
+  event.preventDefault()
+}
 
-  hotkeys('enter', (event) => {
-    if (hoveredIndex.value >= 0) {
-      submit(suggestions.value[hoveredIndex.value])
-    }
-    else {
-      submit()
-    }
-    event.preventDefault()
-  })
+onMounted(() => {
+  hotkeys('enter', onEnterPress)
 
-  hotkeys('up', (event) => {
+  hotkeys('up', () => {
     updateHoveredIndex(-1)
-    event.preventDefault()
   })
 
-  hotkeys('down', (event) => {
+  hotkeys('down', () => {
     updateHoveredIndex(1)
-    event.preventDefault()
   })
 })
 
 onUnmounted (() => {
-  hotkeys.unbind('enter')
+  hotkeys.unbind('enter', onEnterPress)
   hotkeys.unbind('up')
   hotkeys.unbind('down')
 })

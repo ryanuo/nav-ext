@@ -13,14 +13,11 @@ function clickTranslate() {
 }
 
 onMounted(() => {
-  hotkeys('option+enter', (event) => {
-    clickTranslate()
-    event.preventDefault()
-  })
+  hotkeys('option+enter', clickTranslate)
 })
 
 onUnmounted(() => {
-  hotkeys.unbind('option+enter')
+  hotkeys.unbind('option+enter', clickTranslate)
 })
 </script>
 

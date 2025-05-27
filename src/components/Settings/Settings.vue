@@ -19,12 +19,6 @@ const cover = computed({
   set: (value: string) => settingsStore.setCover(value),
 })
 
-// 个性化偏好
-const fontSize = computed({
-  get: () => settingsStore.fontSize,
-  set: (value: string) => settingsStore.setFontSize(value),
-})
-
 const language = computed({
   get: () => settingsStore.language,
   set: (value: LOCALESTRING) => settingsStore.setLanguage(value),
@@ -218,27 +212,13 @@ function tabClass(tabName: string) {
               <!-- 个性化偏好 -->
               <div v-show="activeTab === 'preference'">
                 <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">字体大小</label>
-                  <select v-model="fontSize" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                    <option value="14">
-                      小（14px）
-                    </option>
-                    <option value="16">
-                      中（16px）
-                    </option>
-                    <option value="18">
-                      大（18px）
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-4">
                   <label class="block text-sm text-gray-700 font-medium">界面语言</label>
                   <select v-model="language" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                     <option value="zh-CN">
                       中文（简体）
                     </option>
                     <option value="en-US">
-                      英文
+                      English
                     </option>
                   </select>
                 </div>
