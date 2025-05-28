@@ -47,7 +47,7 @@ body,
   --main-card-background: rgba(255, 255, 255, 0.1);
 }
 
-// 适配extension
+/* 适配extension */
 body {
   font-size: 75%;
 }
