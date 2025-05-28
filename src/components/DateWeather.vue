@@ -6,7 +6,7 @@ import { useDateTime } from '~/composables/useDateTime'
 
 const settingsStore = useSettingsStore()
 
-const { currentDateTime } = useDateTime()
+const { currentDateTime, currentDateWeek } = useDateTime()
 
 const isZh = useI18n().locale.value === 'zh-CN'
 
@@ -26,6 +26,12 @@ const weatherIframeSrc = computed(() => {
   <div class="time">
     <p class="text-[4em] text-white" @click.stop="handleDateFocus">
       {{ currentDateTime }}
+    </p>
+    <p
+      v-if="settingsStore.showDateWeek"
+      class="text-[1.2em] text-white"
+    >
+      {{ currentDateWeek }}
     </p>
     <iframe
       v-if="settingsStore.showWeather"

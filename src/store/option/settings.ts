@@ -15,6 +15,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
   const { data: is24Hour } = useWebExtensionStorage<boolean>('is24Hour', true)
   const { data: showSeconds } = useWebExtensionStorage<boolean>('showSeconds', false)
+  const { data: showDateWeek } = useWebExtensionStorage<boolean>('showDateWeek', false)
   // 天气配置
   const { data: weatherCity } = useWebExtensionStorage<WeatherCity>('weatherCity', initCity)
   const { data: showWeather } = useWebExtensionStorage<boolean>('showWeather', false)
@@ -53,6 +54,10 @@ export const useSettingsStore = defineStore('settings', () => {
     timezone.value = tz
   }
 
+  const setShowDateWeek = (show: boolean) => {
+    showDateWeek.value = show
+  }
+
   // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
   const setTheme = (newTheme: string) => {
     theme.value = newTheme
@@ -88,16 +93,19 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   const resetAll = () => {
-  // 重置所有设置为默认值
+    // 重置所有设置为默认值
     theme.value = 'auto'
     cover.value = coverRandomUrl
     language.value = 'zh-CN'
     animation.value = true
+    // 时区设置
     timezone.value = 'Asia/Shanghai'
-    weatherCity.value = initCity
-    showWeather.value = true
     is24Hour.value = true
     showSeconds.value = false
+    showDateWeek.value = false
+    // 天气设置
+    showWeather.value = true
+    weatherCity.value = initCity
     // 偏好设置
     searchSuggestionEnabled.value = true
     isAutoFocusSearchBoxOnPageLoad.value = false
@@ -115,31 +123,33 @@ export const useSettingsStore = defineStore('settings', () => {
   })
 
   return {
-  // 状态
-    is24Hour,
+    // 状态
     theme,
     cover,
     language,
     animation,
+    is24Hour,
+    showSeconds,
     timezone,
+    showDateWeek,
     weatherCity,
     showWeather,
-    showSeconds,
     searchSuggestionEnabled,
     isAutoFocusSearchBoxOnPageLoad,
 
     // 动作
-    setIs24Hour,
     setTheme,
     setCover,
     setLanguage,
     setAnimation,
+    setIs24Hour,
     setTimezone,
+    setShowSeconds,
+    setShowDateWeek,
     setWeatherCity,
     setShowWeather,
-    resetAll,
-    setShowSeconds,
     setSearchSuggestionEnabled,
     setIsAutoFocusSearchBoxOnPageLoad,
+    resetAll,
   }
 })

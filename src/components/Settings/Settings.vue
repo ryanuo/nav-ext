@@ -57,6 +57,10 @@ const showSeconds = computed({
   get: () => settingsStore.showSeconds,
   set: (value: boolean) => settingsStore.setShowSeconds(value),
 })
+const showDateWeek = computed({
+  get: () => settingsStore.showDateWeek,
+  set: (value: boolean) => settingsStore.setShowDateWeek(value),
+})
 
 const searchSuggestionEnabled = computed({
   get: () => settingsStore.searchSuggestionEnabled,
@@ -327,6 +331,10 @@ defineExpose({
                     <span class="text-gray-700">是否显示秒钟</span>
                     <Toggle v-model="showSeconds" label="" />
                   </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">是否显示日期/星期</span>
+                    <Toggle v-model="showDateWeek" label="" />
+                  </ItemContainer>
                 </GroupContainer>
                 <GroupContainer>
                   <template #label>
@@ -353,19 +361,32 @@ defineExpose({
                   </h3>
                   <p>当前版本：{{ appVersion }}</p>
                   <p>更新日期：{{ buildTime }}</p>
+                  <p>问题反馈：<a href="https://github.com/ryanuo/tab-ext/issues" target="_blank">issues</a></p>
                   <p class="mt-4">
-                    版权所有 ©2025 <a href="https://ryanuo.cc" target="_blank" class="text-blue-600 hover:underline">ryanuo</a>
+                    版权所有 ©2025 <a href="https://ryanuo.cc" target="_blank">ryanuo</a>
                   </p>
-                  <p class="mt-2">
-                    技术支持：<a href="mailto:hi@ryanuo.cc" class="text-blue-600 hover:underline">hi@ryanuo.cc</a>
+                  <p class="mt-1">
+                    技术支持：<a href="mailto:hi@ryanuo.cc">hi@ryanuo.cc</a>
                   </p>
 
-                  <div class="mt-6">
-                    <h4 class="mb-2 text-base font-semibold">
+                  <div class="mt-4">
+                    <h4 class="my-2 text-base font-semibold">
+                      开源声明
+                    </h4>
+                    <p class="text-xs text-gray-600">
+                      本应用遵循开源协议 <a href="https://github.com/ryanuo/tab-ext/blob/main/LICENSE" target="_blank">MIT</a>，代码完全公开，欢迎广大开发者参与共建、学习与技术交流。
+                    </p>
+                    <h4 class="my-2 text-base font-semibold">
                       使用条款
                     </h4>
-                    <p class="text-sm text-gray-600">
-                      本应用开源，仅仅用于个人学习，请勿用于商业用途。
+                    <p class="text-xs text-gray-600">
+                      本应用仅供个人用户用于技术学习、编程练习或学术研究场景。建议使用者通过阅读代码逻辑、调试功能模块、参与开源社区讨论等方式，深入理解软件开发的设计思想与实现原理。
+                    </p>
+                    <p class="text-xs text-gray-600">
+                      严禁将本应用的代码、功能、界面或衍生内容直接或间接用于任何商业场景，包括但不限于：
+                      二次开发后作为付费软件 / 服务发布；
+                      集成至企业业务系统中获取商业利益；
+                      通过应用内容引流、广告变现或衍生其他盈利行为。
                     </p>
                   </div>
                 </div>
@@ -443,5 +464,9 @@ defineExpose({
 input,
 select {
   @apply h-8 p-1;
+}
+
+a {
+  @apply text-blue-600 hover:underline;
 }
 </style>

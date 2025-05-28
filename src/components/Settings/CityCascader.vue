@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed, defineEmits, defineProps, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { GC, GP, GT } from '~/constants/provinceData'
 
 interface Region {
