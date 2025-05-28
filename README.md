@@ -10,14 +10,13 @@
 
 ## ✨ 功能特性
 
+- 快捷翻译（谷歌，必应，百度等等）
 - 多主题模式（浅色/深色/自动）
 - 自定义壁纸（支持 URL、本地图片、Base64）
 - 搜索引擎切换与自定义
-- 快捷翻译
 - 个性化偏好设置（语言、动画等）
 - 时间与天气显示（支持多时区、城市选择）
-- 响应式布局，适配多终端
-- 支持在线地址使用[这里](https://tab.ryanuo.cc/)
+- 支持在线地址使用 [这里](https://tab.ryanuo.cc/)
 
 ## 🚀 快速开始
 
@@ -60,8 +59,8 @@ yarn build
 
 ### 5. 加载扩展
 
-1. 构建后，进入 `extension/dist` 目录。
-2. 打开浏览器扩展管理页面，选择“加载已解压的扩展”，选择 `dist` 文件夹即可。
+1. 构建后，进入 `extension` 目录。
+2. 打开浏览器扩展管理页面，选择“加载已解压的扩展”，选择 `extension` 文件夹即可。
 
 ## 📝 使用说明
 
@@ -69,15 +68,6 @@ yarn build
 - 支持壁纸 URL、本地图片上传、Base64 图片等多种方式。
 - 搜索栏支持多引擎切换，支持自定义添加。
 - 时间与天气可根据需求开启/关闭，并选择时区和城市。
-
-## 🛠️ 技术栈
-
-- [Vue 3](https://vuejs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Pinia](https://pinia.vuejs.org/)
-- [Vite](https://vitejs.dev/)
-- [UnoCSS](https://uno.antfu.me/)
-- [Iconify](https://iconify.design/)
 
 ## 🤝 贡献指南
 
@@ -90,9 +80,9 @@ yarn build
 
 ## 📚 参考
 
-- [snav](https://github.com/imsyy/SNav)
-- [青柠](https://www.limestart.cn/)
-- [CSDN助手](https://plugin.csdn.net/)
+- [SNAV](https://github.com/imsyy/SNav)
+- [limestart](https://www.limestart.cn/)
+- [csdn](https://plugin.csdn.net/)
 
 ## ❓ 常见问题
 
