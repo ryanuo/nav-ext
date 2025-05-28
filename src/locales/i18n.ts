@@ -3,9 +3,9 @@ import { createI18n } from 'vue-i18n'
 // 导入语言文件
 import en from './en/messages.json'
 import zh from './zh/messages.json'
-import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { useReactiveStorage } from '~/composables/useReactiveStorage'
 
-const locale = useWebExtensionStorage<string>('locale', 'zh-CN')
+const locale = useReactiveStorage<string>('locale', 'zh-CN')
 
 const messages = {
   'en-US': en,

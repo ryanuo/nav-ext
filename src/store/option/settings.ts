@@ -1,27 +1,27 @@
 import { defineStore } from 'pinia'
 
-import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { useReactiveStorage } from '~/composables/useReactiveStorage'
 import { coverRandomUrl, coverUrl, initCity } from '~/constants/settings'
 import type { LOCALESTRING } from '~/locales/i18n'
 import i18n from '~/locales/i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
-  // 使用 useWebExtensionStorage 持久化存储
-  const { data: theme } = useWebExtensionStorage<string>('theme', 'auto')
-  const { data: cover } = useWebExtensionStorage<string>('cover', coverRandomUrl)
-  const { data: language } = useWebExtensionStorage<LOCALESTRING>('locale', 'zh-CN')
-  const { data: animation } = useWebExtensionStorage<boolean>('animation', true)
+  // 使用 useReactiveStorage 持久化存储
+  const { data: theme } = useReactiveStorage<string>('theme', 'auto')
+  const { data: cover } = useReactiveStorage<string>('cover', coverRandomUrl)
+  const { data: language } = useReactiveStorage<LOCALESTRING>('locale', 'zh-CN')
+  const { data: animation } = useReactiveStorage<boolean>('animation', true)
   // 时间配置
-  const { data: timezone } = useWebExtensionStorage<string>('timezone', 'Asia/Shanghai')
-  const { data: is24Hour } = useWebExtensionStorage<boolean>('is24Hour', true)
-  const { data: showSeconds } = useWebExtensionStorage<boolean>('showSeconds', false)
-  const { data: showDateWeek } = useWebExtensionStorage<boolean>('showDateWeek', false)
+  const { data: timezone } = useReactiveStorage<string>('timezone', 'Asia/Shanghai')
+  const { data: is24Hour } = useReactiveStorage<boolean>('is24Hour', true)
+  const { data: showSeconds } = useReactiveStorage<boolean>('showSeconds', false)
+  const { data: showDateWeek } = useReactiveStorage<boolean>('showDateWeek', false)
   // 天气配置
-  const { data: weatherCity } = useWebExtensionStorage<WeatherCity>('weatherCity', initCity)
-  const { data: showWeather } = useWebExtensionStorage<boolean>('showWeather', false)
+  const { data: weatherCity } = useReactiveStorage<WeatherCity>('weatherCity', initCity)
+  const { data: showWeather } = useReactiveStorage<boolean>('showWeather', false)
   // 偏好设置
-  const { data: searchSuggestionEnabled } = useWebExtensionStorage<boolean>('searchSuggestionEnabled', true)
-  const { data: isAutoFocusSearchBoxOnPageLoad } = useWebExtensionStorage<boolean>('isAutoFocusSearchBoxOnPageLoad', false)
+  const { data: searchSuggestionEnabled } = useReactiveStorage<boolean>('searchSuggestionEnabled', true)
+  const { data: isAutoFocusSearchBoxOnPageLoad } = useReactiveStorage<boolean>('isAutoFocusSearchBoxOnPageLoad', false)
 
   // 获取系统默认主题
   const systemTheme = computed(() =>
@@ -58,7 +58,7 @@ export const useSettingsStore = defineStore('settings', () => {
     showDateWeek.value = show
   }
 
-  // 动作定义（直接赋值即可，useWebExtensionStorage 会自动保存）
+  // 动作定义（直接赋值即可，useReactiveStorage 会自动保存）
   const setTheme = (newTheme: string) => {
     theme.value = newTheme
     applyTheme(newTheme)

@@ -1,3 +1,3 @@
-import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { useReactiveStorage } from '~/composables/useReactiveStorage'
 
-export const storageDemo = useWebExtensionStorage('webext-demo', 'Storage Demo')
+export const storageDemo = useReactiveStorage('webext-demo', 'Storage Demo')

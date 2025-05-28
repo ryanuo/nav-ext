@@ -4,6 +4,7 @@ declare const __NAME__: string
 // package version
 declare const __APP_VERSION__: string
 declare const __BUILD_TIME__: string
+declare const __USEEXTENSION__: boolean
 
 declare module '*.vue' {
   const component: any

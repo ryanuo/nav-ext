@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
-import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { useReactiveStorage } from '~/composables/useReactiveStorage'
 import { initEngineData } from '~/constants/engine'
 
 export const useSearchStore = defineStore('search', () => {
   const searchQuery = ref<string>('')
-  const { data: engines } = useWebExtensionStorage<Engines[]>('engines', initEngineData)
-  const { data: searchEngine } = useWebExtensionStorage<Engines>('searchEngine', engines.value[0])
+  const { data: engines } = useReactiveStorage<Engines[]>('engines', initEngineData)
+  const { data: searchEngine } = useReactiveStorage<Engines>('searchEngine', engines.value[0])
 
   const setSearchEngine = (engine: Engines) => {
     searchEngine.value = engine
