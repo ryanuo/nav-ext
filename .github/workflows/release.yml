@@ -33,7 +33,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build extension packages
-        run: pnpm run pack
+        run: |
+          pnpm run build
+          pnpm run pack
 
       - name: Create Release
         id: create_release
