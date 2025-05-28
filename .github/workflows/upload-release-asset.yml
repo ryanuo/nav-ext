@@ -41,6 +41,5 @@ jobs:
         with:
           files: extension.zip
           tag_name: v${{ env.VERSION }}
-          name: extension_v${{ env.VERSION }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
