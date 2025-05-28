@@ -1,12 +1,14 @@
 // vite.config.browser.mts
 import { defineConfig } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import { r } from './scripts/utils'
 import { sharedConfig } from './vite.config.mjs'
 
 export default defineConfig(() => {
   return {
     ...sharedConfig,
-    root: 'src/options',
+    root: r('src/options'),
+    publicDir: r('public'),
     define: {
       ...sharedConfig.define,
       __USEEXTENSION__: false,
@@ -52,6 +54,14 @@ export default defineConfig(() => {
   }
               `,
             } as any,
+            {
+              tag: 'link',
+              injectTo: 'head-prepend', // 插入到 <head> 开始位置
+              attrs: {
+                rel: 'icon',
+                href: '/logo.svg', // 确保文件存在于 public 目录
+              },
+            },
           ],
         },
       }) as any,
