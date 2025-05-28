@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
 import { GC, GP, GT } from '~/constants/provinceData'
 
 interface Region {
@@ -14,14 +15,17 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: '请选择省市区',
+    default: '', // 用i18n
   },
   disabled: {
     type: Boolean,
     default: false,
   },
 })
+
 const emits = defineEmits(['update:modelValue', 'change'])
+
+const { t } = useI18n()
 
 const panelVisible = ref(false)
 const selectedProvince = ref<Region | null>(null)
@@ -159,7 +163,7 @@ watch(() => props.modelValue, (newVal) => {
       @click="togglePanel"
     >
       <span class="truncate text-gray-700">
-        {{ selectedText || placeholder }}
+        {{ selectedText || t('cityCascader.placeholder') }}
       </span>
       <i class="i-eva-arrow-ios-downward-outline transition-transform duration-300" :class="{ 'rotate-180': panelVisible }" />
     </div>
@@ -233,14 +237,14 @@ watch(() => props.modelValue, (newVal) => {
         </div>
         <div class="flex justify-end border-t border-gray-200 bg-gray-50 p-3">
           <button class="rounded px-4 py-1.5 text-gray-600 hover:text-gray-800" @click="resetSelection">
-            重置
+            {{ t('common.reset') }}
           </button>
           <button
             class="ml-2 rounded bg-blue-500 px-4 py-1.5 text-white hover:bg-blue-600"
             :disabled="!selectedProvince"
             @click="confirmSelection"
           >
-            确定
+            {{ t('common.confirm') }}
           </button>
         </div>
       </div>

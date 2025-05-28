@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useSearchStore } from '~/store/option/search'
 
 const store = useSearchStore()
 const { searchQuery } = storeToRefs(store) // 使用 storeToRefs 获取响应式引用
 const { submit } = store
+
+const { t } = useI18n()
 
 // 当前选中的索引（键盘导航用）
 const selectedIndex = ref(-1)
@@ -194,7 +197,7 @@ onUnmounted (() => {
       <Translate />
       <div px-4 py-2>
         <span class="i-hugeicons-file-not-found" />
-        没有找到与 "{{ searchQuery }}" 相关的结果
+        {{ t('search.noResult', { query: searchQuery }) }}
       </div>
     </div>
   </div>
