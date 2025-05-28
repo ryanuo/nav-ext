@@ -21,9 +21,6 @@ importers:
       '@antfu/eslint-config':
         specifier: ^2.27.0
         version: 2.27.0(@typescript-eslint/utils@8.32.1(eslint@9.9.0(jiti@2.4.2))(typescript@5.5.4))(@unocss/eslint-plugin@66.1.2(eslint@9.9.0(jiti@2.4.2))(typescript@5.5.4))(@vue/compiler-sfc@3.4.38)(eslint-plugin-format@1.0.1(eslint@9.9.0(jiti@2.4.2)))(eslint@9.9.0(jiti@2.4.2))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.5.0)(jsdom@24.1.1)(terser@5.40.0))
-      '@ffflorian/jszip-cli':
-        specifier: ^3.7.1
-        version: 3.7.1(typescript@5.5.4)
       '@iconify/json':
         specifier: ^2.2.239
         version: 2.2.239
@@ -708,11 +705,6 @@ packages:
   '@eslint/object-schema@2.1.4':
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@ffflorian/jszip-cli@3.7.1':
-    resolution: {integrity: sha512-Gv+uglNfzyuaZT25Q6vz1HcrMy4ke7EDPgN+TykuXGrLAzrcv3hwNCAXPNeAKV/Px4IsI6ByNVkKuY0AEW8Fxg==}
-    engines: {node: '>= 18.0'}
-    hasBin: true
 
   '@fluent/syntax@0.19.0':
     resolution: {integrity: sha512-5D2qVpZrgpjtqU4eNOcWGp1gnUCgjfM+vKGE2y03kKN6z5EBhtx0qdRFbg8QuNNj8wXNoX93KJoYb+NqoxswmQ==}
@@ -1813,15 +1805,6 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  cosmiconfig@9.0.0:
-    resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=4.9.5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   crc32-stream@3.0.1:
     resolution: {integrity: sha512-mctvpXlbzsvK+6z8kJwSJ5crm7yBwrQMTybJzMw1O4lLGJqjlDCXY2Zw7KheiA6XBEcBmfLx1D88mjRGVJtY9w==}
     engines: {node: '>= 6.9.0'}
@@ -2089,10 +2072,6 @@ packages:
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
-
-  env-paths@2.2.1:
-    resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
-    engines: {node: '>=6'}
 
   environment@1.1.0:
     resolution: {integrity: sha512-xUtoPkMggbz0MPyPiIWr1Kp4aeWJjDZ6SMvURhimjdZgsRuDplF5/s9hcgGhyXMhs+6vpnuoiZ2kFiu3FMnS8Q==}
@@ -3272,9 +3251,6 @@ packages:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
     engines: {node: '>=18'}
 
-  logdown@3.3.1:
-    resolution: {integrity: sha512-pjX0vlIJsYQlgVzFba2amXI1wZZnhrEorL68MdLI7B0/sN1TNUozBNFaHfcPHMM3A+INZ0OXFDxtnoaEgOmGjQ==}
-
   loupe@3.1.1:
     resolution: {integrity: sha512-edNu/8D5MKVfGVFRhFf8aAxiTM6Wumfz5XsaatSxlD3w4R1d/WEKUTydCdPGbl9K7QG/Ca3GnDV2sIKIpXRQcw==}
 
@@ -3844,10 +3820,6 @@ packages:
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
-
-  progress@2.0.3:
-    resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
-    engines: {node: '>=0.4.0'}
 
   promise-toolbox@0.21.0:
     resolution: {integrity: sha512-NV8aTmpwrZv+Iys54sSFOBx3tuVaOBvvrft5PNppnxy9xpU/akHbaWIril22AB22zaPgrgwKdD0KsrM0ptUtpg==}
@@ -5512,18 +5484,6 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@ffflorian/jszip-cli@3.7.1(typescript@5.5.4)':
-    dependencies:
-      commander: 12.1.0
-      cosmiconfig: 9.0.0(typescript@5.5.4)
-      fs-extra: 11.2.0
-      glob: 11.0.0
-      jszip: 3.10.1
-      logdown: 3.3.1
-      progress: 2.0.3
-    transitivePeerDependencies:
-      - typescript
-
   '@fluent/syntax@0.19.0': {}
 
   '@humanwhocodes/config-array@0.11.14':
@@ -6856,15 +6816,6 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig@9.0.0(typescript@5.5.4):
-    dependencies:
-      env-paths: 2.2.1
-      import-fresh: 3.3.0
-      js-yaml: 4.1.0
-      parse-json: 5.2.0
-    optionalDependencies:
-      typescript: 5.5.4
-
   crc32-stream@3.0.1:
     dependencies:
       crc: 3.8.0
@@ -7128,8 +7079,6 @@ snapshots:
   entities@2.2.0: {}
 
   entities@4.5.0: {}
-
-  env-paths@2.2.1: {}
 
   environment@1.1.0: {}
 
@@ -8546,10 +8495,6 @@ snapshots:
       strip-ansi: 7.1.0
       wrap-ansi: 9.0.0
 
-  logdown@3.3.1:
-    dependencies:
-      chalk: 2.4.2
-
   loupe@3.1.1:
     dependencies:
       get-func-name: 2.0.2
@@ -9109,8 +9054,6 @@ snapshots:
   process-warning@3.0.0: {}
 
   process@0.11.10: {}
-
-  progress@2.0.3: {}
 
   promise-toolbox@0.21.0:
     dependencies:
