@@ -80,7 +80,7 @@ yarn build
 
 ## 📚 参考
 
-- [SNAV](https://github.com/imsyy/SNav)
+- [snav](https://github.com/imsyy/SNav)
 - [limestart](https://www.limestart.cn/)
 - [csdn](https://plugin.csdn.net/)
 
