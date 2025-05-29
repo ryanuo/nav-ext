@@ -11,18 +11,6 @@ const settingRef = ref<{
   setIsSettingsButtonVisible: (visible: boolean) => void
 }>()
 
-function handleImageLoad() {
-  hasImageFinishedLoading.value = false
-}
-
-const isPageVisible = computed(() => {
-  if (settings.animation) {
-    return !hasImageFinishedLoading.value
-  }
-
-  return true
-})
-
 function onCommandHPress(event: KeyboardEvent) {
   event.preventDefault()
   markStore.setShowConsoleEnabled(!markStore.isShowConsoleEnabled)
@@ -44,14 +32,24 @@ onMounted(() => {
 onUnmounted(() => {
   hotkeys.unbind('command+h', onCommandHPress)
 })
+
+const isPageVisible = computed(() => {
+  if (settings.animation) {
+    return !hasImageFinishedLoading.value
+  }
+
+  return true
+})
+
+const showLoading = computed({
+  get: () => !isPageVisible.value,
+  set: () => {},
+})
 </script>
 
 <template>
   <div flex="~ col items-center justify-center" class="relative h-full" @click="markStore.initStatus()">
-    <!-- 加载动画 -->
-    <div v-if="!isPageVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div class="border-primary h-10 w-10 animate-spin border-4 border-t-transparent rounded-full" />
-    </div>
+    <ImageLoading v-model="showLoading" />
 
     <div
       v-if="markStore.maskLayerEnabled && isPageVisible"
@@ -65,7 +63,7 @@ onUnmounted(() => {
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
       :src="settings.cover"
       alt=""
-      @load="handleImageLoad"
+      @load="hasImageFinishedLoading = false"
     >
     <template v-if="isPageVisible">
       <slot />
@@ -84,19 +82,5 @@ onUnmounted(() => {
 .img-mark {
   transform: scale(1.1);
   filter: blur(10px);
-}
-
-/* 加载动画样式 */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
 }
 </style>
