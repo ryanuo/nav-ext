@@ -6,7 +6,7 @@ import { useSettingsStore } from '~/store/option/settings'
 
 const settings = useSettingsStore()
 const markStore = useMarkStore()
-const hasImageFinishedLoading = ref(true)
+const isImageFinishedLoading = ref(false)
 const settingRef = ref<{
   setIsSettingsButtonVisible: (visible: boolean) => void
 }>()
@@ -23,7 +23,7 @@ function onCommandHPress(event: KeyboardEvent) {
 onMounted(() => {
   // 如果没有设置封面图，则直接结束加载状态
   if (!settings.cover) {
-    hasImageFinishedLoading.value = false
+    isImageFinishedLoading.value = true
   }
 
   hotkeys('command+h', onCommandHPress)
@@ -33,16 +33,8 @@ onUnmounted(() => {
   hotkeys.unbind('command+h', onCommandHPress)
 })
 
-const isPageVisible = computed(() => {
-  if (settings.animation) {
-    return !hasImageFinishedLoading.value
-  }
-
-  return true
-})
-
 const showLoading = computed({
-  get: () => !isPageVisible.value,
+  get: () => !!settings.animation && !isImageFinishedLoading.value,
   set: () => {},
 })
 </script>
@@ -52,20 +44,18 @@ const showLoading = computed({
     <ImageLoading v-if="settings.animation" v-model="showLoading" />
 
     <div
-      v-if="markStore.maskLayerEnabled && isPageVisible"
+      v-if="markStore.maskLayerEnabled && !showLoading"
       class="mark fixed left-0 top-0 z-[-1] h-full w-full transition duration-250"
     />
     <img
-      v-show="isPageVisible"
       :class="{
         'img-mark': markStore.maskLayerEnabled,
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
       :src="settings.cover"
-      alt=""
-      @load="hasImageFinishedLoading = false"
+      @load="isImageFinishedLoading = true"
     >
-    <template v-if="isPageVisible">
+    <template v-if="!showLoading">
       <slot />
     </template>
     <Settings v-if="markStore.isShowConsoleEnabled" ref="settingRef" />
