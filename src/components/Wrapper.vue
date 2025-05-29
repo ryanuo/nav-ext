@@ -37,6 +37,11 @@ const showLoading = computed({
   get: () => !!settings.animation && !isImageFinishedLoading.value,
   set: () => {},
 })
+
+function handleImageError() {
+  isImageFinishedLoading.value = true
+  console.error('Failed to load cover image:', settings.cover)
+}
 </script>
 
 <template>
@@ -54,6 +59,7 @@ const showLoading = computed({
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
       :src="settings.cover"
       @load="isImageFinishedLoading = true"
+      @error="handleImageError"
     >
     <template v-if="!showLoading">
       <slot />
