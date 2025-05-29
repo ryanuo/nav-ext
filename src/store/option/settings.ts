@@ -19,6 +19,7 @@ export const useSettingsStore = defineStore('settings', () => {
   // 天气配置
   const { data: weatherCity } = useReactiveStorage<WeatherCity>('weatherCity', initCity)
   const { data: showWeather } = useReactiveStorage<boolean>('showWeather', false)
+  const { data: weatherTheme } = useReactiveStorage<'1' | '2'>('weatherTheme', '1')
   // 偏好设置
   const { data: searchSuggestionEnabled } = useReactiveStorage<boolean>('searchSuggestionEnabled', true)
   const { data: isAutoFocusSearchBoxOnPageLoad } = useReactiveStorage<boolean>('isAutoFocusSearchBoxOnPageLoad', false)
@@ -84,6 +85,10 @@ export const useSettingsStore = defineStore('settings', () => {
     showWeather.value = show
   }
 
+  const setWeatherTheme = (theme: '1' | '2') => {
+    weatherTheme.value = theme
+  }
+
   // 偏好设置
   const setSearchSuggestionEnabled = (enabled: boolean) => {
     searchSuggestionEnabled.value = enabled
@@ -106,6 +111,7 @@ export const useSettingsStore = defineStore('settings', () => {
     // 天气设置
     showWeather.value = true
     weatherCity.value = initCity
+    weatherTheme.value = '1'
     // 偏好设置
     searchSuggestionEnabled.value = true
     isAutoFocusSearchBoxOnPageLoad.value = false
@@ -134,6 +140,7 @@ export const useSettingsStore = defineStore('settings', () => {
     showDateWeek,
     weatherCity,
     showWeather,
+    weatherTheme,
     searchSuggestionEnabled,
     isAutoFocusSearchBoxOnPageLoad,
 
@@ -148,6 +155,7 @@ export const useSettingsStore = defineStore('settings', () => {
     setShowDateWeek,
     setWeatherCity,
     setShowWeather,
+    setWeatherTheme,
     setSearchSuggestionEnabled,
     setIsAutoFocusSearchBoxOnPageLoad,
     resetAll,

@@ -45,6 +45,11 @@ const weatherCity = computed({
   set: (value: WeatherCity) => settingsStore.setWeatherCity(value),
 })
 
+const weatherTheme = computed({
+  get: () => settingsStore.weatherTheme,
+  set: (value: '1' | '2') => settingsStore.setWeatherTheme(value),
+})
+
 const showWeather = computed({
   get: () => settingsStore.showWeather,
   set: (value: boolean) => settingsStore.setShowWeather(value),
@@ -352,6 +357,20 @@ defineExpose({
                     <CityCascader
                       v-model="weatherCity"
                     />
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700">{{ t('settings.weatherTheme') }}</span>
+                    <select
+                      v-model="weatherTheme"
+                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    >
+                      <option value="1">
+                        {{ t('settings.weatherTheme.tianqiapi') }}
+                      </option>
+                      <option value="2">
+                        {{ t('settings.weatherTheme.meteo') }}
+                      </option>
+                    </select>
                   </ItemContainer>
                 </GroupContainer>
               </div>

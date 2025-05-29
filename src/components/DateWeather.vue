@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getUrlParamsString } from '@ryanuo/utils'
 import { useI18n } from 'vue-i18n'
 import { useMarkStore } from '~/store/option/mark'
 import { useSettingsStore } from '~/store/option/settings'
@@ -15,10 +16,26 @@ function handleDateFocus() {
   markStore.setShowConsoleEnabled(true)
 }
 
-const weatherIframeSrc = computed(() => {
-  const lang = isZh ? 'cn' : 'en'
-  const city = settingsStore?.weatherCity?.city?.pinyin || 'beijing'
-  return `https://i.tianqi.com/?c=code&a=getcode&id=34&py=${city}&icon=1&lang=${lang}&color=%23fff7ff`
+const weatherIframe = computed(() => {
+  if (settingsStore.weatherTheme === '1') {
+    return getUrlParamsString({
+      style: 'tm',
+      skin: 'gif',
+      align: 'center',
+      color: 'fff7ff',
+      fontsize: '12',
+    }, 'https://widget.tianqiapi.com/')
+  }
+
+  return getUrlParamsString({
+    c: 'code',
+    a: 'getcode',
+    id: '34',
+    py: settingsStore?.weatherCity?.city?.pinyin || 'beijing',
+    icon: '1',
+    lang: isZh ? 'cn' : 'en',
+    color: '%23fff7ff',
+  }, 'https://i.tianqi.com/')
 })
 </script>
 
@@ -27,17 +44,12 @@ const weatherIframeSrc = computed(() => {
     <p class="text-[4em] text-white" @click.stop="handleDateFocus">
       {{ currentDateTime }}
     </p>
-    <p
-      v-if="settingsStore.showDateWeek"
-      class="text-[1.2em] text-white"
-    >
+    <p v-if="settingsStore.showDateWeek" class="text-[1.2em] text-white">
       {{ currentDateWeek }}
     </p>
     <iframe
-      v-if="settingsStore.showWeather"
-      height="30"
-      width="235"
-      :src="weatherIframeSrc" frameborder="0"
+      scrolling="no" :src="weatherIframe" frameborder="0" width="240" height="28" class="mt-2"
+      allowtransparency="true"
     />
   </div>
 </template>
