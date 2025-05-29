@@ -34,7 +34,7 @@ const weatherIframe = computed(() => {
     py: settingsStore?.weatherCity?.city?.pinyin || 'beijing',
     icon: '1',
     lang: isZh ? 'cn' : 'en',
-    color: '%23fff7ff',
+    color: '#fff7ff',
   }, 'https://i.tianqi.com/')
 })
 </script>
