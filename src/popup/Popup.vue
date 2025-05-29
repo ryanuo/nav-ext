@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSettingsStore } from '~/store/option/settings'
-import logo from '~/assets/logo.svg?url'
+import logo from '~/assets/logo.png?url'
 import { useDateTime } from '~/composables/useDateTime'
 
 const appVersion = __APP_VERSION__

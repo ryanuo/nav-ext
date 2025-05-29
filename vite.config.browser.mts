@@ -34,7 +34,7 @@ export default defineConfig(() => {
               injectTo: 'head-prepend', // 插入到 <head> 开始位置
               attrs: {
                 rel: 'icon',
-                href: '/logo.svg', // 确保文件存在于 public 目录
+                href: '/logo.png', // 确保文件存在于 public 目录
               },
             },
           ],

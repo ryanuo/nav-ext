@@ -67,6 +67,13 @@ export async function getManifest() {
         ? `script-src \'self\' http://localhost:${port}; object-src \'self\'`
         : 'script-src \'self\'; object-src \'self\'',
     },
+    ...isFirefox
+      ? { browser_specific_settings: {
+          gecko: {
+            id: 'ryanuo@aliyun.com',
+          },
+        } }
+      : {},
   }
 
   // add sidepanel

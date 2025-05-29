@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/ryanuo/tab-ext/refs/heads/main/extension/assets/logo.svg" style="width:100px;" />
+<img src="https://raw.githubusercontent.com/ryanuo/tab-ext/refs/heads/main/extension/assets/logo.png" style="width:100px;" />
 </p>
 
 <h1 align="center">N-Tab</h1>
