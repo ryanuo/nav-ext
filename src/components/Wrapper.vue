@@ -49,7 +49,7 @@ const showLoading = computed({
 
 <template>
   <div flex="~ col items-center justify-center" class="relative h-full" @click="markStore.initStatus()">
-    <ImageLoading v-model="showLoading" />
+    <ImageLoading v-if="settings.animation" v-model="showLoading" />
 
     <div
       v-if="markStore.maskLayerEnabled && isPageVisible"
