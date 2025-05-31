@@ -1,29 +1,41 @@
 <script setup lang="ts">
 import hotkeys from 'hotkeys-js'
-import { onMounted, ref } from 'vue'
+import { useImage } from '@vueuse/core'
 import { useMarkStore } from '~/store/option/mark'
 import { useSettingsStore } from '~/store/option/settings'
 
 const settings = useSettingsStore()
 const markStore = useMarkStore()
-const isImageFinishedLoading = ref(false)
 const settingRef = ref<{
   setIsSettingsButtonVisible: (visible: boolean) => void
+  isSettingsButtonVisible: boolean
 }>()
 
+const { isLoading } = useImage({
+  src: settings.cover,
+})
+
 function onCommandHPress(event: KeyboardEvent) {
-  event.preventDefault()
-  markStore.setShowConsoleEnabled(!markStore.isShowConsoleEnabled)
+  if (event) {
+    event.preventDefault()
+  }
+
+  if (markStore.isShowWidget && !settingRef.value?.isSettingsButtonVisible) {
+    settingRef.value?.setIsSettingsButtonVisible(markStore.isShowWidget)
+    return
+  }
+
+  markStore.setShowWidget(!markStore.isShowWidget)
   // 确保在状态更新后再设置按钮可见性
   nextTick(() => {
-    settingRef.value?.setIsSettingsButtonVisible(markStore.isShowConsoleEnabled)
+    settingRef.value?.setIsSettingsButtonVisible(markStore.isShowWidget)
   })
 }
 
 onMounted(() => {
   // 如果没有设置封面图，则直接结束加载状态
   if (!settings.cover) {
-    isImageFinishedLoading.value = true
+    isLoading.value = false
   }
 
   hotkeys('command+h', onCommandHPress)
@@ -34,18 +46,13 @@ onUnmounted(() => {
 })
 
 const showLoading = computed({
-  get: () => !!settings.animation && !isImageFinishedLoading.value,
+  get: () => !!settings.animation && isLoading.value,
   set: () => {},
 })
-
-function handleImageError() {
-  isImageFinishedLoading.value = true
-  console.error('Failed to load cover image:', settings.cover)
-}
 </script>
 
 <template>
-  <div flex="~ col items-center justify-center" class="relative h-full" @click="markStore.initStatus()">
+  <div flex="~ col items-center justify-center" class="relative h-full transition-colors duration-300" @click="markStore.initStatus()">
     <ImageLoading v-if="settings.animation" v-model="showLoading" />
 
     <div
@@ -58,13 +65,12 @@ function handleImageError() {
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
       :src="settings.cover"
-      @load="isImageFinishedLoading = true"
-      @error="handleImageError"
     >
     <template v-if="!showLoading">
       <slot />
+      <Docking :setting-function="onCommandHPress" />
     </template>
-    <Settings v-if="markStore.isShowConsoleEnabled" ref="settingRef" />
+    <Settings v-if="markStore.isShowWidget" ref="settingRef" />
   </div>
 </template>
 

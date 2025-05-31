@@ -60,18 +60,22 @@ onUnmounted(() => {
   <div class="h-full w-full flex items-center justify-center" @click.stop="isShowEngine = !isShowEngine">
     <IconRenderer style-class="mr-0!" :icon="searchEngine.icon" :icon-url="searchEngine.iconUrl" />
   </div>
-  <div v-if="isShowEngine" class="engine">
+  <div
+    v-if="isShowEngine"
+    class="engine z-50"
+  >
     <div class="engine-list">
       <div
         v-for="(engine, index) in engines" :key="index"
         class="relative h-8 flex flex-row cursor-pointer items-center justify-between rounded-xl bg-[var(--main-card-background)] p-1 transition-colors duration-300 hover:bg-gray-100/50"
+        dark="bg-transparent hover:bg-gray-800"
         @click="handleSelectEngine(engine)"
       >
         <div class="mr-2 max-w-30 flex flex-row items-center overflow-auto">
           <IconRenderer :icon="engine.icon" :icon-url="engine.iconUrl" />
-          {{ engine.name }}
+          <span class="ml-1 text-gray-800 dark:text-gray-100">{{ engine.name }}</span>
         </div>
-        <div class="flex items-center text-xs text-gray-500">
+        <div class="flex items-center text-xs text-gray-500 dark:text-gray-400">
           <span class="i-ci-option" /><span>{{ index + 1 }}</span>
         </div>
       </div>
@@ -81,6 +85,7 @@ onUnmounted(() => {
 
 <style scoped>
 .engine {
+  @apply: dark:bg-[#000]/50
   @apply absolute mt-2 max-h-[44vh] overflow-auto rounded-xl bg-[var(--white-alpha-80)] p-2 backdrop-blur-[var(--main-card-blur)] backdrop-filter;
 }
 </style>

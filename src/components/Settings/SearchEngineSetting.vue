@@ -46,15 +46,15 @@ function handleDrop() {
 
 <template>
   <div class="mx-auto py-1 container">
-    <div class="shadow-xs shadow-xs rounded-xl bg-white py-2">
+    <div class="shadow-xs rounded-xl bg-white py-2 dark:bg-[#23272f]">
       <div class="space-y-2">
         <div
           v-for="(engine, index) in engines"
           :key="engine.name"
           :data-index="index"
-          class="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 shadow-sm transition-all duration-200 hover:shadow"
+          class="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 shadow-sm transition-all duration-200 dark:bg-[#23272f] hover:shadow"
           draggable="true"
-          :class="{ 'bg-primary/10': dragOverIndex === index }"
+          :class="{ 'bg-primary/10 dark:bg-blue-900/30': dragOverIndex === index }"
           @dragstart="handleDragStart(index)"
           @dragover.prevent="handleDragOver(index)"
           @dragleave.prevent
@@ -62,15 +62,15 @@ function handleDrop() {
         >
           <div class="w-full flex items-center justify-between space-x-3">
             <div flex="~ items-center gap-1">
-              <div class="cursor-grab text-gray-500">
+              <div class="cursor-grab text-gray-500 dark:text-gray-400">
                 <IconRenderer :icon="engine.icon" :icon-url="engine.iconUrl" />
               </div>
-              <div class="text-base font-medium">
+              <div class="text-base font-medium dark:text-gray-100">
                 {{ engine.name }}
               </div>
             </div>
             <div flex="~ items-center gap-1">
-              <span class="i-mdi-sort" /> {{ index + 1 }}
+              <span class="i-mdi-sort dark:text-gray-400" /> {{ index + 1 }}
             </div>
           </div>
         </div>

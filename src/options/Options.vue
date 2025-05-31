@@ -73,7 +73,7 @@ onUnmounted(() => {
 <template>
   <Wrapper>
     <DateWeather />
-    <div v-show="!markStore.isShowConsoleEnabled" class="form-control">
+    <div v-show="!markStore.isShowWidget" class="form-control">
       <input
         id="search"
         ref="searchInputRef"
@@ -100,32 +100,38 @@ onUnmounted(() => {
         </button>
       </template>
     </div>
-    <!-- <Docking /> -->
   </Wrapper>
 </template>
 
 <style scoped>
 .form-control {
-  @apply animation-duration-250 rounded-18 fixed left-1/2 top-[30%] h-[43px] max-w-[80%] w-[540px] translate-x-[-50%] rounded-3xl bg-white/25 text-white shadow-[0_0_10px_rgba(0, 0, 0, .2)] backdrop-blur-[10px] backdrop-saturate-[1.5] transition-colors duration-250 ease-in-out;
+  @apply animation-duration-250 rounded-18 fixed left-1/2 top-[30%] h-[43px] max-w-[80%] w-[540px] translate-x-[-50%] rounded-3xl bg-white/25 text-white shadow-[0_0_10px_rgba(0,0,0,.2)] backdrop-blur-[10px] backdrop-saturate-[1.5] transition-colors duration-250 ease-in-out;
+  @apply dark:bg-black/40 dark:text-gray-200 dark:shadow-[0_0_10px_rgba(0,0,0,.5)];
 }
 
 .input-control {
   @apply h-full rounded-18 w-full border-0 bg-transparent px-10 text-center text-sm text-inherit outline-none;
+  @apply dark:text-gray-100;
 }
 
 .input-focus {
   @apply bg-white/86 text-black;
+  @apply dark:bg-black/50 dark:text-white;
 }
 
 .btn {
   @apply absolute h-8 w-8 top-1.4 hover:bg-white rounded-2xl;
+  @apply text-black;
+  @apply dark:hover:bg-black/70 dark:text-white;
 }
 
 .btn-search {
   @apply right-1 text-black;
+  @apply dark:text-white;
 }
 
 .btn-toggle {
   @apply left-1 text-black;
+  @apply dark:text-white;
 }
 </style>

@@ -195,7 +195,7 @@ onUnmounted (() => {
       class="mt-1 w-full rounded-sm text-white shadow-lg"
     >
       <Translate />
-      <div px-4 py-2>
+      <div class="px-4 py-2">
         <span class="i-hugeicons-file-not-found" />
         {{ t('search.noResult', { query: searchQuery }) }}
       </div>
@@ -206,6 +206,7 @@ onUnmounted (() => {
 <style scoped>
 .suggestion {
   backdrop-filter: blur(var(--main-card-blur));
-  background-color: var(--main-card-background);
+  @apply bg-[var(--main-card-background)];
+  @apply dark:bg-[#23272f]/50;
 }
 </style>

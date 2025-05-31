@@ -36,3 +36,12 @@ declare interface WeatherCity {
     pinyin: string
   }
 }
+
+// Docking
+type DockingID = 'all' | 'translate' | 'video' | 'music' | 'camera' | 'photo' | 'settings' | 'mail' | 'calendar' | 'note' | 'github' | 'theme'
+interface DockingItem {
+  id: DockingID
+  name: string
+  icon: string
+  link?: string
+}

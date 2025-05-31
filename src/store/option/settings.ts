@@ -23,6 +23,7 @@ export const useSettingsStore = defineStore('settings', () => {
   // 偏好设置
   const { data: searchSuggestionEnabled } = useReactiveStorage<boolean>('searchSuggestionEnabled', true)
   const { data: isAutoFocusSearchBoxOnPageLoad } = useReactiveStorage<boolean>('isAutoFocusSearchBoxOnPageLoad', false)
+  const { data: showDocking } = useReactiveStorage<boolean>('showDocking', false)
 
   // 获取系统默认主题
   const systemTheme = computed(() =>
@@ -96,6 +97,9 @@ export const useSettingsStore = defineStore('settings', () => {
   const setIsAutoFocusSearchBoxOnPageLoad = (enabled: boolean) => {
     isAutoFocusSearchBoxOnPageLoad.value = enabled
   }
+  const setShowDocking = (show: boolean) => {
+    showDocking.value = show
+  }
 
   const resetAll = () => {
     // 重置所有设置为默认值
@@ -115,6 +119,7 @@ export const useSettingsStore = defineStore('settings', () => {
     // 偏好设置
     searchSuggestionEnabled.value = true
     isAutoFocusSearchBoxOnPageLoad.value = false
+    showDocking.value = false
 
     // 应用默认设置
     applyTheme(theme.value)
@@ -143,6 +148,7 @@ export const useSettingsStore = defineStore('settings', () => {
     weatherTheme,
     searchSuggestionEnabled,
     isAutoFocusSearchBoxOnPageLoad,
+    showDocking,
 
     // 动作
     setTheme,
@@ -158,6 +164,7 @@ export const useSettingsStore = defineStore('settings', () => {
     setWeatherTheme,
     setSearchSuggestionEnabled,
     setIsAutoFocusSearchBoxOnPageLoad,
+    setShowDocking,
     resetAll,
   }
 })

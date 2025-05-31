@@ -13,7 +13,7 @@ const isZh = useI18n().locale.value === 'zh-CN'
 
 const markStore = useMarkStore()
 function handleDateFocus() {
-  markStore.setShowConsoleEnabled(true)
+  markStore.setShowWidget(true)
 }
 
 const weatherIframe = computed(() => {
@@ -41,14 +41,25 @@ const weatherIframe = computed(() => {
 
 <template>
   <div class="time">
-    <p class="text-[4em] text-white" @click.stop="handleDateFocus">
+    <p
+      class="text-[4em] text-white dark:text-black/50"
+      @click.stop="handleDateFocus"
+    >
       {{ currentDateTime }}
     </p>
-    <p v-if="settingsStore.showDateWeek" class="text-[1.2em] text-white">
+    <p
+      v-if="settingsStore.showDateWeek"
+      class="text-[1.2em] text-white dark:text-black/50"
+    >
       {{ currentDateWeek }}
     </p>
     <iframe
-      scrolling="no" :src="weatherIframe" frameborder="0" width="240" height="28" class="mt-2"
+      scrolling="no"
+      :src="weatherIframe"
+      frameborder="0"
+      width="240"
+      height="28"
+      class="mt-2 rounded"
       allowtransparency="true"
     />
   </div>

@@ -87,10 +87,10 @@ function getSizeClass() {
       @change="handleChange"
     >
     <div
-      class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:border after:border-gray-300 after:rounded-full after:bg-white peer-focus:outline-none after:transition-all after:content-[''] peer-checked:after:translate-x-full"
+      class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:border after:border-gray-300 after:rounded-full after:bg-white dark:bg-gray-700 peer-focus:outline-none after:transition-all after:content-[''] peer-checked:after:translate-x-full dark:after:border-gray-600 dark:after:bg-gray-200"
       :class="[getColorClass(), getTransitionClass(), getSizeClass()]"
     />
-    <span v-if="label" class="ml-3 text-sm text-gray-700 font-medium">
+    <span v-if="label" class="ml-3 text-sm text-gray-700 font-medium dark:text-gray-200">
       {{ label }}
     </span>
   </label>

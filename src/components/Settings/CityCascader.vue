@@ -158,25 +158,25 @@ watch(() => props.modelValue, (newVal) => {
 <template>
   <div class="city-cascader relative mt-2 w-70">
     <div
-      class="flex cursor-pointer items-center justify-between border border-gray-300 rounded-lg bg-white px-4 py-2"
-      :class="{ 'border-blue-500 ring-2 ring-blue-100': panelVisible }"
+      class="flex cursor-pointer items-center justify-between border border-gray-300 rounded-lg bg-white px-4 py-2 dark:border-gray-700 dark:bg-[#23272f]"
+      :class="{ 'border-blue-500 ring-2 ring-blue-100 dark:ring-blue-900/40': panelVisible }"
       @click="togglePanel"
     >
-      <span class="truncate text-gray-700">
+      <span class="truncate text-gray-700 dark:text-gray-200">
         {{ selectedText || t('cityCascader.placeholder') }}
       </span>
-      <i class="i-eva-arrow-ios-downward-outline transition-transform duration-300" :class="{ 'rotate-180': panelVisible }" />
+      <i class="i-eva-arrow-ios-downward-outline transition-transform duration-300 dark:text-gray-400" :class="{ 'rotate-180': panelVisible }" />
     </div>
 
     <transition name="fade">
       <div
         v-show="panelVisible"
-        class="absolute left-0 right-0 z-50 mt-2 max-h-[400px] border border-gray-200 rounded-lg bg-white shadow-lg"
+        class="absolute left-0 right-0 z-50 mt-2 max-h-[400px] border border-gray-200 rounded-lg bg-white shadow-lg dark:border-gray-700 dark:bg-[#23272f]"
         @click.stop
       >
         <div class="flex gap-2 p-3">
           <!-- 省份 -->
-          <ul ref="provinceListRef" class="max-h-72 w-1/3 overflow-y-auto border-r border-gray-100 pr-2">
+          <ul ref="provinceListRef" class="max-h-72 w-1/3 overflow-y-auto border-r border-gray-100 pr-2 dark:border-gray-700">
             <li
               v-for="province in GP"
               :key="province.id"
@@ -184,8 +184,8 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedProvince?.id === province.id
-                  ? 'bg-blue-50 text-blue-600 font-bold'
-                  : 'hover:bg-gray-100',
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectProvince(province)"
             >
@@ -196,7 +196,7 @@ watch(() => props.modelValue, (newVal) => {
           <ul
             v-if="selectedProvince"
             ref="cityListRef"
-            class="max-h-72 w-1/3 overflow-y-auto border-r border-gray-100 pr-2"
+            class="max-h-72 w-1/3 overflow-y-auto border-r border-gray-100 pr-2 dark:border-gray-700"
           >
             <li
               v-for="city in getCitiesByProvinceId(selectedProvince.id)"
@@ -205,8 +205,8 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedCity?.id === city.id
-                  ? 'bg-blue-50 text-blue-600 font-bold'
-                  : 'hover:bg-gray-100',
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectCity(city)"
             >
@@ -226,8 +226,8 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedArea?.id === area.id
-                  ? 'bg-blue-50 text-blue-600 font-bold'
-                  : 'hover:bg-gray-100',
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectArea(area)"
             >
@@ -235,8 +235,8 @@ watch(() => props.modelValue, (newVal) => {
             </li>
           </ul>
         </div>
-        <div class="flex justify-end border-t border-gray-200 bg-gray-50 p-3">
-          <button class="rounded px-4 py-1.5 text-gray-600 hover:text-gray-800" @click="resetSelection">
+        <div class="flex justify-end border-t border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-[#23272f]">
+          <button class="rounded px-4 py-1.5 text-gray-600 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-100" @click="resetSelection">
             {{ t('common.reset') }}
           </button>
           <button

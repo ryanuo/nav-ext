@@ -36,6 +36,7 @@
   "settings.is24Hour": "24-hour format",
   "settings.showSeconds": "Show seconds",
   "settings.showDateWeek": "Show date/week",
+  "settings.showDocking": "Show Docking",
   "settings.weather": "Weather",
   "settings.showWeather": "Show weather",
   "settings.weatherTheme": "Weather Theme",

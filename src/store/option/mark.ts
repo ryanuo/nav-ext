@@ -4,7 +4,7 @@ import { useSearchStore } from '~/store/option/search'
 export const useMarkStore = defineStore('showElement', () => {
   const maskLayerEnabled = ref<boolean>(false)
   const isInputActive = ref<boolean>(false)
-  const isShowConsoleEnabled = ref<boolean>(false)
+  const isShowWidget = ref<boolean>(false)
   const { setSearchQuery } = useSearchStore()
 
   const setMaskLayerEnabled = (value: boolean) => {
@@ -14,11 +14,11 @@ export const useMarkStore = defineStore('showElement', () => {
   const setInputActive = (value: boolean) => {
     maskLayerEnabled.value = value
     isInputActive.value = value
-    isShowConsoleEnabled.value = !value
+    isShowWidget.value = !value
   }
 
-  const setShowConsoleEnabled = (value: boolean) => {
-    isShowConsoleEnabled.value = value
+  const setShowWidget = (value: boolean) => {
+    isShowWidget.value = value
     isInputActive.value = !value
     maskLayerEnabled.value = value
   }
@@ -26,16 +26,16 @@ export const useMarkStore = defineStore('showElement', () => {
   const initStatus = () => {
     maskLayerEnabled.value = false
     isInputActive.value = false
-    isShowConsoleEnabled.value = false
+    isShowWidget.value = false
     setSearchQuery('')
   }
 
   return {
     maskLayerEnabled,
     isInputActive,
-    isShowConsoleEnabled,
+    isShowWidget,
     setMaskLayerEnabled,
-    setShowConsoleEnabled,
+    setShowWidget,
     setInputActive,
     initStatus,
   }

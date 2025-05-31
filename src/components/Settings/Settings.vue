@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import ItemContainer from './ItemContainer.vue'
 import type { LOCALESTRING } from '~/locales/i18n'
 import { useSettingsStore } from '~/store/option/settings'
 import { useDateTime } from '~/composables/useDateTime'
@@ -80,6 +81,11 @@ const isAutoFocusSearchBoxOnPageLoad = computed({
   set: (value: boolean) => settingsStore.setIsAutoFocusSearchBoxOnPageLoad(value),
 })
 
+const showDocking = computed({
+  get: () => settingsStore.showDocking,
+  set: (value: boolean) => settingsStore.setShowDocking(value),
+})
+
 const { currentDateTime } = useDateTime()
 
 const errors = reactive({
@@ -116,9 +122,10 @@ function resetSettings() {
 
 // 选项卡样式计算函数
 function tabClass(tabName: string) {
-  return `w-full border-b border-gray-200 px-6 py-4 text-left transition-all duration-200 ${activeTab.value === tabName
-    ? 'border-l-4 border-blue-500 bg-blue-50 text-blue-600 font-medium'
-    : 'text-gray-600 font-medium hover:bg-gray-50'
+  return `w-full border-b border-gray-200 dark:border-gray-700 px-6 py-4 text-left transition-all duration-200 ${
+    activeTab.value === tabName
+      ? 'border-l-4 border-blue-500 bg-blue-50 dark:bg-[#23272f] text-blue-600 dark:text-blue-400 font-medium'
+      : 'text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-[#23272f]'
   }`
 }
 
@@ -141,32 +148,33 @@ defineExpose({
   setIsSettingsButtonVisible: (visible: boolean) => {
     isSettingsButtonVisible.value = visible
   },
+  isSettingsButtonVisible,
 })
 </script>
 
 <template>
   <div>
     <!-- 配置按钮 -->
-    <div class="fixed right-4 top-6 cursor-pointer" @click.stop="isSettingsButtonVisible = true">
-      <span class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180" />
+    <div class="fixed right-4 top-6 z-200 cursor-pointer" @click.stop="isSettingsButtonVisible = true">
+      <span class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180 dark:text-gray-200" />
     </div>
     <!-- 弹窗内容 -->
     <transition name="modal-content">
-      <div v-show="isSettingsButtonVisible" class="fixed inset-0 z-50 flex items-center justify-center">
-        <div class="relative max-w-3xl w-full rounded-lg bg-white shadow-2xl" @click.stop>
-          <div class="flex items-center justify-between border-b p-4">
+      <div v-show="isSettingsButtonVisible" class="fixed inset-0 z-201 flex items-center justify-center bg-black/30 dark:bg-black/60">
+        <div class="relative max-w-3xl w-full rounded-lg bg-white text-gray-900 shadow-2xl dark:bg-[#23272f] dark:text-gray-100" @click.stop>
+          <div class="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
             <h2 class="text-xl font-bold">
               {{ t('settings.title') }}
             </h2>
             <button @click="isSettingsButtonVisible = false">
-              <span class="i-ion-close h-5 w-5 text-gray-500 hover:text-gray-700" />
+              <span class="i-ion-close h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100" />
             </button>
           </div>
 
           <!-- 垂直选项卡容器 -->
           <div class="flex flex-col overflow-hidden md:flex-row">
             <!-- 左侧选项卡导航 -->
-            <div class="flex-1 border-r border-gray-200 md:flex-col">
+            <div class="flex-1 border-r border-gray-200 md:flex-col dark:border-gray-700">
               <!-- 基础配置 -->
               <button :class="tabClass('base')" @click="activeTab = 'base'">
                 {{ t('settings.tab.base') }}
@@ -199,10 +207,10 @@ defineExpose({
               <div v-show="activeTab === 'base'">
                 <!-- 主题模式 -->
                 <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">{{ t('settings.themeMode') }}</label>
+                  <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.themeMode') }}</label>
                   <select
                     v-model="theme"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    class="mt-1 block w-full border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                   >
                     <option value="light">
                       {{ t('settings.theme.light') }}
@@ -218,11 +226,11 @@ defineExpose({
 
                 <!-- 壁纸设置 -->
                 <div class="mt-6">
-                  <label class="block text-sm text-gray-700 font-medium">{{ t('settings.cover') }}</label>
+                  <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.cover') }}</label>
                   <div class="relative">
                     <input
                       id="cover" v-model="cover" type="url"
-                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 pr-15! focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="mt-1 block w-full border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] pr-15! dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                       :class="{ 'border-red-500': errors.cover }" :placeholder="t('settings.cover.placeholder')"
                     >
                     <button
@@ -246,7 +254,7 @@ defineExpose({
                       class="hidden"
                       @change="handleLocalCoverUpload"
                     >
-                    <label for="localCoverInput" class="cursor-pointer rounded bg-gray-200 px-2 py-1 text-xs hover:bg-gray-300">
+                    <label for="localCoverInput" class="cursor-pointer rounded bg-gray-200 px-2 py-1 text-xs text-gray-700 dark:bg-gray-700 hover:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-600">
                       {{ t('settings.cover.uploadLocal') }}
                     </label>
                   </div>
@@ -256,7 +264,7 @@ defineExpose({
               <!-- 搜索引擎设置 -->
               <div v-show="activeTab === 'search'">
                 <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium">{{ t('settings.searchEngine') }}</label>
+                  <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.searchEngine') }}</label>
                   <SearchEngineSetting />
                 </div>
               </div>
@@ -268,10 +276,10 @@ defineExpose({
                     {{ t('settings.preference') }}
                   </template>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.language') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.language') }}</span>
                     <select
                       v-model="language"
-                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="zh-CN">
                         {{ t('settings.language.zh-CN') }}
@@ -282,20 +290,24 @@ defineExpose({
                     </select>
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.searchSuggestion') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.searchSuggestion') }}</span>
                     <Toggle v-model="searchSuggestionEnabled" label="" />
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.autoFocusSearchBox') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.autoFocusSearchBox') }}</span>
                     <Toggle v-model="isAutoFocusSearchBoxOnPageLoad" label="" />
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.showDocking') }}</span>
+                    <Toggle v-model="showDocking" label="" />
                   </ItemContainer>
                 </GroupContainer>
                 <GroupContainer>
                   <template #label>
-                    <span class="text-gray-700">{{ t('settings.animation') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.animation') }}</span>
                   </template>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.animation.desc') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.animation.desc') }}</span>
                     <Toggle v-model="animation" label="" />
                   </ItemContainer>
                 </GroupContainer>
@@ -308,14 +320,14 @@ defineExpose({
                     {{ t('settings.time') }}
                   </template>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.currentTime') }}：{{ currentDateTime }}</span>
-                    <span class="text-gray-700">{{ t('settings.timezone') }}-{{ timezone }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.currentTime') }}：{{ currentDateTime }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.timezone') }}-{{ timezone }}</span>
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.timezoneSetting') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.timezoneSetting') }}</span>
                     <select
                       v-model="timezone"
-                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="Asia/Shanghai">
                         {{ t('settings.timezone.shanghai') }}
@@ -332,15 +344,15 @@ defineExpose({
                     </select>
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.is24Hour') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.is24Hour') }}</span>
                     <Toggle v-model="is24Hour" label="" />
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.showSeconds') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.showSeconds') }}</span>
                     <Toggle v-model="showSeconds" label="" />
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.showDateWeek') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.showDateWeek') }}</span>
                     <Toggle v-model="showDateWeek" label="" />
                   </ItemContainer>
                 </GroupContainer>
@@ -349,20 +361,20 @@ defineExpose({
                     {{ t('settings.weather') }}
                   </template>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.showWeather') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.showWeather') }}</span>
                     <Toggle v-model="showWeather" label="" />
                   </ItemContainer>
                   <ItemContainer v-if="showWeather">
-                    <span class="text-gray-700">{{ t('settings.weatherCity') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherCity') }}</span>
                     <CityCascader
                       v-model="weatherCity"
                     />
                   </ItemContainer>
                   <ItemContainer>
-                    <span class="text-gray-700">{{ t('settings.weatherTheme') }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherTheme') }}</span>
                     <select
                       v-model="weatherTheme"
-                      class="block border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="1">
                         {{ t('settings.weatherTheme.tianqiapi') }}
@@ -395,7 +407,7 @@ defineExpose({
                     <h4 class="my-2 text-base font-semibold">
                       {{ t('settings.about.openSource') }}
                     </h4>
-                    <p class="text-xs text-gray-600">
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
                       {{ t('settings.about.openSourceDesc') }}
                       <a href="https://github.com/ryanuo/tab-ext/blob/main/LICENSE" target="_blank">MIT</a>
                       {{ t('settings.about.openSourceDesc2') }}
@@ -403,10 +415,10 @@ defineExpose({
                     <h4 class="my-2 text-base font-semibold">
                       {{ t('settings.about.terms') }}
                     </h4>
-                    <p class="text-xs text-gray-600">
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
                       {{ t('settings.about.termsDesc1') }}
                     </p>
-                    <p class="text-xs text-gray-600">
+                    <p class="text-xs text-gray-600 dark:text-gray-400">
                       {{ t('settings.about.termsDesc2') }}
                     </p>
                   </div>
@@ -416,17 +428,17 @@ defineExpose({
           </div>
 
           <!-- 底部按钮 -->
-          <div class="flex justify-end border-t p-4">
+          <div class="flex justify-end border-t border-gray-200 p-4 dark:border-gray-700">
             <button
               type="button"
-              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-2 py-1 text-sm text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-2 py-1 text-sm text-gray-700 dark:border-gray-700 dark:bg-[#23272f] hover:bg-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:hover:bg-gray-800"
               @click="resetSettings"
             >
               {{ t('common.reset') }}
             </button>
             <button
               type="button"
-              class="border border-transparent rounded-md bg-blue-600 px-2 py-1 text-sm text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="border border-transparent rounded-md bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               @click="isSettingsButtonVisible = false"
             >
               {{ t('common.close') }}
@@ -439,16 +451,16 @@ defineExpose({
   <!-- 确认重置对话框 -->
   <transition name="modal">
     <div v-show="isConfirmVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="w-96 rounded-lg bg-white p-6 shadow-lg">
+      <div class="w-96 rounded-lg bg-white p-6 text-gray-900 shadow-lg dark:bg-[#23272f] dark:text-gray-100">
         <h3 class="mb-4 text-lg font-bold">
           {{ t('settings.confirmReset.title') }}
         </h3>
-        <p class="mb-6 text-gray-700">
+        <p class="mb-6 text-gray-700 dark:text-gray-200">
           {{ t('settings.confirmReset.desc') }}
         </p>
         <div class="flex justify-end space-x-3">
           <button
-            class="border border-gray-300 rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
+            class="border border-gray-300 rounded-md px-4 py-2 text-gray-700 dark:border-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
             @click="isConfirmVisible = false"
           >
             {{ t('common.cancel') }}
