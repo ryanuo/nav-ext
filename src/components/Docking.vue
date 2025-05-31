@@ -39,11 +39,11 @@ const dockingData = computed<DockingItem[]>(() => {
     { id: 'translate', name: '翻译', icon: 'i-ic-sharp-translate', link: 'https://www.bing.com/translator' },
     { id: 'music', name: '音乐', icon: 'i-twemoji:musical-note', link: 'https://music.163.com/' },
     { id: 'camera', name: '照片', icon: 'i-twemoji:camera' },
-    { id: 'settings', name: '设置', icon: 'i-twemoji:gear' },
     { id: 'mail', name: '邮件', icon: 'i-twemoji:e-mail', link: 'https://mail.aliyun.com/' },
     { id: 'video', name: '视频', icon: 'i-logos-youtube-icon', link: 'https://www.bilibili.com/' },
     { id: 'note', name: '笔记', icon: 'i-twemoji-notebook', link: 'https://www.yuque.com/' },
     { id: 'github', name: 'Github', icon: 'i-skill-icons:github-dark', link: 'https://github.com/ryanuo/tab-ext' },
+    { id: 'settings', name: '设置', icon: 'i-twemoji:gear' },
     { id: 'theme', name: '主题', icon: themeIcon },
   ]
 })
