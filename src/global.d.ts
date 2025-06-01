@@ -44,4 +44,5 @@ interface DockingItem {
   name: string
   icon: string
   link?: string
+  class?: string
 }

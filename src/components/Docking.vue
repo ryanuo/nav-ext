@@ -36,7 +36,7 @@ const dockingData = computed<DockingItem[]>(() => {
   const themeIcon = !isDark.value ? 'i-twemoji:sun' : 'i-twemoji:first-quarter-moon-face'
   return [
     { id: 'all', name: '所有', icon: 'i-skill-icons-ros-light' },
-    { id: 'translate', name: '翻译', icon: 'i-ic-sharp-translate', link: 'https://www.bing.com/translator' },
+    { id: 'translate', name: '翻译', icon: 'i-ic-sharp-translate', link: 'https://www.bing.com/translator', class: 'text-[#66757f]' },
     { id: 'music', name: '音乐', icon: 'i-twemoji:musical-note', link: 'https://music.163.com/' },
     { id: 'camera', name: '照片', icon: 'i-twemoji:camera' },
     { id: 'video', name: '视频', icon: 'i-icon-park:video-one', link: 'https://www.bilibili.com/' },
@@ -61,6 +61,7 @@ watchEffect(() => {
     <div
       v-for="(item, index) in dockingData" :key="index"
       class="icon h-10 w-10 flex cursor-pointer items-center justify-center rounded-xl bg-white/80 shadow transition-all duration-200 dark:bg-black/60 hover:bg-white hover:scale-105! dark:hover:bg-black/80"
+      :class="item.class"
       @click.stop="handleIconClick(item)"
     >
       <span class="m-2 text-2xl" :class="item.icon" />

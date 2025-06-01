@@ -69,7 +69,7 @@ function handleSelected(file: LocalFile) {
 </script>
 
 <template>
-  <div class="mx-auto h-[60vh] w-600px overflow-auto rounded-xl p-6 space-y-6">
+  <div class="mx-auto h-[60vh] max-w-[80vw] overflow-auto rounded-xl p-6 space-y-6">
     <div class="mb-4 flex gap-4">
       <button
         class="rounded-lg px-4 py-2 font-medium transition dark:border-gray-700"
@@ -121,7 +121,7 @@ function handleSelected(file: LocalFile) {
     </div>
 
     <!-- 本地文件预览 -->
-    <div v-if="localFiles.length" class="grid grid-cols-2 mt-4 gap-4">
+    <div v-if="localFiles.length" class="grid grid-cols-5 mt-4 gap-4">
       <div
         v-for="file in localFiles"
         :key="file.id"
@@ -145,7 +145,7 @@ function handleSelected(file: LocalFile) {
           v-else
           :src="file.url"
           class="h-32 w-full object-cover"
-          muted loop playsinline
+          loop muted playsinline
         />
         <!-- 选中时显示对勾图标 -->
         <span
