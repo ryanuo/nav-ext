@@ -129,21 +129,6 @@ function tabClass(tabName: string) {
   }`
 }
 
-const fileInputRef = ref<HTMLInputElement | null>(null)
-
-function handleLocalCoverUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) {
-    // 创建本地预览URL（可选，仅用于预览，不上传到服务器）
-    const previewUrl = URL.createObjectURL(file)
-    cover.value = previewUrl
-
-    // 清空input的文件缓存
-    if (fileInputRef.value)
-      fileInputRef.value.value = ''
-  }
-}
-
 defineExpose({
   setIsSettingsButtonVisible: (visible: boolean) => {
     isSettingsButtonVisible.value = visible
@@ -227,36 +212,8 @@ defineExpose({
                 <!-- 壁纸设置 -->
                 <div class="mt-6">
                   <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.cover') }}</label>
-                  <div class="relative">
-                    <input
-                      id="cover" v-model="cover" type="url"
-                      class="mt-1 block w-full border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] pr-15! dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                      :class="{ 'border-red-500': errors.cover }" :placeholder="t('settings.cover.placeholder')"
-                    >
-                    <button
-                      v-if="cover"
-                      class="absolute right-3 top-1/2 rounded bg-blue-600 px-2 py-1 text-xs text-white -translate-y-1/2"
-                      @click="cover = ''"
-                    >
-                      {{ t('common.clear') }}
-                    </button>
-                  </div>
-                  <p v-if="errors.cover" class="mt-1 text-sm text-red-500">
-                    {{ errors.cover }}
-                  </p>
-                  <img v-if="cover" class="mt-2 w-20 cursor-pointer hover:scale-105" :src="cover" alt="" srcset="">
-                  <div class="mt-2 flex items-center">
-                    <input
-                      id="localCoverInput"
-                      ref="fileInputRef"
-                      type="file"
-                      accept="image/*"
-                      class="hidden"
-                      @change="handleLocalCoverUpload"
-                    >
-                    <label for="localCoverInput" class="cursor-pointer rounded bg-gray-200 px-2 py-1 text-xs text-gray-700 dark:bg-gray-700 hover:bg-gray-300 dark:text-gray-200 dark:hover:bg-gray-600">
-                      {{ t('settings.cover.uploadLocal') }}
-                    </label>
+                  <div class="relative m--6 my--4">
+                    <Cover />
                   </div>
                 </div>
               </div>

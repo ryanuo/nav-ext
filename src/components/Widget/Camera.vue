@@ -31,11 +31,20 @@ defineExpose({
   currentCamera,
   enabled,
 })
+
+function handleCameraChange(id: string) {
+  currentCamera.value = id
+  if (video.value) {
+    video.value.srcObject = null // 清除之前的流
+    video.value.srcObject = stream.value! // 重新设置新的流
+  }
+  enabled.value = !enabled.value // 切换摄像头时切换 enabled 状态
+}
 </script>
 
 <template>
-  <div class="mx-auto max-w-md w-full flex flex-col items-center gap-6 text-center">
-    <div class="w-full flex justify-center overflow-hidden border border-gray-200 rounded-lg bg-black/80 shadow-lg dark:border-gray-700">
+  <div class="mx-auto max-w-md w-full p-3 text-center">
+    <div class="w-full flex justify-center overflow-hidden rounded-lg bg-black/80 shadow-lg dark:border-gray-700">
       <video ref="video" autoplay controls muted class="h-a w-200 bg-black" />
     </div>
     <div class="mt-2 flex flex-wrap justify-center gap-2">
@@ -44,16 +53,10 @@ defineExpose({
         :key="camera.deviceId"
         class="border border-gray-300 rounded bg-gray-100 px-4 py-2 text-gray-700 transition-all duration-150 dark:border-gray-600 dark:bg-gray-800 hover:bg-blue-100 dark:text-gray-200 hover:text-blue-700 dark:hover:bg-blue-900/40 dark:hover:text-blue-200"
         :class="{ 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200': currentCamera === camera.deviceId }"
-        @click="currentCamera = camera.deviceId"
+        @click="handleCameraChange(camera.deviceId)"
       >
-        {{ camera.label || `Camera` }}
+        {{ camera.label || `Camera` }} {{ enabled && currentCamera === camera.deviceId ? '(On)' : '(Off)' }}
       </button>
     </div>
-    <button
-      class="rounded bg-blue-600 px-6 py-2 text-white font-medium shadow transition hover:bg-blue-700"
-      @click="enabled = !enabled"
-    >
-      {{ enabled ? 'Stop' : 'Start' }}
-    </button>
   </div>
 </template>

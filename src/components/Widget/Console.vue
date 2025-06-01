@@ -14,7 +14,7 @@ const icons = [
 </script>
 
 <template>
-  <div class="grid grid-cols-5 gap-8">
+  <div class="grid grid-cols-5 gap-8 p-9">
     <div
       v-for="(icon, idx) in icons"
       :key="idx"

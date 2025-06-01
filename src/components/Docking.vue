@@ -14,7 +14,7 @@ const settingStore = useSettingsStore()
 
 function handleIconClick(item: DockingItem) {
   const { id: idx, link } = item
-  if (['all', 'photo'].includes(idx)) {
+  if (['all', 'camera', 'cover'].includes(idx)) {
     markStore.setShowWidget(true)
     dockingId.value = idx
   }
@@ -39,13 +39,20 @@ const dockingData = computed<DockingItem[]>(() => {
     { id: 'translate', name: '翻译', icon: 'i-ic-sharp-translate', link: 'https://www.bing.com/translator' },
     { id: 'music', name: '音乐', icon: 'i-twemoji:musical-note', link: 'https://music.163.com/' },
     { id: 'camera', name: '照片', icon: 'i-twemoji:camera' },
-    { id: 'mail', name: '邮件', icon: 'i-twemoji:e-mail', link: 'https://mail.aliyun.com/' },
-    { id: 'video', name: '视频', icon: 'i-logos-youtube-icon', link: 'https://www.bilibili.com/' },
-    { id: 'note', name: '笔记', icon: 'i-twemoji-notebook', link: 'https://www.yuque.com/' },
+    { id: 'video', name: '视频', icon: 'i-icon-park:video-one', link: 'https://www.bilibili.com/' },
+    { id: 'note', name: '笔记', icon: 'i-twemoji:spiral-notepad', link: 'https://www.yuque.com/' },
+    { id: 'cover', name: '壁纸设置', icon: 'i-icon-park-pic' },
+    { id: 'mail', name: '邮件', icon: 'i-logos:mailchimp-freddie', link: 'https://mail.aliyun.com/' },
     { id: 'github', name: 'Github', icon: 'i-skill-icons:github-dark', link: 'https://github.com/ryanuo/tab-ext' },
     { id: 'settings', name: '设置', icon: 'i-twemoji:gear' },
     { id: 'theme', name: '主题', icon: themeIcon },
   ]
+})
+
+watchEffect(() => {
+  if (!markStore.maskLayerEnabled) {
+    dockingId.value = 'all'
+  }
 })
 </script>
 

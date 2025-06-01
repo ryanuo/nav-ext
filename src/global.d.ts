@@ -38,7 +38,7 @@ declare interface WeatherCity {
 }
 
 // Docking
-type DockingID = 'all' | 'translate' | 'video' | 'music' | 'camera' | 'photo' | 'settings' | 'mail' | 'calendar' | 'note' | 'github' | 'theme'
+type DockingID = 'all' | 'cover' | 'translate' | 'video' | 'music' | 'camera' | 'photo' | 'settings' | 'mail' | 'calendar' | 'note' | 'github' | 'theme'
 interface DockingItem {
   id: DockingID
   name: string

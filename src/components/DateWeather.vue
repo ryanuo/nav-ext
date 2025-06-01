@@ -42,14 +42,14 @@ const weatherIframe = computed(() => {
 <template>
   <div class="time">
     <p
-      class="text-[4em] text-white dark:text-black/50"
+      class="text-[4em] text-white"
       @click.stop="handleDateFocus"
     >
       {{ currentDateTime }}
     </p>
     <p
       v-if="settingsStore.showDateWeek"
-      class="text-[1.2em] text-white dark:text-black/50"
+      class="text-[1.2em] text-white"
     >
       {{ currentDateWeek }}
     </p>

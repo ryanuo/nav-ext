@@ -60,12 +60,19 @@ const showLoading = computed({
       class="mark fixed left-0 top-0 z-[-1] h-full w-full transition duration-250"
     />
     <img
+      v-if="settings.coverType === 'image' && settings.cover"
       :class="{
         'img-mark': markStore.maskLayerEnabled,
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
       :src="settings.cover"
     >
+    <video
+      v-if="settings.coverType === 'video' && settings.cover"
+      class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
+      autoplay loop muted playsinline
+      :src="settings.cover"
+    />
     <template v-if="!showLoading">
       <slot />
       <Docking :setting-function="onCommandHPress" />

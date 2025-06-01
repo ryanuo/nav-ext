@@ -80,6 +80,7 @@ onUnmounted(() => {
         :class="{
           'input-focus': markStore.isInputActive,
           'hover:bg-gray-100/50': !markStore.isInputActive,
+          'dark:hover:bg-gray-800/50': !markStore.isInputActive,
         }"
         :value="searchQuery"
         autocomplete="off"

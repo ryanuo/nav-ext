@@ -14,11 +14,12 @@ defineProps<{
       :class="className"
     >
       <div
-        class="relative animate-fade-in cursor-pointer rounded-3xl bg-white/40 p-10 shadow-2xl backdrop-blur-lg backdrop-brightness-125 backdrop-saturate-150 dark:bg-[#23272f]/60"
+        class="relative animate-fade-in cursor-pointer rounded-3xl bg-white/40 p-1 shadow-2xl backdrop-blur-lg backdrop-brightness-125 backdrop-saturate-150 dark:bg-[#23272f]/60"
         @click.stop
       >
         <Console v-if="idx === 'all'" />
-        <Camera v-if="idx === 'photo'" />
+        <Camera v-if="idx === 'camera'" />
+        <Cover v-if="idx === 'cover'" />
       </div>
     </div>
   </transition>

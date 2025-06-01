@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { fileStorage } from '~/composables/indexedDB'
 
 import { useReactiveStorage } from '~/composables/useReactiveStorage'
 import { coverRandomUrl, coverUrl, initCity } from '~/constants/settings'
@@ -8,7 +9,12 @@ import i18n from '~/locales/i18n'
 export const useSettingsStore = defineStore('settings', () => {
   // 使用 useReactiveStorage 持久化存储
   const { data: theme } = useReactiveStorage<string>('theme', 'auto')
+  // 封面图片
   const { data: cover } = useReactiveStorage<string>('cover', coverRandomUrl)
+  const { data: coverMethod } = useReactiveStorage<'custom' | 'origin'>('coverMethod', 'origin')
+  const { data: coverType } = useReactiveStorage<'image' | 'video'>('coverType', 'image')
+  const { data: coverCustomKey } = useReactiveStorage<string>('coverCustomKey', '')
+  // 语言设置
   const { data: language } = useReactiveStorage<LOCALESTRING>('locale', 'zh-CN')
   const { data: animation } = useReactiveStorage<boolean>('animation', true)
   // 时间配置
@@ -66,8 +72,16 @@ export const useSettingsStore = defineStore('settings', () => {
     applyTheme(newTheme)
   }
 
-  const setCover = (url?: string) => {
-    cover.value = url || coverUrl
+  const setCoverMethod = (type: 'custom' | 'origin') => {
+    coverMethod.value = type
+  }
+
+  const setCoverType = (type: 'image' | 'video') => {
+    coverType.value = type
+  }
+
+  const setCoverCustomKey = (key: string) => {
+    coverCustomKey.value = key
   }
 
   const setLanguage = (lang: LOCALESTRING) => {
@@ -101,10 +115,43 @@ export const useSettingsStore = defineStore('settings', () => {
     showDocking.value = show
   }
 
+  const applyCover = () => {
+    if (coverMethod.value === 'custom') {
+      fileStorage.getFile(coverCustomKey.value).then((file: any) => {
+        if (file) {
+          const url = URL.createObjectURL(file.data)
+          cover.value = url
+        }
+        else {
+          console.warn('Custom cover not found')
+        }
+      },
+      ).catch((err) => {
+        console.error('Error fetching custom cover:', err)
+      },
+      )
+    }
+    else {
+      setCoverCustomKey('')
+    }
+  }
+  // 设置封面图片
+  const setCover = (url?: string) => {
+    cover.value = url || coverUrl
+    if (!url) {
+      setCoverMethod('origin')
+      setCoverCustomKey('')
+    }
+  }
+
   const resetAll = () => {
     // 重置所有设置为默认值
     theme.value = 'auto'
+    // 封面图片
     cover.value = coverRandomUrl
+    coverMethod.value = 'origin'
+    coverType.value = 'image'
+    coverCustomKey.value = ''
     language.value = 'zh-CN'
     animation.value = true
     // 时区设置
@@ -132,11 +179,17 @@ export const useSettingsStore = defineStore('settings', () => {
   watchEffect(() => {
     applyLanguage(language.value)
   })
+  watchEffect(() => {
+    applyCover()
+  })
 
   return {
     // 状态
     theme,
     cover,
+    coverMethod,
+    coverType,
+    coverCustomKey,
     language,
     animation,
     is24Hour,
@@ -153,6 +206,9 @@ export const useSettingsStore = defineStore('settings', () => {
     // 动作
     setTheme,
     setCover,
+    setCoverMethod,
+    setCoverType,
+    setCoverCustomKey,
     setLanguage,
     setAnimation,
     setIs24Hour,
