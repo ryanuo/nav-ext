@@ -12,7 +12,7 @@ const appVersion = __APP_VERSION__
 const buildTime = __BUILD_TIME__
 const settingsStore = useSettingsStore()
 const isSettingsButtonVisible = ref(false)
-const activeTab = ref<ActiveTab>('about') // 默认激活基础配置
+const activeTab = ref<ActiveTab>('base') // 默认激活基础配置
 const isConfirmVisible = ref(false)
 
 const theme = computed({
@@ -212,7 +212,7 @@ defineExpose({
                 <!-- 壁纸设置 -->
                 <div class="mt-6">
                   <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.cover') }}</label>
-                  <div class="relative m--6 my--4">
+                  <div class="relative m--6 my-0">
                     <Cover />
                   </div>
                 </div>
@@ -321,12 +321,6 @@ defineExpose({
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.showWeather') }}</span>
                     <Toggle v-model="showWeather" label="" />
                   </ItemContainer>
-                  <ItemContainer v-if="showWeather">
-                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherCity') }}</span>
-                    <CityCascader
-                      v-model="weatherCity"
-                    />
-                  </ItemContainer>
                   <ItemContainer>
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherTheme') }}</span>
                     <select
@@ -340,6 +334,12 @@ defineExpose({
                         {{ t('settings.weatherTheme.meteo') }}
                       </option>
                     </select>
+                  </ItemContainer>
+                  <ItemContainer v-if="showWeather && weatherTheme === '2'">
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherCity') }}</span>
+                    <CityCascader
+                      v-model="weatherCity"
+                    />
                   </ItemContainer>
                 </GroupContainer>
               </div>
