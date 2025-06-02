@@ -36,6 +36,7 @@ const dockingData = computed<DockingItem[]>(() => {
   const themeIcon = !isDark.value ? 'i-twemoji:sun' : 'i-twemoji:first-quarter-moon-face'
   return [
     { id: 'all', name: '所有', icon: 'i-skill-icons-ros-light' },
+    { id: 'ai', name: 'AI助手', icon: 'i-simple-icons-openai', link: 'https://chat.openai.com/' },
     { id: 'translate', name: '翻译', icon: 'i-ic-sharp-translate', link: 'https://www.bing.com/translator', class: 'text-[#66757f]' },
     { id: 'music', name: '音乐', icon: 'i-twemoji:musical-note', link: 'https://music.163.com/' },
     { id: 'camera', name: '照片', icon: 'i-twemoji:camera' },
