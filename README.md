@@ -4,6 +4,15 @@
 
 <h1 align="center">N-Tab</h1>
 
+<p align="center">
+<a href="README_US.md"><img src="https://img.shields.io/badge/-English-blue?logo=markdown" alt="English"></a>
+<span><img src="https://img.shields.io/badge/-中文-gray?logo=markdown"></span>
+<a href='https://github.com/ryanuo/tab-ext/releases/latest'><img src="https://img.shields.io/badge/-Zip-black?logo=ziggo" alt="zip"></a>
+<a href="https://addons.mozilla.org/firefox/addon/n-tab/"><img src="https://img.shields.io/badge/-Firefox-orange?logo=firefox" alt="Firefox"></a>
+<!-- <a href="https://chrome.google.com/webstore/detail/n-tab/jgjhjhjhjhjhjhjhjhjhjhjhjh"><img src="https://img.shields.io/badge/-Chrome-green?logo=google-chrome" alt="Chrome"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/n-tab/jgjhjhjhjhjhjhjhjhjhjhjhjh"><img src="https://img.shields.io/badge/-Edge-blueviolet?logo=edge" alt="Edge"></a> -->
+</p>
+
 ## 🧩 项目说明
 
 - N-Tab 是一个轻量级浏览器标签页扩展，主要功能包括时间显示、搜索建议、搜索引擎切换、快捷翻译、主题配置等。
