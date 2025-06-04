@@ -117,19 +117,21 @@ export const useSettingsStore = defineStore('settings', () => {
 
   const applyCover = () => {
     if (coverMethod.value === 'custom') {
-      fileStorage.getFile(coverCustomKey.value).then((file: any) => {
-        if (file) {
-          const url = URL.createObjectURL(file.data)
-          cover.value = url
-        }
-        else {
-          console.warn('Custom cover not found')
-        }
-      },
-      ).catch((err) => {
-        console.error('Error fetching custom cover:', err)
-      },
-      )
+      if (coverCustomKey.value) {
+        fileStorage.getFile(coverCustomKey.value).then((file: any) => {
+          if (file) {
+            const url = URL.createObjectURL(file.data)
+            cover.value = url
+          }
+          else {
+            console.warn('Custom cover not found')
+          }
+        },
+        ).catch((err) => {
+          console.error('Error fetching custom cover:', err)
+        },
+        )
+      }
     }
     else {
       setCoverCustomKey('')
@@ -138,6 +140,9 @@ export const useSettingsStore = defineStore('settings', () => {
   // 设置封面图片
   const setCover = (url?: string) => {
     cover.value = url || coverUrl
+    const isOrigin = url?.startsWith('https://') || url?.startsWith('http://')
+    setCoverMethod(isOrigin ? 'origin' : 'custom')
+
     if (!url) {
       setCoverMethod('origin')
       setCoverCustomKey('')

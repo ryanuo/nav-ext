@@ -5,6 +5,9 @@ import { useI18n } from 'vue-i18n'
 import { fileStorage } from '~/composables/indexedDB'
 import { useSettingsStore } from '~/store/option/settings'
 
+defineProps<{
+  className: string
+}>()
 // 类型定义
 type FileType = 'image' | 'video'
 interface LocalFile {
@@ -69,7 +72,7 @@ function handleSelected(file: LocalFile) {
 </script>
 
 <template>
-  <div class="mx-auto h-[60vh] max-w-[80vw] overflow-auto rounded-xl p-6 space-y-6">
+  <div :class="className" class="mx-auto h-[60vh] max-w-[80vw] overflow-auto rounded-xl p-6 space-y-6">
     <div class="mb-4 flex gap-4">
       <button
         class="rounded-lg px-4 py-2 font-medium transition dark:border-gray-700"
