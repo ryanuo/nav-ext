@@ -162,6 +162,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const resetAll = () => {
     // 重置所有设置为默认值
     theme.value = 'auto'
+    colorTheme.value = 'red'
     // 封面图片
     cover.value = coverRandomUrl
     coverMethod.value = 'origin'

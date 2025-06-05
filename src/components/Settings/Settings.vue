@@ -452,7 +452,7 @@ defineExpose({
   </div>
   <!-- 确认重置对话框 -->
   <transition name="modal">
-    <div v-show="isConfirmVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div v-show="isConfirmVisible" class="fixed inset-0 z-500 flex items-center justify-center bg-black bg-opacity-50">
       <div class="w-96 rounded-lg bg-white p-6 text-gray-900 shadow-lg dark:bg-[#23272f] dark:text-gray-100">
         <h3 class="mb-4 text-lg font-bold">
           {{ t('settings.confirmReset.title') }}
@@ -467,7 +467,7 @@ defineExpose({
           >
             {{ t('common.cancel') }}
           </button>
-          <button class="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700" @click="settingsStore.resetAll">
+          <button class="rounded-md bg-[--c-600] px-4 py-2 text-white hover:bg-[--c-700]" @click="settingsStore.resetAll">
             {{ t('common.confirm') }}
           </button>
         </div>
