@@ -20,6 +20,7 @@
   "settings.cover.current": "Current Wallpaper Setting",
   "settings.cover.emptyLocal": "No local {type} yet",
   "settings.cover.select": "{type} Selection",
+  "settings.search.sorted": "sorted",
   "common.clear": "Clear",
   "settings.searchEngine": "Search Engine",
   "settings.preference": "Preferences",

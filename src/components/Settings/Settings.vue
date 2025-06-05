@@ -220,10 +220,15 @@ defineExpose({
 
               <!-- 搜索引擎设置 -->
               <div v-show="activeTab === 'search'">
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.searchEngine') }}</label>
-                  <SearchEngineSetting />
-                </div>
+                <GroupContainer>
+                  <template #label>
+                    {{ t('settings.searchEngine') }}
+                  </template>
+                  <ItemContainer classname="flex-col">
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.search.sorted') }}</span>
+                    <SearchEngineSetting />
+                  </ItemContainer>
+                </GroupContainer>
               </div>
 
               <!-- 个性化偏好 -->

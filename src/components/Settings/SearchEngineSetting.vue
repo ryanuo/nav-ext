@@ -47,12 +47,12 @@ function handleDrop() {
 <template>
   <div class="mx-auto py-1 container">
     <div class="shadow-xs rounded-xl bg-white py-2 dark:bg-[#23272f]">
-      <div class="space-y-2">
+      <div class="flex flex-wrap justify-between gap-2">
         <div
           v-for="(engine, index) in engines"
           :key="engine.name"
           :data-index="index"
-          class="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 shadow-sm transition-all duration-200 dark:bg-[#23272f] hover:shadow"
+          class="w-[48%] flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 shadow-sm transition-all duration-200 dark:bg-[#23272f] hover:shadow"
           draggable="true"
           :class="{ 'bg-primary/10 dark:bg-blue-900/30': dragOverIndex === index }"
           @dragstart="handleDragStart(index)"

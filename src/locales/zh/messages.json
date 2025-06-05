@@ -21,6 +21,7 @@
   "settings.cover.emptyLocal": "暂无本地{type}",
   "settings.cover.select": "{type}选择",
   "common.clear": "清除",
+  "settings.search.sorted": "排序",
   "settings.searchEngine": "搜索引擎",
   "settings.preference": "偏好设置",
   "settings.language": "界面语言",
