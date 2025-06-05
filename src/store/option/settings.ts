@@ -9,6 +9,7 @@ import i18n from '~/locales/i18n'
 export const useSettingsStore = defineStore('settings', () => {
   // 使用 useReactiveStorage 持久化存储
   const { data: theme } = useReactiveStorage<string>('theme', 'auto')
+  const { data: colorTheme } = useReactiveStorage<ColorTheme>('colorTheme', 'blue')
   // 封面图片
   const { data: cover } = useReactiveStorage<string>('cover', coverRandomUrl)
   const { data: coverMethod } = useReactiveStorage<'custom' | 'origin'>('coverMethod', 'origin')
@@ -45,6 +46,10 @@ export const useSettingsStore = defineStore('settings', () => {
     }
   }
 
+  const applyColorScheme = (themeVal: ColorTheme) => {
+    document.documentElement.setAttribute('data-theme', themeVal)
+  }
+
   const applyLanguage = (lang: LOCALESTRING) => {
     i18n.global.locale.value = lang
     console.warn(`Language set to: ${lang}`)
@@ -70,6 +75,11 @@ export const useSettingsStore = defineStore('settings', () => {
   const setTheme = (newTheme: string) => {
     theme.value = newTheme
     applyTheme(newTheme)
+  }
+
+  const setColorTheme = (newColorTheme: ColorTheme) => {
+    colorTheme.value = newColorTheme
+    applyColorScheme(newColorTheme)
   }
 
   const setCoverMethod = (type: 'custom' | 'origin') => {
@@ -187,10 +197,14 @@ export const useSettingsStore = defineStore('settings', () => {
   watchEffect(() => {
     applyCover()
   })
+  watchEffect(() => {
+    applyColorScheme(colorTheme.value)
+  })
 
   return {
     // 状态
     theme,
+    colorTheme,
     cover,
     coverMethod,
     coverType,
@@ -210,6 +224,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
     // 动作
     setTheme,
+    setColorTheme,
     setCover,
     setCoverMethod,
     setCoverType,

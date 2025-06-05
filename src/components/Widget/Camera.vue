@@ -45,14 +45,14 @@ function handleCameraChange(id: string) {
 <template>
   <div class="mx-auto max-w-md w-full p-3 text-center">
     <div class="w-full flex justify-center overflow-hidden rounded-lg bg-black/80 shadow-lg dark:border-gray-700">
-      <video ref="video" autoplay controls muted class="h-a w-200 bg-black" />
+      <video ref="video" muted autoplay controls class="h-a w-200 bg-black" />
     </div>
     <div class="mt-2 flex flex-wrap justify-center gap-2">
       <button
         v-for="camera in cameras"
         :key="camera.deviceId"
-        class="border border-gray-300 rounded bg-gray-100 px-4 py-2 text-gray-700 transition-all duration-150 dark:border-gray-600 dark:bg-gray-800 hover:bg-blue-100 dark:text-gray-200 hover:text-blue-700 dark:hover:bg-blue-900/40 dark:hover:text-blue-200"
-        :class="{ 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200': currentCamera === camera.deviceId }"
+        class="border border-gray-300 rounded bg-gray-100 px-4 py-2 text-gray-700 transition-all duration-150 dark:border-gray-600 dark:bg-gray-800 hover:bg-[--c-100] dark:text-gray-200 hover:text-[--c-700] dark:hover:bg-blue-900/40 dark:hover:text-blue-200"
+        :class="{ 'border-[--c-500] bg-[--c-50] text-[--c-700] dark:bg-blue-900/40 dark:text-blue-200': currentCamera === camera.deviceId }"
         @click="handleCameraChange(camera.deviceId)"
       >
         {{ camera.label || `Camera` }} {{ enabled && currentCamera === camera.deviceId ? '(On)' : '(Off)' }}

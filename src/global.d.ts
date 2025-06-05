@@ -46,3 +46,4 @@ interface DockingItem {
   link?: string
   class?: string
 }
+type ColorTheme = 'green' | 'red' | 'purple' | 'yellow' | 'pink' | 'blue' | 'orange'

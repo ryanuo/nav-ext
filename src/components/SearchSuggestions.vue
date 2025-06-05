@@ -99,7 +99,7 @@ function computedItemClass(index: number) {
   const isHovered = index === hoveredIndex.value
 
   if (isSelected)
-    return 'bg-blue-100 text-blue-800 transition-all duration-200'
+    return 'bg-[--c-100] text-blue-800 transition-all duration-200'
   if (isHovered)
     return 'bg-gray-100/40 text-gray-800 transition-all duration-200 hover:font-medium'
 
@@ -114,7 +114,7 @@ function highlightMatch(text: string) {
   const query = searchQuery.value.toLowerCase().trim()
   const regex = new RegExp(`(${query})`, 'gi')
 
-  return text.replace(regex, '<span class="font-semibold text-blue-600">$1</span>')
+  return text.replace(regex, '<span class="font-semibold text-[--c-600]">$1</span>')
 }
 
 function resetIndex() {

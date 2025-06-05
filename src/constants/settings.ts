@@ -9,8 +9,19 @@ const initCity: WeatherCity = {
 
 const coverRandomUrl = 'https://wp.upx8.com/api.php'
 
+const colors: ColorTheme[] = [
+  'blue',
+  'green',
+  'red',
+  'orange',
+  'purple',
+  'pink',
+  'yellow',
+]
+
 export {
   coverUrl,
   initCity,
   coverRandomUrl,
+  colors,
 }

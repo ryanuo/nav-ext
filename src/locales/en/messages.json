@@ -21,6 +21,8 @@
   "settings.cover.emptyLocal": "No local {type} yet",
   "settings.cover.select": "{type} Selection",
   "settings.search.sorted": "sorted",
+  "settings.theme.label": "Theme Mode",
+  "settings.color.label": "Color",
   "common.clear": "Clear",
   "settings.searchEngine": "Search Engine",
   "settings.preference": "Preferences",

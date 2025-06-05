@@ -4,6 +4,7 @@ import ItemContainer from './ItemContainer.vue'
 import type { LOCALESTRING } from '~/locales/i18n'
 import { useSettingsStore } from '~/store/option/settings'
 import { useDateTime } from '~/composables/useDateTime'
+import { colors } from '~/constants/settings'
 
 const { t } = useI18n()
 
@@ -19,6 +20,10 @@ const theme = computed({
   get: () => settingsStore.theme,
   set: (value: string) => settingsStore.setTheme(value),
 })
+
+function handleColorChange(color: ColorTheme) {
+  settingsStore.setColorTheme(color)
+}
 
 const cover = computed({
   get: () => settingsStore.cover,
@@ -122,10 +127,9 @@ function resetSettings() {
 
 // 选项卡样式计算函数
 function tabClass(tabName: string) {
-  return `w-full border-b border-gray-200 dark:border-gray-700 px-6 py-4 text-left transition-all duration-200 ${
-    activeTab.value === tabName
-      ? 'border-l-4 border-blue-500 bg-blue-50 dark:bg-[#23272f] text-blue-600 dark:text-blue-400 font-medium'
-      : 'text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-[#23272f]'
+  return `w-full border-b border-gray-200 dark:border-gray-700 px-6 py-4 text-left transition-all duration-200 ${activeTab.value === tabName
+    ? 'border-l-4 border-[--c-500] bg-[--c-50] dark:bg-[#23272f] text-[--c-600] dark:text-[--c-400] font-medium'
+    : 'text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-[#23272f]'
   }`
 }
 
@@ -141,18 +145,28 @@ defineExpose({
   <div>
     <!-- 配置按钮 -->
     <div class="fixed right-4 top-6 z-200 cursor-pointer" @click.stop="isSettingsButtonVisible = true">
-      <span class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180 dark:text-gray-200" />
+      <span
+        class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180 dark:text-gray-200"
+      />
     </div>
     <!-- 弹窗内容 -->
     <transition name="modal-content">
-      <div v-show="isSettingsButtonVisible" class="fixed inset-0 z-201 flex items-center justify-center bg-black/30 dark:bg-black/60">
-        <div class="relative max-w-3xl w-full rounded-lg bg-white text-gray-900 shadow-2xl dark:bg-[#23272f] dark:text-gray-100" @click.stop>
+      <div
+        v-show="isSettingsButtonVisible"
+        class="fixed inset-0 z-201 flex items-center justify-center bg-black/30 dark:bg-black/60"
+      >
+        <div
+          class="relative max-w-3xl w-full rounded-lg bg-white text-gray-900 shadow-2xl dark:bg-[#23272f] dark:text-gray-100"
+          @click.stop
+        >
           <div class="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
             <h2 class="text-xl font-bold">
               {{ t('settings.title') }}
             </h2>
             <button @click="isSettingsButtonVisible = false">
-              <span class="i-ion-close h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100" />
+              <span
+                class="i-ion-close h-5 w-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
+              />
             </button>
           </div>
 
@@ -191,23 +205,45 @@ defineExpose({
               <!-- 基础配置 -->
               <div v-show="activeTab === 'base'">
                 <!-- 主题模式 -->
-                <div class="mb-4">
-                  <label class="block text-sm text-gray-700 font-medium dark:text-gray-200">{{ t('settings.themeMode') }}</label>
-                  <select
-                    v-model="theme"
-                    class="mt-1 block w-full border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  >
-                    <option value="light">
-                      {{ t('settings.theme.light') }}
-                    </option>
-                    <option value="dark">
-                      {{ t('settings.theme.dark') }}
-                    </option>
-                    <option value="auto">
-                      {{ t('settings.theme.auto') }}
-                    </option>
-                  </select>
-                </div>
+                <GroupContainer>
+                  <template #label>
+                    {{ t('settings.themeMode') }}
+                  </template>
+                  <ItemContainer>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.theme.label') }}</span>
+                    <select
+                      v-model="theme"
+                      class="mt-1 block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-[--c-500] dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    >
+                      <option value="light">
+                        {{ t('settings.theme.light') }}
+                      </option>
+                      <option value="dark">
+                        {{ t('settings.theme.dark') }}
+                      </option>
+                      <option value="auto">
+                        {{ t('settings.theme.auto') }}
+                      </option>
+                    </select>
+                  </ItemContainer>
+                  <ItemContainer>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.color.label') }}</span>
+                    <div class="flex cursor-pointer items-center gap-1">
+                      <div
+                        v-for="(color, index) in colors" :key="index"
+                        disabled
+                        :style="{ backgroundColor: color }" class="h-4 w-4 cursor-pointer"
+                        hover="scale-105"
+                        :class="{
+                          'scale-115': color === settingsStore.colorTheme,
+                          'opacity-50': color !== settingsStore.colorTheme,
+                          'border-1 border-[--c-100]': color === settingsStore.colorTheme,
+                        }"
+                        @click="handleColorChange(color)"
+                      />
+                    </div>
+                  </ItemContainer>
+                </GroupContainer>
 
                 <!-- 壁纸设置 -->
                 <div class="mt-6">
@@ -241,7 +277,7 @@ defineExpose({
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.language') }}</span>
                     <select
                       v-model="language"
-                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-[--c-500] dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="zh-CN">
                         {{ t('settings.language.zh-CN') }}
@@ -282,14 +318,15 @@ defineExpose({
                     {{ t('settings.time') }}
                   </template>
                   <ItemContainer>
-                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.currentTime') }}：{{ currentDateTime }}</span>
+                    <span class="text-gray-700 dark:text-gray-200">{{ t('settings.currentTime') }}：{{ currentDateTime
+                    }}</span>
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.timezone') }}-{{ timezone }}</span>
                   </ItemContainer>
                   <ItemContainer>
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.timezoneSetting') }}</span>
                     <select
                       v-model="timezone"
-                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-[--c-500] dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="Asia/Shanghai">
                         {{ t('settings.timezone.shanghai') }}
@@ -330,7 +367,7 @@ defineExpose({
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherTheme') }}</span>
                     <select
                       v-model="weatherTheme"
-                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-blue-500 dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      class="block border-gray-300 rounded-md bg-white text-gray-900 shadow-sm dark:border-gray-700 focus:border-[--c-500] dark:bg-[#23272f] dark:text-gray-100 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     >
                       <option value="1">
                         {{ t('settings.weatherTheme.tianqiapi') }}
@@ -342,9 +379,7 @@ defineExpose({
                   </ItemContainer>
                   <ItemContainer v-if="showWeather && weatherTheme === '2'">
                     <span class="text-gray-700 dark:text-gray-200">{{ t('settings.weatherCity') }}</span>
-                    <CityCascader
-                      v-model="weatherCity"
-                    />
+                    <CityCascader v-model="weatherCity" />
                   </ItemContainer>
                 </GroupContainer>
               </div>
@@ -357,7 +392,12 @@ defineExpose({
                   </h3>
                   <p>{{ t('settings.about.version') }}：{{ appVersion }}</p>
                   <p>{{ t('settings.about.buildTime') }}：{{ buildTime }}</p>
-                  <p>{{ t('settings.about.feedback') }}：<a href="https://github.com/ryanuo/tab-ext/issues" target="_blank">issues</a></p>
+                  <p>
+                    {{ t('settings.about.feedback') }}：<a
+                      href="https://github.com/ryanuo/tab-ext/issues"
+                      target="_blank"
+                    >issues</a>
+                  </p>
                   <p class="mt-4">
                     {{ t('settings.about.copyright') }} <a href="https://ryanuo.cc" target="_blank">ryanuo</a>
                   </p>
@@ -393,14 +433,14 @@ defineExpose({
           <div class="flex justify-end border-t border-gray-200 p-4 dark:border-gray-700">
             <button
               type="button"
-              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-2 py-1 text-sm text-gray-700 dark:border-gray-700 dark:bg-[#23272f] hover:bg-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:hover:bg-gray-800"
+              class="mr-2 border border-gray-300 rounded-md bg-gray-50 px-2 py-1 text-sm text-gray-700 dark:border-gray-700 dark:bg-[#23272f] hover:bg-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--c-500] dark:hover:bg-gray-800"
               @click="resetSettings"
             >
               {{ t('common.reset') }}
             </button>
             <button
               type="button"
-              class="border border-transparent rounded-md bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="border border-transparent rounded-md bg-[--c-600] px-2 py-1 text-sm text-white hover:bg-[--c-700] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--c-500]"
               @click="isSettingsButtonVisible = false"
             >
               {{ t('common.close') }}
@@ -462,6 +502,6 @@ select {
 }
 
 a {
-  @apply text-blue-600 hover:underline;
+  @apply text-[--c-600] hover:underline;
 }
 </style>

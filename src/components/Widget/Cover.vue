@@ -6,7 +6,7 @@ import { fileStorage } from '~/composables/indexedDB'
 import { useSettingsStore } from '~/store/option/settings'
 
 defineProps<{
-  className: string
+  className?: string
 }>()
 // 类型定义
 type FileType = 'image' | 'video'
@@ -76,14 +76,14 @@ function handleSelected(file: LocalFile) {
     <div class="mb-4 flex gap-4">
       <button
         class="rounded-lg px-4 py-2 font-medium transition dark:border-gray-700"
-        :class="tab === 'image' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'"
+        :class="tab === 'image' ? 'bg-[--c-600] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'"
         @click="tab = 'image'"
       >
         {{ t('settings.cover.image') }}
       </button>
       <button
         class="rounded-lg px-4 py-2 font-medium transition dark:border-gray-700"
-        :class="tab === 'video' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'"
+        :class="tab === 'video' ? 'bg-[--c-600] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'"
         @click="tab = 'video'"
       >
         {{ t('settings.cover.video') }}
@@ -102,7 +102,7 @@ function handleSelected(file: LocalFile) {
         >
         <button
           v-if="coverUrl"
-          class="absolute right-3 top-1/2 rounded bg-blue-600 px-2 py-1 text-xs text-white -translate-y-1/2"
+          class="absolute right-3 top-1/2 rounded bg-[--c-600] px-2 py-1 text-xs text-white -translate-y-1/2"
           @click="coverUrl = ''"
         >
           {{ t('common.clear') }}
@@ -118,7 +118,7 @@ function handleSelected(file: LocalFile) {
       <input
         type="file"
         :accept="tab === 'image' ? 'image/*' : 'video/*'"
-        class="block w-full text-sm file:mr-4 file:border-0 file:rounded-lg file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 hover:file:bg-blue-100"
+        class="block w-full text-sm file:mr-4 file:border-0 file:rounded-lg file:bg-[--c-50] file:px-4 file:py-2 file:text-[--c-700] hover:file:bg-[--c-100]"
         @change="handleUpload"
       >
     </div>

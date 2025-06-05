@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    classname: string
+    classname?: string
   }>(),
   {
     classname: 'items-center',

@@ -159,7 +159,7 @@ watch(() => props.modelValue, (newVal) => {
   <div class="city-cascader relative mt-2 w-70">
     <div
       class="flex cursor-pointer items-center justify-between border border-gray-300 rounded-lg bg-white px-4 py-2 dark:border-gray-700 dark:bg-[#23272f]"
-      :class="{ 'border-blue-500 ring-2 ring-blue-100 dark:ring-blue-900/40': panelVisible }"
+      :class="{ 'border-[--c-500] ring-2 ring-[--c-100] dark:ring-blue-900/40': panelVisible }"
       @click="togglePanel"
     >
       <span class="truncate text-gray-700 dark:text-gray-200">
@@ -184,7 +184,7 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedProvince?.id === province.id
-                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  ? 'bg-[--c-50] dark:bg-blue-900/30 text-[--c-600] dark:text-[--c-400] font-bold'
                   : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectProvince(province)"
@@ -205,7 +205,7 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedCity?.id === city.id
-                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  ? 'bg-[--c-50] dark:bg-blue-900/30 text-[--c-600] dark:text-[--c-400] font-bold'
                   : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectCity(city)"
@@ -226,7 +226,7 @@ watch(() => props.modelValue, (newVal) => {
               class="cursor-pointer rounded px-3 py-2 transition-colors"
               :class="[
                 selectedArea?.id === area.id
-                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                  ? 'bg-[--c-50] dark:bg-blue-900/30 text-[--c-600] dark:text-[--c-400] font-bold'
                   : 'hover:bg-gray-100 dark:hover:bg-gray-800',
               ]"
               @click="selectArea(area)"
@@ -240,7 +240,7 @@ watch(() => props.modelValue, (newVal) => {
             {{ t('common.reset') }}
           </button>
           <button
-            class="ml-2 rounded bg-blue-500 px-4 py-1.5 text-white hover:bg-blue-600"
+            class="ml-2 rounded bg-[--c-500] px-4 py-1.5 text-white hover:bg-[--c-600]"
             :disabled="!selectedProvince"
             @click="confirmSelection"
           >
