@@ -3,4 +3,5 @@ ignoredBuiltDependencies:
   - esbuild
   - simple-git-hooks
   - spawn-sync
+  - unrs-resolver
   - vue-demi

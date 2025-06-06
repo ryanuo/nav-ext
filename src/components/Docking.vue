@@ -4,7 +4,7 @@ import { useMarkStore } from '~/store/option/mark'
 import { usePreferenceStore } from '~/store/option/settings'
 
 const props = defineProps<{
-  settingFunction?: () => void
+  settingFunction?: (e: any) => void
 }>()
 const markStore = useMarkStore()
 const isDark = useDark()
@@ -28,7 +28,7 @@ function handleIconClick(item: DockingItem) {
   }
 
   if (idx === 'settings') {
-    props.settingFunction?.()
+    props.settingFunction?.(null)
   }
 }
 

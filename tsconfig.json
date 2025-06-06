@@ -12,7 +12,8 @@
     },
     "resolveJsonModule": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "unplugin-vue-components/types"
     ],
     "strict": true,
     "noUnusedLocals": true,
