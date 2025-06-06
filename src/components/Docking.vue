@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
 import { useMarkStore } from '~/store/option/mark'
-import { useSettingsStore } from '~/store/option/settings'
+import { usePreferenceStore } from '~/store/option/settings'
 
 const props = defineProps<{
   settingFunction?: () => void
@@ -10,7 +10,7 @@ const markStore = useMarkStore()
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const dockingId = ref<DockingID>('all')
-const settingStore = useSettingsStore()
+const preferenceStore = usePreferenceStore()
 
 function handleIconClick(item: DockingItem) {
   const { id: idx, link } = item
@@ -58,7 +58,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-if="settingStore.showDocking" class="docking">
+  <div v-if="preferenceStore.showDocking" class="docking">
     <div
       v-for="(item, index) in dockingData" :key="index"
       class="icon h-10 w-10 flex cursor-pointer items-center justify-center rounded-xl bg-white/80 shadow transition-all duration-200 dark:bg-black/60 hover:bg-white hover:scale-105! dark:hover:bg-black/80"

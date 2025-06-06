@@ -4,16 +4,16 @@ import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
-import { useSettingsStore } from '~/store/option/settings'
+import { usePreferenceStore } from '~/store/option/settings'
 
 const searchEngineRef = ref<{ isShowEngine: Ref<boolean>, setIsShowEngine: (isShow: boolean) => void }>()
 const searchInputRef = ref<HTMLInputElement | null>(null)
 
 const markStore = useMarkStore()
 const searchStore = useSearchStore()
-const settingsStore = useSettingsStore()
 const { searchQuery } = storeToRefs(searchStore)
 const { setSearchQuery, submit } = searchStore
+const preferenceStore = usePreferenceStore()
 
 function handleInputFocus() {
   markStore.setInputActive(true)
@@ -55,7 +55,7 @@ onMounted(() => {
 
 watchOnce(searchInputRef, () => {
   // 如果是自动聚焦搜索框，则自动聚焦
-  if (searchInputRef.value && settingsStore.isAutoFocusSearchBoxOnPageLoad) {
+  if (searchInputRef.value && preferenceStore.isAutoFocusSearchBoxOnPageLoad) {
     onEnterPress()
   }
   else {
@@ -88,7 +88,7 @@ onUnmounted(() => {
         @input="handleInput"
         @click.stop="handleInputFocus"
       >
-      <SearchSuggestions v-if="settingsStore.searchSuggestionEnabled" />
+      <SearchSuggestions v-if="preferenceStore.searchSuggestionEnabled" />
       <template v-if="markStore.isInputActive">
         <button
           type="button" class="btn btn-toggle"

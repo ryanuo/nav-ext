@@ -2,9 +2,10 @@
 import hotkeys from 'hotkeys-js'
 import { useImage } from '@vueuse/core'
 import { useMarkStore } from '~/store/option/mark'
-import { useSettingsStore } from '~/store/option/settings'
+import { useCoverStore, usePreferenceStore } from '~/store/option/settings'
 
-const settings = useSettingsStore()
+const preferenceStore = usePreferenceStore()
+const coverStore = useCoverStore()
 const markStore = useMarkStore()
 const settingRef = ref<{
   setIsSettingsButtonVisible: (visible: boolean) => void
@@ -12,7 +13,7 @@ const settingRef = ref<{
 }>()
 
 const { isLoading } = useImage({
-  src: settings.cover,
+  src: coverStore.cover,
 })
 
 function onCommandHPress(event: KeyboardEvent) {
@@ -34,7 +35,7 @@ function onCommandHPress(event: KeyboardEvent) {
 
 onMounted(() => {
   // 如果没有设置封面图，则直接结束加载状态
-  if (!settings.cover) {
+  if (!coverStore.cover) {
     isLoading.value = false
   }
 
@@ -46,32 +47,32 @@ onUnmounted(() => {
 })
 
 const showLoading = computed({
-  get: () => !!settings.animation && isLoading.value,
+  get: () => !!preferenceStore.animation && isLoading.value,
   set: () => {},
 })
 </script>
 
 <template>
   <div flex="~ col items-center justify-center" class="relative h-full transition-colors duration-300" @click="markStore.initStatus()">
-    <ImageLoading v-if="settings.animation" v-model="showLoading" />
+    <ImageLoading v-if="preferenceStore.animation" v-model="showLoading" />
 
     <div
       v-if="markStore.maskLayerEnabled && !showLoading"
       class="mark fixed left-0 top-0 z-[-1] h-full w-full transition duration-250"
     />
     <img
-      v-if="settings.coverType === 'image' && settings.cover"
+      v-if="coverStore.coverType === 'image' && coverStore.cover"
       :class="{
         'img-mark': markStore.maskLayerEnabled,
       }"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
-      :src="settings.cover"
+      :src="coverStore.cover"
     >
     <video
-      v-if="settings.coverType === 'video' && settings.cover"
+      v-if="coverStore.coverType === 'video' && coverStore.cover"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
-      autoplay loop muted playsinline
-      :src="settings.cover"
+      loop muted playsinline autoplay
+      :src="coverStore.cover"
     />
     <template v-if="!showLoading">
       <slot />

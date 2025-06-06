@@ -1,95 +1,42 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import ItemContainer from './ItemContainer.vue'
-import type { LOCALESTRING } from '~/locales/i18n'
-import { useSettingsStore } from '~/store/option/settings'
+import { resetAllOptions } from '~/store/option/settings'
 import { useDateTime } from '~/composables/useDateTime'
 import { colors } from '~/constants/settings'
+import { useSettingsModels } from '~/composables/useSettingsModels'
+
+const {
+  animation,
+  colorTheme,
+  cover,
+  is24Hour,
+  isAutoFocusSearchBoxOnPageLoad,
+  language,
+  searchSuggestionEnabled,
+  showDateWeek,
+  showDocking,
+  showSeconds,
+  showWeather,
+  theme,
+  timezone,
+  weatherCity,
+  weatherTheme,
+} = useSettingsModels()
 
 const { t } = useI18n()
 
 type ActiveTab = 'base' | 'city' | 'weather' | 'notification' | 'about' | 'search' | 'preference' | 'timeWeather'
 const appVersion = __APP_VERSION__
 const buildTime = __BUILD_TIME__
-const settingsStore = useSettingsStore()
 const isSettingsButtonVisible = ref(false)
 const activeTab = ref<ActiveTab>('base') // 默认激活基础配置
 const isConfirmVisible = ref(false)
 
-const theme = computed({
-  get: () => settingsStore.theme,
-  set: (value: string) => settingsStore.setTheme(value),
-})
-
-function handleColorChange(color: ColorTheme) {
-  settingsStore.setColorTheme(color)
+// 示例：重置所有设置（比如在重置按钮点击事件里调用）
+function handleResetAll() {
+  resetAllOptions()
 }
-
-const cover = computed({
-  get: () => settingsStore.cover,
-  set: (value: string) => settingsStore.setCover(value),
-})
-
-const language = computed({
-  get: () => settingsStore.language,
-  set: (value: LOCALESTRING) => settingsStore.setLanguage(value),
-})
-
-const animation = computed({
-  get: () => settingsStore.animation,
-  set: (value: boolean) => settingsStore.setAnimation(value),
-})
-
-// 时间与天气
-const timezone = computed({
-  get: () => settingsStore.timezone,
-  set: (value: string) => settingsStore.setTimezone(value),
-})
-
-const weatherCity = computed({
-  get: () => settingsStore.weatherCity,
-  set: (value: WeatherCity) => settingsStore.setWeatherCity(value),
-})
-
-const weatherTheme = computed({
-  get: () => settingsStore.weatherTheme,
-  set: (value: '1' | '2') => settingsStore.setWeatherTheme(value),
-})
-
-const showWeather = computed({
-  get: () => settingsStore.showWeather,
-  set: (value: boolean) => settingsStore.setShowWeather(value),
-})
-
-const is24Hour = computed({
-  get: () => settingsStore.is24Hour,
-  set: (value: boolean) => settingsStore.setIs24Hour(value),
-})
-
-// 是否显示秒钟
-const showSeconds = computed({
-  get: () => settingsStore.showSeconds,
-  set: (value: boolean) => settingsStore.setShowSeconds(value),
-})
-const showDateWeek = computed({
-  get: () => settingsStore.showDateWeek,
-  set: (value: boolean) => settingsStore.setShowDateWeek(value),
-})
-
-const searchSuggestionEnabled = computed({
-  get: () => settingsStore.searchSuggestionEnabled,
-  set: (value: boolean) => settingsStore.setSearchSuggestionEnabled(value),
-})
-
-const isAutoFocusSearchBoxOnPageLoad = computed({
-  get: () => settingsStore.isAutoFocusSearchBoxOnPageLoad,
-  set: (value: boolean) => settingsStore.setIsAutoFocusSearchBoxOnPageLoad(value),
-})
-
-const showDocking = computed({
-  get: () => settingsStore.showDocking,
-  set: (value: boolean) => settingsStore.setShowDocking(value),
-})
 
 const { currentDateTime } = useDateTime()
 
@@ -235,11 +182,11 @@ defineExpose({
                         :style="{ backgroundColor: color }" class="h-4 w-4 cursor-pointer"
                         hover="scale-105"
                         :class="{
-                          'scale-115': color === settingsStore.colorTheme,
-                          'opacity-50': color !== settingsStore.colorTheme,
-                          'border-1 border-[--c-100]': color === settingsStore.colorTheme,
+                          'scale-115': color === colorTheme,
+                          'opacity-50': color !== colorTheme,
+                          'border-1 border-[--c-100]': color === colorTheme,
                         }"
-                        @click="handleColorChange(color)"
+                        @click="colorTheme = color"
                       />
                     </div>
                   </ItemContainer>
@@ -467,7 +414,7 @@ defineExpose({
           >
             {{ t('common.cancel') }}
           </button>
-          <button class="rounded-md bg-[--c-600] px-4 py-2 text-white hover:bg-[--c-700]" @click="settingsStore.resetAll">
+          <button class="rounded-md bg-[--c-600] px-4 py-2 text-white hover:bg-[--c-700]" @click="handleResetAll()">
             {{ t('common.confirm') }}
           </button>
         </div>

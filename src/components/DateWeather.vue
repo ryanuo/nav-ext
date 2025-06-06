@@ -2,10 +2,11 @@
 import { getUrlParamsString } from '@ryanuo/utils'
 import { useI18n } from 'vue-i18n'
 import { useMarkStore } from '~/store/option/mark'
-import { useSettingsStore } from '~/store/option/settings'
+import { useTimeStore, useWeatherStore } from '~/store/option/settings'
 import { useDateTime } from '~/composables/useDateTime'
 
-const settingsStore = useSettingsStore()
+const weatherStore = useWeatherStore()
+const timeStore = useTimeStore()
 
 const { currentDateTime, currentDateWeek } = useDateTime()
 
@@ -17,7 +18,7 @@ function handleDateFocus() {
 }
 
 const weatherIframe = computed(() => {
-  if (settingsStore.weatherTheme === '1') {
+  if (weatherStore.weatherTheme === '1') {
     return getUrlParamsString({
       style: 'tm',
       skin: 'gif',
@@ -31,7 +32,7 @@ const weatherIframe = computed(() => {
     c: 'code',
     a: 'getcode',
     id: '34',
-    py: settingsStore?.weatherCity?.city?.pinyin || 'beijing',
+    py: weatherStore?.weatherCity?.city?.pinyin || 'beijing',
     icon: '1',
     lang: isZh ? 'cn' : 'en',
     color: '#fff7ff',
@@ -48,7 +49,7 @@ const weatherIframe = computed(() => {
       {{ currentDateTime }}
     </p>
     <p
-      v-if="settingsStore.showDateWeek"
+      v-if="timeStore.showDateWeek"
       class="text-[1.2em] text-white"
     >
       {{ currentDateWeek }}

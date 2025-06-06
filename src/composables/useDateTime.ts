@@ -7,7 +7,7 @@ import weekday from 'dayjs/plugin/weekday'
 import localeEn from 'dayjs/locale/en'
 import localeZh from 'dayjs/locale/zh-cn'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-import { useSettingsStore } from '~/store/option/settings'
+import { useLocaleStore, useTimeStore } from '~/store/option/settings'
 
 dayjs.extend(timezone)
 dayjs.extend(utc)
@@ -17,26 +17,27 @@ dayjs.extend(advancedFormat)
 export function useDateTime() {
   const currentDateTime = ref('')
   let timer: number | null = null
-  const settings = useSettingsStore()
+  const timeStore = useTimeStore()
+  const localeStore = useLocaleStore()
 
   const currentDateWeek = computed(() => {
-    const isEn = settings.language === 'en-US'
+    const isEn = localeStore.language === 'en-US'
     return dayjs().locale(isEn ? localeEn : localeZh).format(
       isEn ? 'MMMM Do, ddd' : 'M 月 D 日 ddd',
     )
   })
 
   const getTimeFormat = () => {
-    if (settings.showSeconds) {
-      return settings.is24Hour ? 'HH:mm:ss' : 'h:mm:ss A'
+    if (timeStore.showSeconds) {
+      return timeStore.is24Hour ? 'HH:mm:ss' : 'h:mm:ss A'
     }
 
-    return settings.is24Hour ? 'HH:mm' : 'h:mm A'
+    return timeStore.is24Hour ? 'HH:mm' : 'h:mm A'
   }
 
   const updateDateTime = () => {
-    const now = settings.timezone
-      ? dayjs.tz(new Date(), settings.timezone)
+    const now = timeStore.timezone
+      ? dayjs.tz(new Date(), timeStore.timezone)
       : dayjs.tz(new Date())
     currentDateTime.value = now.format(getTimeFormat())
   }
@@ -48,7 +49,7 @@ export function useDateTime() {
 
   // 使用 watch 监听 settings.timezone 变化
   watch(
-    () => settings.timezone,
+    () => timeStore.timezone,
     (newTimeZone) => {
       if (newTimeZone) {
         dayjs.tz.setDefault(newTimeZone)
@@ -60,8 +61,8 @@ export function useDateTime() {
   // 当 is24Hour 变化时重新更新时间格式
   watch(
     [
-      () => settings.is24Hour,
-      () => settings.showSeconds,
+      () => timeStore.is24Hour,
+      () => timeStore.showSeconds,
     ],
     () => {
       updateDateTime()

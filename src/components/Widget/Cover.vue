@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { getUuid } from '@ryanuo/utils'
 import { useI18n } from 'vue-i18n'
 import { fileStorage } from '~/composables/indexedDB'
-import { useSettingsStore } from '~/store/option/settings'
+import { useCoverStore } from '~/store/option/settings'
 
 defineProps<{
   className?: string
@@ -19,13 +19,13 @@ interface LocalFile {
 }
 const { t } = useI18n()
 const localFiles = ref<LocalFile[]>([])
-const settings = useSettingsStore()
-const { cover, coverType: tab, coverCustomKey } = storeToRefs(settings)
-const { setCoverMethod, setCoverType, setCoverCustomKey } = settings
+const coverStore = useCoverStore()
+const { cover, coverType: tab, coverCustomKey } = storeToRefs(coverStore)
+const { setCoverMethod, setCoverType, setCoverCustomKey } = coverStore
 
 const coverUrl = computed({
   get: () => cover.value,
-  set: (value: string) => settings.setCover(value),
+  set: (value: string) => coverStore.setCover(value),
 })
 
 // 上传文件

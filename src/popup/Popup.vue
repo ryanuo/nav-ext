@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useSettingsStore } from '~/store/option/settings'
+import { useTimeStore } from '~/store/option/settings'
 import logo from '~/assets/logo.png?url'
 import { useDateTime } from '~/composables/useDateTime'
 
 const appVersion = __APP_VERSION__
 
-const settingsStore = useSettingsStore()
+const timeStore = useTimeStore()
 const { currentDateTime } = useDateTime()
 // Declare chrome as a global variable for TypeScript
 declare const chrome: any
@@ -28,7 +28,7 @@ function openNewTab() {
     <Logo class="mx-auto mb-2" />
     <div class="mb-3">
       <span class="text-2xl font-bold">{{ currentDateTime }}</span>
-      <span class="ml-2 text-xs text-gray-400 dark:text-gray-500">{{ settingsStore.timezone || '本地' }}</span>
+      <span class="ml-2 text-xs text-gray-400 dark:text-gray-500">{{ timeStore.timezone || '本地' }}</span>
     </div>
 
     <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">
