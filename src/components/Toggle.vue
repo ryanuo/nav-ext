@@ -12,6 +12,7 @@ const props = defineProps({
   modelValue: {
     type: Boolean as PropType<boolean>,
     default: false,
+    required: true,
   },
   label: {
     type: String as PropType<string>,

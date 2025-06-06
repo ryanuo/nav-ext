@@ -45,7 +45,7 @@ function handleCameraChange(id: string) {
 <template>
   <div class="mx-auto max-w-md w-full p-3 text-center">
     <div class="w-full flex justify-center overflow-hidden rounded-lg bg-black/80 shadow-lg dark:border-gray-700">
-      <video ref="video" muted autoplay controls class="h-a w-200 bg-black" />
+      <video ref="video" autoplay controls muted class="h-a w-200 bg-black" />
     </div>
     <div class="mt-2 flex flex-wrap justify-center gap-2">
       <button

@@ -148,7 +148,7 @@ function handleSelected(file: LocalFile) {
           v-else
           :src="file.url"
           class="h-32 w-full object-cover"
-          loop muted playsinline
+          muted loop playsinline
         />
         <!-- 选中时显示对勾图标 -->
         <span

@@ -71,5 +71,6 @@
   "common.confirm": "确定",
   "cityCascader.placeholder": "请选择省市区",
   "translate.quick": "快捷翻译",
-  "search.noResult": "没有找到与 \"{query}\" 相关的结果"
+  "search.noResult": "没有找到与 \"{query}\" 相关的结果",
+  "popup.openWebMode": "开启网页模式"
 }

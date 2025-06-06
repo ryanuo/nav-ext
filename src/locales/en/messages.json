@@ -71,5 +71,6 @@
   "common.confirm": "Confirm",
   "cityCascader.placeholder": "Please select province/city/area",
   "translate.quick": "Quick Translate",
-  "search.noResult": "No results found for \"{query}\""
+  "search.noResult": "No results found for \"{query}\"",
+  "popup.openWebMode": "Open in Web Mode"
 }

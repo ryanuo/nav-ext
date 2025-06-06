@@ -2,6 +2,17 @@
 import { useTimeStore } from '~/store/option/settings'
 import logo from '~/assets/logo.png?url'
 import { useDateTime } from '~/composables/useDateTime'
+import { createComputed } from '~/composables/useSettingsModels'
+import { useReactiveStorage } from '~/composables/useReactiveStorage'
+
+const { data } = useReactiveStorage<boolean>('enableWebMode', false)
+
+const newTabUrl = computed(() => {
+  if (data.value)
+    return 'https://tab.ryanuo.cc'
+  else
+    return 'chrome://newtab'
+})
 
 const appVersion = __APP_VERSION__
 
@@ -12,9 +23,14 @@ declare const chrome: any
 
 function openNewTab() {
   if (chrome?.tabs?.create) {
-    chrome.tabs.create({ url: 'chrome://newtab' })
+    chrome.tabs.create({ url: newTabUrl.value })
   }
 }
+
+const enableWebMode = createComputed(
+  () => data.value,
+  (val: boolean) => data.value = val,
+)
 </script>
 
 <template>
@@ -29,6 +45,11 @@ function openNewTab() {
     <div class="mb-3">
       <span class="text-2xl font-bold">{{ currentDateTime }}</span>
       <span class="ml-2 text-xs text-gray-400 dark:text-gray-500">{{ timeStore.timezone || '本地' }}</span>
+    </div>
+
+    <div class="my-2 flex items-center justify-between gap-2">
+      <span>{{ $t('popup.openWebMode') }}</span>
+      <Toggle v-model="enableWebMode as any" label="" />
     </div>
 
     <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">

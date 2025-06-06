@@ -8,7 +8,7 @@ import {
   useWeatherStore,
 } from '~/store/option/settings'
 
-function createComputed<T>(getter: () => T, setter: (v: T) => void) {
+export function createComputed<T>(getter: () => T, setter: (v: T) => void) {
   return computed<T>({
     get: getter,
     set: setter,
