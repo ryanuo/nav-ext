@@ -47,3 +47,11 @@ interface DockingItem {
   class?: string
 }
 type ColorTheme = 'green' | 'red' | 'purple' | 'yellow' | 'pink' | 'blue' | 'orange'
+interface ConsoleItem {
+  link: string
+  name: string
+  tag: string
+  icon?: string
+  iconUrl?: string
+  class?: string
+}
