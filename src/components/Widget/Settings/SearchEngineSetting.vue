@@ -46,7 +46,7 @@ function handleDrop() {
 
 <template>
   <div class="mx-auto py-1 container">
-    <div class="shadow-xs rounded-xl bg-white py-2 dark:bg-[#23272f]">
+    <div class="rounded-xl py-2">
       <div class="flex flex-wrap justify-between gap-2">
         <div
           v-for="(engine, index) in engines"

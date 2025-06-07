@@ -3,9 +3,6 @@ import { useDark, useToggle } from '@vueuse/core'
 import { useMarkStore } from '~/store/option/mark'
 import { usePreferenceStore } from '~/store/option/settings'
 
-const props = defineProps<{
-  settingFunction?: (e: any) => void
-}>()
 const markStore = useMarkStore()
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
@@ -14,7 +11,7 @@ const preferenceStore = usePreferenceStore()
 
 function handleIconClick(item: DockingItem) {
   const { id: idx, link } = item
-  if (['all', 'camera', 'cover'].includes(idx)) {
+  if (['all', 'camera', 'cover', 'settings'].includes(idx)) {
     markStore.setShowWidget(true)
     dockingId.value = idx
   }
@@ -25,10 +22,6 @@ function handleIconClick(item: DockingItem) {
 
   if (link) {
     window.open(link, '_blank')
-  }
-
-  if (idx === 'settings') {
-    props.settingFunction?.(null)
   }
 }
 
@@ -48,6 +41,10 @@ const dockingData = computed<DockingItem[]>(() => {
     { id: 'settings', name: '设置', icon: 'i-twemoji:gear' },
     { id: 'theme', name: '主题', icon: themeIcon },
   ]
+})
+
+defineExpose({
+  handleIconClick,
 })
 
 watchEffect(() => {

@@ -20,6 +20,7 @@ defineProps<{
         <Console v-if="idx === 'all'" />
         <Camera v-if="idx === 'camera'" />
         <Cover v-if="idx === 'cover'" class-name="min-w-[80vw]" />
+        <Settings v-if="idx === 'settings'" />
       </div>
     </div>
   </transition>

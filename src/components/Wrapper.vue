@@ -8,28 +8,18 @@ const preferenceStore = usePreferenceStore()
 const coverStore = useCoverStore()
 const markStore = useMarkStore()
 const settingRef = ref<{
-  setIsSettingsButtonVisible: (visible: boolean) => void
-  isSettingsButtonVisible: boolean
+  handleIconClick: (item: DockingItem) => void
 }>()
 
 const { isLoading } = useImage({
   src: coverStore.cover,
 })
 
-function onCommandHPress(event: KeyboardEvent) {
-  if (event) {
-    event.preventDefault()
-  }
-
-  if (markStore.isShowWidget && !settingRef.value?.isSettingsButtonVisible) {
-    settingRef.value?.setIsSettingsButtonVisible(markStore.isShowWidget)
-    return
-  }
-
-  markStore.setShowWidget(!markStore.isShowWidget)
-  // 确保在状态更新后再设置按钮可见性
-  nextTick(() => {
-    settingRef.value?.setIsSettingsButtonVisible(markStore.isShowWidget)
+function onCommandHPress() {
+  settingRef.value?.handleIconClick({
+    id: 'settings',
+    name: '',
+    icon: '',
   })
 }
 
@@ -71,14 +61,19 @@ const showLoading = computed({
     <video
       v-if="coverStore.coverType === 'video' && coverStore.cover"
       class="backface-hidden fixed inset-0 h-full w-full object-cover transition duration-250 ease-in-out -z-3"
-      loop muted playsinline autoplay
+      loop autoplay muted playsinline
       :src="coverStore.cover"
     />
     <template v-if="!showLoading">
       <slot />
-      <Docking :setting-function="onCommandHPress" />
+      <Docking ref="settingRef" />
     </template>
-    <Settings v-if="markStore.isShowWidget" ref="settingRef" />
+    <!-- 配置按钮 -->
+    <div class="fixed right-4 top-6 z-200 cursor-pointer" @click.stop="onCommandHPress">
+      <span
+        class="i-tabler-settings h-6 w-6 text-white transition-transform duration-300 hover:rotate-180 dark:text-gray-200"
+      />
+    </div>
   </div>
 </template>
 

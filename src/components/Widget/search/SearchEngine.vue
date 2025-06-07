@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import hotkeys from 'hotkeys-js'
 import { storeToRefs } from 'pinia'
-import IconRenderer from './IconRenderer.vue'
 import { useMarkStore } from '~/store/option/mark'
 import { useSearchStore } from '~/store/option/search'
 
