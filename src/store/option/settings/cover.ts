@@ -21,9 +21,8 @@ export const useCoverStore = defineStore('cover', () => {
     }
   }
 
-  watchEffect(() => {
-    applyCover()
-  })
+  //   applyCover()
+  // })
 
   const setCover = (url?: string) => {
     cover.value = url || coverUrl
@@ -43,6 +42,13 @@ export const useCoverStore = defineStore('cover', () => {
     applyCover()
   }
 
+  // 添加 apply 方法
+  const apply = () => {
+    watchEffect(() => {
+      applyCover()
+    })
+  }
+
   return {
     cover,
     coverMethod,
@@ -53,5 +59,6 @@ export const useCoverStore = defineStore('cover', () => {
     setCoverType: (v: 'image' | 'video') => (coverType.value = v),
     setCoverCustomKey: (v: string) => (coverCustomKey.value = v),
     reset,
+    apply,
   }
 })

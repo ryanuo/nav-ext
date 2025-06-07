@@ -5,6 +5,7 @@ import { resetAllOptions } from '~/store/option/settings'
 import { useDateTime } from '~/composables/useDateTime'
 import { colors } from '~/constants/settings'
 import { useSettingsModels } from '~/composables/useSettingsModels'
+import { useMarkStore } from '~/store/option/mark'
 
 const {
   animation,
@@ -23,6 +24,7 @@ const {
   weatherCity,
   weatherTheme,
 } = useSettingsModels()
+const markStore = useMarkStore()
 
 const { t } = useI18n()
 
@@ -362,6 +364,7 @@ function tabClass(tabName: string) {
       <button
         type="button"
         class="rounded-md bg-[--c-600] px-2 py-1 text-xs text-white outline-none hover:bg-[--c-700] focus:outline-none"
+        @click="markStore.initStatus()"
       >
         {{ t('common.close') }}
       </button>

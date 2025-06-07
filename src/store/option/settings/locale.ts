@@ -9,18 +9,26 @@ export const useLocaleStore = defineStore('locale', () => {
   const applyLanguage = (lang: LOCALESTRING) => {
     i18n.global.locale.value = lang
   }
-  watchEffect(() => {
-    applyLanguage(language.value)
-  })
+
+  //   applyLanguage(language.value)
+  // })
 
   const reset = () => {
     language.value = 'zh-CN'
     applyLanguage(language.value)
   }
 
+  // 添加 apply 方法
+  const apply = () => {
+    watchEffect(() => {
+      applyLanguage(language.value)
+    })
+  }
+
   return {
     language,
     setLanguage: (v: LOCALESTRING) => (language.value = v),
     reset,
+    apply,
   }
 })

@@ -2,7 +2,10 @@
 import hotkeys from 'hotkeys-js'
 import { useImage } from '@vueuse/core'
 import { useMarkStore } from '~/store/option/mark'
-import { useCoverStore, usePreferenceStore } from '~/store/option/settings'
+import { applyAllOptions, useCoverStore, usePreferenceStore } from '~/store/option/settings'
+
+// 初始化设置
+applyAllOptions()
 
 const preferenceStore = usePreferenceStore()
 const coverStore = useCoverStore()

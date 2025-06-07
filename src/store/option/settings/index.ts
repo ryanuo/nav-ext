@@ -21,3 +21,10 @@ export function resetAllOptions() {
   useWeatherStore().reset()
   usePreferenceStore().reset()
 }
+
+// 添加 applyAllOptions 方法
+export function applyAllOptions() {
+  useThemeStore().apply()
+  useLocaleStore().apply()
+  useCoverStore().apply()
+}

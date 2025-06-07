@@ -17,12 +17,10 @@ export const useThemeStore = defineStore('theme', () => {
     document.documentElement.setAttribute('data-theme', color)
   }
 
-  watchEffect(() => {
-    applyTheme(theme.value)
-  })
-  watchEffect(() => {
-    applyColorScheme(colorTheme.value)
-  })
+  //   applyTheme(theme.value)
+  // })
+  //   applyColorScheme(colorTheme.value)
+  // })
 
   const reset = () => {
     theme.value = 'auto'
@@ -31,11 +29,22 @@ export const useThemeStore = defineStore('theme', () => {
     applyColorScheme(colorTheme.value)
   }
 
+  // 添加 apply 方法
+  const apply = () => {
+    watchEffect(() => {
+      applyTheme(theme.value)
+    })
+    watchEffect(() => {
+      applyColorScheme(colorTheme.value)
+    })
+  }
+
   return {
     theme,
     colorTheme,
     setTheme: (v: string) => (theme.value = v),
     setColorTheme: (v: ColorTheme) => (colorTheme.value = v),
     reset,
+    apply,
   }
 })
