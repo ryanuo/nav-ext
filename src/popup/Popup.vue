@@ -49,7 +49,7 @@ const enableWebMode = createComputed(
 
     <div class="my-2 flex items-center justify-between gap-2">
       <span>{{ $t('popup.openWebMode') }}</span>
-      <Toggle v-model="enableWebMode as any" label="" />
+      <Toggle v-model="enableWebMode" label="" />
     </div>
 
     <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">

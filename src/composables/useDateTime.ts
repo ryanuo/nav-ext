@@ -1,6 +1,6 @@
 // src/composables/useDateTime.ts
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { dayjs } from '@ryanuo/utils'
+import { dayjs } from '@ryanuo/utils/common'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import weekday from 'dayjs/plugin/weekday'

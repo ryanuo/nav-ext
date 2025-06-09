@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getUrlParamsString } from '@ryanuo/utils'
+import { getUrlParamsString } from '@ryanuo/utils/browser'
 import { useI18n } from 'vue-i18n'
 import { useMarkStore } from '~/store/option/mark'
 import { useTimeStore, useWeatherStore } from '~/store/option/settings'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { getUuid } from '@ryanuo/utils'
+import { getUuid } from '@ryanuo/utils/common'
 import { useI18n } from 'vue-i18n'
 import { fileStorage } from '~/composables/indexedDB'
 import { useCoverStore } from '~/store/option/settings'
@@ -148,7 +148,7 @@ function handleSelected(file: LocalFile) {
           v-else
           :src="file.url"
           class="h-32 w-full object-cover"
-          muted loop playsinline
+          loop muted playsinline
         />
         <!-- 选中时显示对勾图标 -->
         <span

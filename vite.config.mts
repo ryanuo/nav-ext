@@ -9,7 +9,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
-import { dateFormat } from '@ryanuo/utils'
+import { dateFormat } from '@ryanuo/utils/common'
 import { isDev, port, r } from './scripts/utils'
 import packageJson from './package.json'
 
